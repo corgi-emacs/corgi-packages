@@ -1,4 +1,4 @@
-;;; corkey.el --- Keybinding mechanics for Corgi     -*- lexical-binding: t; -*-
+;;; corkey.el --- Keybinding mechanics for Corgi
 
 ;; Copyright (C) 2020 Gaiwan GmbH
 
