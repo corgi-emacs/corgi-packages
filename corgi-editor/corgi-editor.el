@@ -1,7 +1,7 @@
 ;;; corgi-editor.el ---
 ;;
 ;; Filename: corgi-editor.el
-;; Packages-Requires: ((avy) (corkey) (counsel) (diminish) (evil) (evil-collection) (evil-surround) (ivy) (smex) (swiper) (undo-fu) (which-key) (winum))
+;; Package-Requires: ((avy) (corkey) (counsel) (diminish) (evil) (evil-collection) (evil-surround) (ivy) (smex) (swiper) (undo-fu) (which-key) (winum))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
