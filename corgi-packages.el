@@ -39,18 +39,17 @@
 
 (add-to-list #'straight-recipe-repositories 'corgi-packages)
 
-(defun corgi-init ()
-  ;; Check if straight/versions/corgi.el exists in the user's emacs directory. If not, then
-  ;; we copy it over from Corgi.
-  (let* ((version-file-source (expand-file-name "straight/repos/corgi-packages/corgi-versions.el" straight-base-dir))
-         (straight-version-dir (expand-file-name "straight/versions" straight-base-dir))
-         (version-file-target (expand-file-name "corgi.el" straight-version-dir)))
-    (unless (file-exists-p straight-version-dir)
-      (make-directory straight-version-dir t))
-    (unless (file-exists-p version-file-target)
-      (copy-file version-file-source version-file-target))
-    (list straight-version-dir version-file-target))
+;; Check if straight/versions/corgi.el exists in the user's emacs directory. If not, then
+;; we copy it over from Corgi.
+(let* ((version-file-source (expand-file-name "straight/repos/corgi-packages/corgi-versions.el" straight-base-dir))
+       (straight-version-dir (expand-file-name "straight/versions" straight-base-dir))
+       (version-file-target (expand-file-name "corgi.el" straight-version-dir)))
+  (unless (file-exists-p straight-version-dir)
+    (make-directory straight-version-dir t))
+  (unless (file-exists-p version-file-target)
+    (copy-file version-file-source version-file-target))
+  (list straight-version-dir version-file-target))
 
-  (add-to-list #'straight-profiles '(corgi . "corgi.el")))
+(add-to-list #'straight-profiles '(corgi . "corgi.el"))
 
 (provide 'corgi-packages)
