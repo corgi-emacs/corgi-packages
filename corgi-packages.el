@@ -42,7 +42,7 @@
 (defun corgi-init ()
   ;; Check if straight/versions/corgi.el exists in the user's emacs directory. If not, then
   ;; we copy it over from Corgi.
-  (let* ((version-file-source (expand-file-name "corgi-versions.el" (file-name-directory (or load-file-name buffer-file-name))))
+  (let* ((version-file-source (expand-file-name "straight/repos/corgi-packages/corgi-versions.el" straight-base-dir))
          (straight-version-dir (expand-file-name "straight/versions" straight-base-dir))
          (version-file-target (expand-file-name "corgi.el" straight-version-dir)))
     (unless (file-exists-p straight-version-dir)
