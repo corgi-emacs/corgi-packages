@@ -116,5 +116,7 @@
          (delq corkey-mode minor-mode-map-alist)))
   (add-to-list #'corkey/key-binding-files (expand-file-name "straight/repos/corgi-packages/corgi-bindings.el" straight-base-dir)))
 
+(provide 'corgi-editor)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; corgi-editor.el ends here
