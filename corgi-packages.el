@@ -20,7 +20,13 @@
      :type git
      :host github
      :files ("walkclj.el")
-     :repo "plexus/walkclj")))
+     :repo "plexus/walkclj")
+
+    (pprint-to-buffer
+     :type git
+     :host github
+     :files ("pprint-to-buffer/pprint-to-buffer.el")
+     :repo "plexus/plexmacs")))
 
 (defun straight-recipes-corgi-packages-list ()
   (mapcar #'symbol-name (mapcar #'car corgi-all-packages)))
