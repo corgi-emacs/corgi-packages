@@ -7,14 +7,14 @@
   (pcase package
     (`corgi
      '(corgi :type git
-             :repo "/home/arne/github/corgi-packages/corgi"))
+             :repo "/home/arne/github/lambdaisland/corgi"))
     (`corkey
      '(corkey
        :type git
        :host github
        :branch "main"
        :files ("corkey/corkey.el")
-       :repo "corgi-packages/corgi-packages"))
+       :repo "lambdaisland/corgi-packages"))
     (_ nil)))
 
 (add-to-list #'straight-recipe-repositories 'corgi-packages)
