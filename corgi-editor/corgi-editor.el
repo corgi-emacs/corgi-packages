@@ -114,7 +114,7 @@
         (cons
          (cons 'corkey-mode corkey/keymap)
          (delq corkey-mode minor-mode-map-alist)))
-  (add-to-list #'corkey/key-binding-files (expand-file-name "corgi-bindings.el" (file-name-directory (or load-file-name buffer-file-name)))))
+  (add-to-list #'corkey/key-binding-files (expand-file-name "straight/repos/corgi-packages/corgi-bindings.el" straight-base-dir)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; corgi-editor.el ends here
