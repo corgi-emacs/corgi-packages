@@ -107,7 +107,7 @@
   (interactive)
   (when corkey-mode
     (cl-loop
-     for file in corkey/key-binding-files
+     for file in (reverse corkey/key-binding-files)
      do
      (corkey/set-bindings (corkey/-read-file (expand-file-name file user-emacs-directory))))))
 
