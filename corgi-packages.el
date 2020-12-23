@@ -10,6 +10,20 @@
      :files ("corkey/corkey.el")
      :repo "lambdaisland/corgi-packages")
 
+    (corgi-defaults
+     :type git
+     :host github
+     :branch "main"
+     :files ("corgi-defaults/corgi-defaults.el")
+     :repo "lambdaisland/corgi-packages")
+
+    (corgi-editor
+     :type git
+     :host github
+     :branch "main"
+     :files ("corgi-editor/corgi-editor.el")
+     :repo "lambdaisland/corgi-packages")
+
     (clj-ns-name
      :type git
      :host github
