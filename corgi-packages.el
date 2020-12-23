@@ -51,9 +51,6 @@
       (copy-file version-file-source version-file-target))
     (list straight-version-dir version-file-target))
 
-  (add-to-list #'straight-profiles '(corgi . "corgi.el")) ; tell straight about the new profile
-
-  (let ((straight-current-profile 'corgi))
-    (straight-use-package 'corgi)))
+  (add-to-list #'straight-profiles '(corgi . "corgi.el")))
 
 (provide 'corgi-packages)
