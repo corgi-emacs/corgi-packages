@@ -32,7 +32,7 @@
 (defvar corkey/keymap (make-sparse-keymap))
 
 (defcustom corkey/key-binding-files
-  (list "corgi-bindings.el")
+  nil
   "Files with keybinding definitions read by corkey. Later
   entries override earlier entries")
 
