@@ -1,46 +1,35 @@
 (defvar corgi-all-packages
-  '((corgi
-     :type git
-     :repo "/home/arne/github/lambdaisland/corgi")
+  (append '((corgi
+             :type git
+             :repo "/home/arne/github/lambdaisland/corgi")
 
-    (corkey
-     :type git
-     :host github
-     :branch "main"
-     :files ("corkey/corkey.el")
-     :repo "lambdaisland/corgi-packages")
+            (clj-ns-name
+             :type git
+             :host github
+             :files ("clj-ns-name/clj-ns-name.el")
+             :repo "plexus/plexmacs")
 
-    (corgi-defaults
-     :type git
-     :host github
-     :branch "main"
-     :files ("corgi-defaults/corgi-defaults.el")
-     :repo "lambdaisland/corgi-packages")
+            (walkclj
+             :type git
+             :host github
+             :files ("walkclj.el")
+             :repo "plexus/walkclj")
 
-    (corgi-editor
-     :type git
-     :host github
-     :branch "main"
-     :files ("corgi-editor/corgi-editor.el")
-     :repo "lambdaisland/corgi-packages")
+            (pprint-to-buffer
+             :type git
+             :host github
+             :files ("pprint-to-buffer/pprint-to-buffer.el")
+             :repo "plexus/plexmacs"))
 
-    (clj-ns-name
-     :type git
-     :host github
-     :files ("clj-ns-name/clj-ns-name.el")
-     :repo "plexus/plexmacs")
-
-    (walkclj
-     :type git
-     :host github
-     :files ("walkclj.el")
-     :repo "plexus/walkclj")
-
-    (pprint-to-buffer
-     :type git
-     :host github
-     :files ("pprint-to-buffer/pprint-to-buffer.el")
-     :repo "plexus/plexmacs")))
+          (mapcar
+           (lambda (pkg)
+             `(,pkg
+               :type git
+               :host github
+               :branch "main"
+               :files (,(concat (symbol-name pkg) "/" (symbol-name pkg) ".el"))
+               :repo "lambdaisland/corgi-packages"))
+           '(corgi-defaults corgi-editor corgi-commands corgi-emacs-lisp corkey))))
 
 (defun straight-recipes-corgi-packages-list ()
   (mapcar #'symbol-name (mapcar #'car corgi-all-packages)))
