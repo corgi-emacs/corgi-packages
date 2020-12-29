@@ -3,7 +3,7 @@
 ;; Copyright (C) 2020 Gaiwan GmbH
 ;;
 ;; Author: Arne Brasseur <arne@gaiwan.co>
-;; Package-Requires: ((evil "1.14.0") (which-key "3.5.0"))
+;; Package-Requires: ((use-package) (a) (evil) (which-key))
 ;;
 ;;; Code:
 

@@ -3,7 +3,7 @@
 for dir in *; do
     elisp="$dir/$dir.el"
     if [[ -f "${elisp}" ]] && grep use-package "${elisp}" > /dev/null ; then
-        deps=$(cat "${elisp}" | grep -v '^;' | grep use-package | sed -e 's/............./(/' -e 's/)\?$/)/' | sort | xargs echo -n)
+        deps=$(cat "${elisp}" | grep -v '^;' | grep use-package | sed 's/(use-package \([-a-z]*\).*/(\1)/' | sort | xargs echo -n)
         ed "${elisp}" <<EDSCRIPT
 H
 /Package-Requires/
