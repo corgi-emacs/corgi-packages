@@ -1,7 +1,7 @@
 ;;; corgi-emacs-lisp.el --- Emacs-lisp related commands
 ;;
 ;; Filename: corgi-emacs-lisp.el
-;; Package-Requires: ((cider))
+;; Package-Requires: ((use-package) (elisp-slime-nav))
 ;;
 ;;; Code:
 
