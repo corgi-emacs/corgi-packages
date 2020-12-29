@@ -1,11 +1,11 @@
 ;;; corgi-emacs-lisp.el --- Emacs-lisp related commands
 ;;
 ;; Filename: corgi-emacs-lisp.el
-;; Package-Requires: ((use-package) (elisp-slime-nav))
+;; Package-Requires: ((use-package) (corgi-clojure) (elisp-slime-nav))
 ;;
 ;;; Code:
 
-(require 'cider)
+(use-package corgi-clojure)
 
 ;; Show emacs-lisp eval results in an overlay, CIDER style.
 ;; https://endlessparentheses.com/eval-result-overlays-in-emacs-lisp.html
