@@ -1,7 +1,7 @@
 ;;; corgi-editor.el --- User interface configuration for Corgi
 ;;
 ;; Filename: corgi-editor.el
-;; Package-Requires: ((avy) (corkey) (counsel) (diminish) (evil) (evil-collection) (evil-surround) (ivy) (smex) (swiper) (undo-fu) (which-key) (winum))
+;; Package-Requires: ((use-package) (avy) (corkey) (counsel) (diminish) (evil) (evil-collection) (evil-surround) (ivy) (smex) (swiper) (undo-fu) (which-key) (winum))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;

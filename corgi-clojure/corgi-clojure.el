@@ -1,7 +1,7 @@
 ;;; corgi-clojure.el --- Clojure configuration for Corgi
 ;;
 ;; Filename: corgi-clojure.el
-;; Package-Requires: ()
+;; Package-Requires: ((use-package) (cider) (clj-refactor) (clojure-mode))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
