@@ -102,7 +102,7 @@
     (expand-file-name fname user-emacs-directory))
    (t (locate-library fname))))
 
-(defun corkey/install-bindings (&OPTIONAL binding-files signal-files)
+(defun corkey/install-bindings (&optional binding-files signal-files)
   (interactive)
   (let* ((binding-files (or binding-files 'corgi-keys))
          (signal-files (or signal-files 'corgi-signals))
