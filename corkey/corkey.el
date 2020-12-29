@@ -74,9 +74,9 @@
          (let ((mode-targets (cdr (assoc target signals))))
            (mapc
             (lambda (mode-target)
-              (let ((major-mode (car mode-target))
-                    (shadow-mode-var (intern (concat "corkey--" (symbol-name major-mode))))
-                    (rest (cdr mode-target)))
+              (let* ((major-mode-name (car mode-target))
+                     (shadow-mode-var (intern (concat "corkey--" (symbol-name major-mode-name))))
+                     (rest (cdr mode-target)))
                 (if (symbolp rest)
                     (evil-define-minor-mode-key mode shadow-mode-var (kbd keys) rest)
                   (evil-define-minor-mode-key mode shadow-mode-var (kbd keys) (cadr rest))

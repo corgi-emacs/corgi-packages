@@ -60,17 +60,17 @@ major-mode
 
 emulation-mode-map-alists
 
-Types of bindings
-- for all major modes, but for specific states
-- for specific major mode (and specific state(s))
-- for all major modes, in emacs state
-- for specific major mode, in emacs state
+;; Types of bindings
+;; - for all major modes, but for specific states
+;; - for specific major mode (and specific state(s))
+;; - for all major modes, in emacs state
+;; - for specific major mode, in emacs state
 
-So... really collapses down to per-major-mode or not, but always
-per state, so stick to evil mechanisms.
+;; So... really collapses down to per-major-mode or not, but always
+;; per state, so stick to evil mechanisms.
 
-Evil options
-- can be anything in (current-active-maps), rely on evil-normalize-keymaps
+;; Evil options
+;; - can be anything in (current-active-maps), rely on evil-normalize-keymaps
 
 (evil-define-minor-mode-key
   'normal
@@ -80,6 +80,7 @@ Evil options
 
 (evil-get-minor-mode-keymap 'normal 'corkey-local-mode)
 (evil-get-minor-mode-keymap 'normal 'corkey--emacs-lisp-mode)
+(evil-get-minor-mode-keymap 'normal 'corkey--clojure-mode)
 (setq evil-minor-mode-keymaps-alist nil)
 (local-variable-p 'evil-minor-mode-keymaps-alist)
 evil-minor-mode-keymaps-alist
