@@ -119,7 +119,14 @@
 (setq eval-expression-print-level nil)
 
 ;; Don't make backup~ files
-(setq make-backup-files nil)
+;; (setq make-backup-files nil)
+
+;; Put backups and auto-save files in subdirectories, so the
+;; user-emacs-directory doesn't clutter
+(setq backup-directory-alist
+      `(("." . ,(expand-file-name "backups" user-emacs-directory)))
+      auto-save-file-name-transforms
+      `((".*" ,(expand-file-name "auto-save-list/" user-emacs-directory) t)))
 
 ;; Stop asking about following symlinks to version controlled files
 (setq vc-follow-symlinks t)
