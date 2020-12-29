@@ -80,7 +80,7 @@
                 (if (symbolp rest)
                     (evil-define-minor-mode-key mode shadow-mode-var (kbd keys) rest)
                   (evil-define-minor-mode-key mode shadow-mode-var (kbd keys) (cadr rest))
-                  (which-key-add-key-based-replacements keys (car rest)))))
+                  (which-key-add-major-mode-key-based-replacements major-mode-name keys (car rest)))))
             mode-targets)))
         ((symbolp target)
          (evil-define-minor-mode-key mode 'corkey-local-mode (kbd keys) target)
