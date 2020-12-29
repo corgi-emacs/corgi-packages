@@ -113,7 +113,7 @@
          (signal-files (if (listp signal-files)
                            signal-files
                          (list signal-files)))
-         (bindings (mapcat
+         (bindings (seq-mapcat
                     (lambda (f)
                       (thread-last f
                         corkey/-locate-file
