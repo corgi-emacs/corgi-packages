@@ -38,10 +38,8 @@
 
 (use-package undo-fu)
 
-(setq evil-want-keybinding nil)
-
 (use-package evil
-  :init
+  :init (setq evil-want-keybinding nil)
   :config
   (evil-mode t)
   (evil-set-undo-system 'undo-fu)
