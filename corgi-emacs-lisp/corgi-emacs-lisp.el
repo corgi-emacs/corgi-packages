@@ -70,6 +70,10 @@
   (interactive "P")
   (corgi/elisp--thread-all "thread-last " but-last))
 
+(use-package elisp-slime-nav
+  :config
+  :hook ((emacs-lisp-mode ielm-mode) . turn-on-elisp-slime-nav-mode))
+
 (provide 'corgi-emacs-lisp)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

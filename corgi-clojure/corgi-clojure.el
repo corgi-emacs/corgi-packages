@@ -115,7 +115,10 @@ result."
     (let ((cider-comment-prefix "")
           (cider-comment-continued-prefix " ")
           (cider-comment-postfix ""))
-      (cider-pprint-eval-last-sexp-to-comment))))
+      (cider-pprint-eval-last-sexp-to-comment)))
+
+  (defadvice cider-find-var (before add-evil-jump activate)
+    (evil-set-jump)))
 
 (use-package clj-refactor
   :after (cider)

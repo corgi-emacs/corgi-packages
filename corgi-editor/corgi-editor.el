@@ -5,21 +5,6 @@
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; This program is free software: you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or (at
-;; your option) any later version.
-;;
-;; This program is distributed in the hope that it will be useful, but
-;; WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-;; General Public License for more details.
-;;
-;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
 ;;; Code:
 
 (use-package diminish
@@ -95,6 +80,57 @@
 (use-package winum
   :config (winum-mode 1))
 
+(use-package smartparens
+  :init (require 'smartparens-config)
+  :diminish smartparens-mode
+  :hook (prog-mode . smartparens-mode))
+
+;; We don't actually enable cleverparens, because most of their bindings we
+;; don't want, we install our own bindings for specific sexp movements
+(use-package evil-cleverparens
+  :after (evil smartparens))
+
+(use-package aggressive-indent
+  :diminish aggressive-indent-mode
+  :hook ((clojurex-mode
+          clojurescript-mode
+          clojurec-mode
+          clojure-mode
+          emacs-lisp-mode
+          lisp-data-mode)
+         . aggressive-indent-mode))
+
+(use-package rainbow-delimiters
+  :hook ((cider-repl-mode
+          clojurex-mode
+          clojurescript-mode
+          clojurec-mode
+          clojure-mode
+          emacs-lisp-mode
+          lisp-data-mode
+          inferior-emacs-lisp-mode)
+         . rainbow-delimiters-mode))
+
+(use-package company
+  :diminish company-mode
+  :hook (prog-mode . company-mode))
+
+(use-package projectile
+  :config
+  (projectile-global-mode)
+  (setq projectile-create-missing-test-files t))
+
+(use-package counsel-projectile
+  :after (projectile))
+
+(use-package dumb-jump)
+
+(use-package goto-last-change)
+
+(use-package expand-region)
+
+(use-package string-edit)
+
 (use-package corkey
   :config
   (global-corkey-mode 1)
@@ -104,6 +140,16 @@
          (cons 'corkey-mode corkey/keymap)
          (delq corkey-mode minor-mode-map-alist)))
   (add-to-list #'corkey/key-binding-files (expand-file-name "straight/repos/corgi-packages/corgi-bindings.el" straight-base-dir)))
+
+;; Offer to create parent directories if they do not exist
+;; http://iqbalansari.github.io/blog/2014/12/07/automatically-create-parent-directories-on-visiting-a-new-file-in-emacs/
+(defun magnars/create-non-existent-directory ()
+  (let ((parent-directory (file-name-directory buffer-file-name)))
+    (when (and (not (file-exists-p parent-directory))
+               (y-or-n-p (format "Directory `%s' does not exist! Create it?" parent-directory)))
+      (make-directory parent-directory t))))
+
+(add-to-list 'find-file-not-found-functions 'magnars/create-non-existent-directory)
 
 (provide 'corgi-editor)
 
