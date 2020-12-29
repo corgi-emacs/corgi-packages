@@ -9,13 +9,84 @@
 
 (use-package evil :init (setq evil-want-keybinding nil))
 (use-package which-key)
+(use-package a)
 
-(defvar corkey/keymap (make-sparse-keymap))
+(define-minor-mode corkey-local-mode
+  "Minor mode providing corkey bindings"
+  :lighter ""
+  ;; To have bindings that are specific to a major mode, without actually
+  ;; changing that major-mode's mode-map, we fake a minor mode (really just a
+  ;; variable) that is true/on when the given major-mode is enabled (it shadows
+  ;; the major mode, hence the name). When loading key bindings into evil we
+  ;; associate them with this shadow minor mode. This way the corkey bindings
+  ;; remain isolated and can easily be toggled.
+  (let ((shadow-mode-var (intern (concat "corkey--" (symbol-name major-mode)))))
+    (if corkey-local-mode
+        (progn
+          (make-variable-buffer-local shadow-mode-var)
+          (set shadow-mode-var t))
+      (set shadow-mode-var nil))))
 
-(defcustom corkey/key-binding-files
-  nil
-  "Files with keybinding definitions read by corkey. Later
-  entries override earlier entries")
+(defun corkey-initialize ()
+  (unless (and (minibufferp) (not evil-want-minibuffer))
+    (corkey-local-mode)))
+
+(define-globalized-minor-mode corkey-mode
+  corkey-local-mode
+  corkey-initialize)
+
+(defun corkey/-flatten-bindings (mode prefix bindings)
+  (let ((head (car bindings))
+        (rest (cdr-safe bindings)))
+    (if (symbolp head)
+        (seq-mapcat (lambda (b)
+                      (corkey/-flatten-bindings2 head prefix b))
+                    rest)
+      (let ((desc (car-safe rest))
+            (rest (cdr-safe rest)))
+        (if (consp (car rest))
+            (cl-list* (list mode (concat prefix head) desc)
+                      (seq-mapcat (lambda (b)
+                                    (corkey/-flatten-bindings2 mode (concat prefix head " ") b))
+                                  rest))
+          (list (list mode (concat prefix head) desc (car rest))))))))
+
+(defun corkey/-flatten-signals (acc signals)
+  (seq-reduce
+   (lambda (acc mode-spec)
+     (let ((mode (car mode-spec))
+           (mapping (cadr mode-spec)))
+       (seq-reduce
+        (lambda (acc signal-command)
+          (a-assoc-in acc (list (car signal-command) mode) (cadr signal-command)))
+        (seq-partition mapping 2)
+        acc)))
+   signals
+   acc))
+
+(defun corkey/setup-keymaps (bindings signals)
+  (mapc
+   (lambda (binding)
+     (pcase-let ((`(,mode ,keys ,desc ,target) binding))
+       (cond
+        ((not target))
+        ((keywordp target)
+         (let ((mode-targets (cdr (assoc target signals))))
+           (mapc
+            (lambda (mode-target)
+              (let ((major-mode (car mode-target))
+                    (shadow-mode-var (intern (concat "corkey--" (symbol-name major-mode))))
+                    (rest (cdr mode-target)))
+                (if (symbolp rest)
+                    (evil-define-minor-mode-key mode shadow-mode-var (kbd keys) rest)
+                  (evil-define-minor-mode-key mode shadow-mode-var (kbd keys) (cadr rest))
+                  (which-key-add-key-based-replacements keys (car rest)))))
+            mode-targets)))
+        ((symbolp target)
+         (evil-define-minor-mode-key mode 'corkey-local-mode (kbd keys) target)
+         (which-key-add-key-based-replacements keys desc)))))
+   bindings)
+  nil)
 
 (defun corkey/-read-file (file-name)
   (with-current-buffer (find-file-noselect file-name)
@@ -23,92 +94,40 @@
     (goto-char (point-min))
     (read (current-buffer))))
 
-(defun corkey/-kv-list-get (list key)
-  (while (and list (not (eql key (car list))))
-    (setq list (cddr list)))
-  (cadr list))
+(defun corkey/-locate-file (fname)
+  (cond
+   ((symbolp fname)
+    (corkey/locate-binding-file (concat (symbol-name fname) ".el")))
+   ((file-exists-p (expand-file-name fname user-emacs-directory))
+    (expand-file-name fname user-emacs-directory))
+   (t (locate-library fname))))
 
-(defun corkey/-flatten-bindings (prefix bindings)
-  (let ((p (car bindings))
-        (desc (cadr bindings))
-        (rest (cddr bindings)))
-    (if (symbolp (car rest))
-        (list (list (concat prefix p) desc (car rest)))
-      (cl-list* (list (concat prefix p) desc)
-                (seq-mapcat (lambda (b)
-                              (corkey/-flatten-bindings (concat prefix p " ") b))
-                            rest)))))
-
-(defun corkey/-set-bindings* (keymap bindings command-mapping)
-  (setcdr keymap nil)
-  (cl-loop
-   for binding-set in bindings
-   do
-   (cl-loop
-    for (keys desc cmd) in (corkey/-flatten-bindings "" binding-set)
-    do
-    (cond
-     ((keywordp cmd)
-      (let ((sym (corkey/-kv-list-get command-mapping cmd)))
-        (when sym
-          (when (listp sym)
-            (setq desc (car sym))
-            (setq sym (cadr sym)))
-          (progn
-            ;; We stick these in the map for the current major mode, since these
-            ;; are major mode specific, so having them in our shared minor mode
-            ;; map causes issues. The downside here is it makes it harder to
-            ;; clean things up when the minor mode gets disabled. Not a huge
-            ;; issue for me right now but eventually we'll need a better
-            ;; approach, possibly adding to minor-mode-map-alist with synthetic
-            ;; "minor mode" variables each corresponding with a certain major
-            ;; mode
-            (evil-define-key 'normal (current-local-map) (kbd keys) sym)
-            (evil-define-key 'motion (current-local-map) (kbd keys) sym)))))
-     ((symbolp cmd)
-      (progn
-        (evil-define-key 'normal keymap (kbd keys) cmd)
-        (evil-define-key 'motion keymap (kbd keys) cmd))))
-    (which-key-add-key-based-replacements keys desc))))
-
-(defun corkey/set-bindings (binding-spec)
-  ;;(message "---> bindings for %s %s" major-mode (buffer-name))
-  (let* ((bindings (corkey/-kv-list-get binding-spec :bindings))
-         (modes (corkey/-kv-list-get binding-spec :modes))
-         (commands
-          (cl-loop
-           for (mode mapping) in (reverse modes)
-           append
-           (when (or (eql 'global mode) (derived-mode-p mode))
-             mapping))))
-    (corkey/-set-bindings* corkey/keymap bindings commands))
-  (evil-normalize-keymaps))
-
-(defun corkey/maybe-set-bindings ()
+(defun corkey/install-bindings (&OPTIONAL binding-files signal-files)
   (interactive)
-  (when corkey-mode
-    (cl-loop
-     for file in (reverse corkey/key-binding-files)
-     do
-     (corkey/set-bindings (corkey/-read-file (expand-file-name file user-emacs-directory))))))
+  (let* ((binding-files (or binding-files 'corgi-keys))
+         (signal-files (or signal-files 'corgi-signals))
 
-(define-minor-mode corkey-mode
-  "Multi leader mode"
-  :keymap corkey/keymap
-  ;; this needs fine tuning, but it already skips a lot of internal buffers like
-  ;; *nrepl-decoding*
-  (when (not (or  (eql major-mode 'fundamental-mode)
-                  (eql major-mode 'minibuffer-inactive-mode)))
-    ;;(message "corkey-mode (minor mode) %s" (buffer-name))
-    (corkey/maybe-set-bindings)))
+         (binding-files (if (listp binding-files)
+                            binding-files
+                          (list binding-files)))
+         (signal-files (if (listp signal-files)
+                           signal-files
+                         (list signal-files)))
+         (bindings (mapcat
+                    (lambda (f)
+                      (thread-last f
+                        corkey/-locate-file
+                        corkey/-read-file
+                        (corkey/-flatten-bindings 'normal "")))
+                    binding-files))
+         (signals (seq-reduce
+                   #'corkey/-flatten-signals
+                   (mapcar (lambda (f)
+                             (corkey/-read-file (corkey/-locate-file f)))
+                           signal-files)
+                   nil)))
 
-;;(corkey/set-bindings (corkey/-read-file (car corkey/key-binding-files)))
-
-(define-global-minor-mode global-corkey-mode
-  corkey-mode
-  (lambda ()
-    (when (not (minibufferp))
-      (corkey-mode 1))))
+    (corkey/setup-keymaps bindings signals)))
 
 (provide 'corkey)
 

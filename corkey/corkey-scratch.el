@@ -78,8 +78,8 @@ Evil options
   (kbd "C-z")
   (lambda () (interactive) (message "YOOOOWWW")))
 
-(evil-get-minor-mode-keymap 'normal 'corkey-mode)
-(evil-get-minor-mode-keymap 'normal 'corkey--emacs-lisp)
+(evil-get-minor-mode-keymap 'normal 'corkey-local-mode)
+(evil-get-minor-mode-keymap 'normal 'corkey--emacs-lisp-mode)
 (setq evil-minor-mode-keymaps-alist nil)
 (local-variable-p 'evil-minor-mode-keymaps-alist)
 evil-minor-mode-keymaps-alist
@@ -101,3 +101,79 @@ evil-minor-mode-keymaps-alist
 minor-mode-alist
 
 define-minor-mode
+
+(defun corkey/-flatten-bindings2 (mode prefix bindings)
+  (let ((head (car bindings))
+        (rest (cdr-safe bindings)))
+    (if (symbolp head)
+        (seq-mapcat (lambda (b)
+                      (corkey/-flatten-bindings2 head prefix b))
+                    rest)
+      (let ((desc (car-safe rest))
+            (rest (cdr-safe rest)))
+        (if (consp (car rest))
+            (cl-list* (list mode (concat prefix head) desc)
+                      (seq-mapcat (lambda (b)
+                                    (corkey/-flatten-bindings2 mode (concat prefix head " ") b))
+                                  rest))
+          (list (list mode (concat prefix head) desc (car rest))))))))
+
+(use-package a)
+
+(defun corkey/-flatten-signals (acc signals)
+  (seq-reduce
+   (lambda (acc mode-spec)
+     (let ((mode (car mode-spec))
+           (mapping (cadr mode-spec)))
+       (seq-reduce
+        (lambda (acc signal-command)
+          (a-assoc-in acc (list (car signal-command) mode) (cadr signal-command)))
+        (seq-partition mapping 2)
+        acc)))
+   signals
+   acc))
+
+(defun corkey/setup-keymaps (bindings signals)
+  (mapc
+   (lambda (binding)
+     (pcase-let ((`(,mode ,keys ,desc ,target) binding))
+       (cond
+        ((not target))
+        ((keywordp target)
+         (let ((mode-targets (cdr (assoc target signals))))
+           (mapc
+            (lambda (mode-target)
+              (let ((major-mode (car mode-target))
+                    (shadow-mode-var (intern (concat "corkey--" (symbol-name major-mode))))
+                    (rest (cdr mode-target)))
+                (if (symbolp rest)
+                    (evil-define-minor-mode-key mode shadow-mode-var (kbd keys) rest)
+                  (evil-define-minor-mode-key mode shadow-mode-var (kbd keys) (cadr rest))
+                  (which-key-add-key-based-replacements keys (car rest)))))
+            mode-targets)))
+        ((symbolp target)
+         (evil-define-minor-mode-key mode 'corkey-local-mode (kbd keys) target)
+         (which-key-add-key-based-replacements keys desc)))))
+   bindings)
+  nil)
+
+(pcase-let ((`(,major-mode ,arg1 ,arg2) '(1 . 2)))
+  arg2)
+(normal ("TAB"))
+
+(concat "" ("TAB" "Indent" :format/tab-indent))
+
+(corkey/setup-keymaps
+ (corkey/-flatten-bindings2
+  'normal
+  ""
+  (corkey/-read-file
+   "/home/arne/github/lambdaisland/corgi-packages/corgi-keys.el"))
+
+ (corkey/-flatten-signals
+  nil
+  (corkey/-read-file
+   "/home/arne/github/lambdaisland/corgi-packages/corgi-signals.el")))
+
+which-key-add-key-based-replacements
+which-key-add-major-mode-key-based-replacements

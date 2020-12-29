@@ -133,13 +133,8 @@
 
 (use-package corkey
   :config
-  (global-corkey-mode 1)
-  ;; Move to the front so these keys always have priority
-  (setq minor-mode-map-alist
-        (cons
-         (cons 'corkey-mode corkey/keymap)
-         (delq corkey-mode minor-mode-map-alist)))
-  (add-to-list #'corkey/key-binding-files (expand-file-name "straight/repos/corgi-packages/corgi-bindings.el" straight-base-dir)))
+  (corkey-mode 1)
+  (corkey/install-bindings))
 
 ;; Offer to create parent directories if they do not exist
 ;; http://iqbalansari.github.io/blog/2014/12/07/automatically-create-parent-directories-on-visiting-a-new-file-in-emacs/
