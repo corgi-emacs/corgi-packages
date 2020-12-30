@@ -5,7 +5,7 @@
 ;;
 ;;; Code:
 
-(use-package corgi-clojure)
+(use-package cider)
 
 ;; Show emacs-lisp eval results in an overlay, CIDER style.
 ;; https://endlessparentheses.com/eval-result-overlays-in-emacs-lisp.html

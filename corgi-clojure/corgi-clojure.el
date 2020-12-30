@@ -1,7 +1,7 @@
 ;;; corgi-clojure.el --- Clojure configuration for Corgi
 ;;
 ;; Filename: corgi-clojure.el
-;; Package-Requires: ((use-package) (cider) (clj-refactor) (clojure-mode))
+;; Package-Requires: ((use-package) (cider) (clj-ns-name) (clj-refactor) (clojure-mode))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -27,7 +27,6 @@
   (advice-add #'clojure--looking-at-non-logical-sexp :around #'corgi/clojure--looking-at-non-logical-sexp))
 
 (use-package cider
-  :after (clojure-mode)
   :diminish cider-mode
   :config
   (setq cider-preferred-build-tool 'clojure-cli
