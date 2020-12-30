@@ -1,7 +1,7 @@
 ;;; corgi-emacs-lisp.el --- Emacs-lisp related commands
 ;;
 ;; Filename: corgi-emacs-lisp.el
-;; Package-Requires: ((use-package) (corgi-clojure) (elisp-slime-nav))
+;; Package-Requires: ((use-package) (corgi-clojure) (elisp-slime-nav) (pprint-to-buffer))
 ;;
 ;;; Code:
 
@@ -73,6 +73,8 @@
 (use-package elisp-slime-nav
   :config
   :hook ((emacs-lisp-mode ielm-mode) . turn-on-elisp-slime-nav-mode))
+
+(use-package pprint-to-buffer)
 
 (provide 'corgi-emacs-lisp)
 
