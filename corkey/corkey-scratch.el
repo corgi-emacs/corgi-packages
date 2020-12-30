@@ -1,5 +1,5 @@
 
-emulation-mode-map-alist
+emulation-mode-map-alists
 
 ;; emulation-mode-map-alists is a variable defined in ‘src/keymap.c’.
 ;; Its value is (company-emulation-alist evil-mode-map-alist)

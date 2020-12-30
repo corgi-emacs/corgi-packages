@@ -68,8 +68,11 @@
   (mapc
    (lambda (binding)
      (pcase-let ((`(,mode ,keys ,desc ,target) binding))
+       (which-key-add-key-based-replacements keys desc)
        (cond
+        ;; Prefixes
         ((not target))
+        ;; Signal dispatch
         ((keywordp target)
          (let ((mode-targets (cdr (assoc target signals))))
            (mapc
@@ -79,12 +82,13 @@
                      (rest (cdr mode-target)))
                 (if (symbolp rest)
                     (evil-define-minor-mode-key mode shadow-mode-var (kbd keys) rest)
+                  ;; Major-mode specific description
                   (evil-define-minor-mode-key mode shadow-mode-var (kbd keys) (cadr rest))
                   (which-key-add-major-mode-key-based-replacements major-mode-name keys (car rest)))))
             mode-targets)))
+        ;; Direct mapping to command
         ((symbolp target)
-         (evil-define-minor-mode-key mode 'corkey-local-mode (kbd keys) target)
-         (which-key-add-key-based-replacements keys desc)))))
+         (evil-define-minor-mode-key mode 'corkey-local-mode (kbd keys) target)))))
    bindings)
   nil)
 
