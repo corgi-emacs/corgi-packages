@@ -78,4 +78,11 @@
 
 (add-to-list #'straight-profiles '(corgi . "corgi.el"))
 
+;; It sucks that I'm putting this here, but depending on which package gets to
+;; pull in evil first we keep getting warnings from evil-collection. Seems to
+;; mostly happen after straight clones/builds new or updated packages. So I'm
+;; defensively setting it here, this is the earliest chance we get apart from
+;; asking users to put it directly in their config.
+(setq evil-want-keybinding nil)
+
 (provide 'corgi-packages)
