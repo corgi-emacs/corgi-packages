@@ -1,7 +1,7 @@
 ;;; corgi-editor.el --- User interface configuration for Corgi
 ;;
 ;; Filename: corgi-editor.el
-;; Package-Requires: ((use-package) (aggressive-indent) (avy) (company) (corkey) (counsel) (counsel-projectile) (diminish) (dumb-jump) (evil) (evil-cleverparens) (evil-collection) (evil-surround) (expand-region) (goto-last-change) (ivy) (projectile) (rainbow-delimiters) (smartparens) (smex) (string-edit) (swiper) (undo-fu) (which-key) (winum))
+;; Package-Requires: ((use-package) (aggressive-indent) (avy) (company) (counsel) (counsel-projectile) (diminish) (dumb-jump) (evil) (evil-cleverparens) (evil-collection) (evil-surround) (expand-region) (goto-last-change) (ivy) (projectile) (rainbow-delimiters) (smartparens) (smex) (string-edit) (swiper) (undo-fu) (which-key) (winum))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -131,11 +131,6 @@
 
 (use-package string-edit)
 
-(use-package corkey
-  :config
-  (corkey-mode 1)
-  (corkey/install-bindings))
-
 ;; Offer to create parent directories if they do not exist
 ;; http://iqbalansari.github.io/blog/2014/12/07/automatically-create-parent-directories-on-visiting-a-new-file-in-emacs/
 (defun magnars/create-non-existent-directory ()
@@ -145,6 +140,12 @@
       (make-directory parent-directory t))))
 
 (add-to-list 'find-file-not-found-functions 'magnars/create-non-existent-directory)
+
+(defun corgi-editor/-on-buffer-change (win)
+  (unless (and (minibufferp) (not evil-want-minibuffer))
+    (evil-normal-state)))
+
+(push #'corgi-editor/-on-buffer-change window-buffer-change-functions)
 
 (provide 'corgi-editor)
 

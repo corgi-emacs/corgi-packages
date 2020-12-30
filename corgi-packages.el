@@ -30,7 +30,14 @@
                :files (,(concat (symbol-name pkg) "/" (symbol-name pkg) ".el"))
                :repo "lambdaisland/corgi-packages"))
 
-           '(corgi-defaults corgi-editor corgi-commands corgi-emacs-lisp corgi-emacs corgi-clojure corkey))))
+           '(corgi-defaults
+             corgi-editor
+             corgi-commands
+             corgi-emacs-lisp
+             corgi-emacs
+             corgi-clojure
+             corgi-stateline
+             corkey))))
 
 (defun straight-recipes-corgi-packages-list ()
   (mapcar #'symbol-name (mapcar #'car corgi-all-packages)))

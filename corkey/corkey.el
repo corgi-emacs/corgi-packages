@@ -77,14 +77,16 @@
          (let ((mode-targets (cdr (assoc target signals))))
            (mapc
             (lambda (mode-target)
-              (let* ((major-mode-name (car mode-target))
-                     (shadow-mode-var (intern (concat "corkey--" (symbol-name major-mode-name))))
+              (let* ((mode-name (car mode-target))
+                     (mode-var (if (boundp mode-name)
+                                   mode-name
+                                 (intern (concat "corkey--" (symbol-name mode-name)))))
                      (rest (cdr mode-target)))
                 (if (symbolp rest)
-                    (evil-define-minor-mode-key mode shadow-mode-var (kbd keys) rest)
+                    (evil-define-minor-mode-key mode mode-var (kbd keys) rest)
                   ;; Major-mode specific description
-                  (evil-define-minor-mode-key mode shadow-mode-var (kbd keys) (cadr rest))
-                  (which-key-add-major-mode-key-based-replacements major-mode-name keys (car rest)))))
+                  (evil-define-minor-mode-key mode mode-var (kbd keys) (cadr rest))
+                  (which-key-add-major-mode-key-based-replacements mode-name keys (car rest)))))
             mode-targets)))
         ;; Direct mapping to command
         ((symbolp target)

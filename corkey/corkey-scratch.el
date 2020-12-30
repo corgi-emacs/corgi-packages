@@ -178,3 +178,8 @@ define-minor-mode
 
 which-key-add-key-based-replacements
 which-key-add-major-mode-key-based-replacements
+provided-mode-derived-p
+
+(symbol-plist 'corkey-mode)
+(boundp 'corkey-mode)
+corkey-mode
