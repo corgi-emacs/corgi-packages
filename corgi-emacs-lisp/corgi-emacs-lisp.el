@@ -1,7 +1,7 @@
 ;;; corgi-emacs-lisp.el --- Emacs-lisp related commands
 ;;
 ;; Filename: corgi-emacs-lisp.el
-;; Package-Requires: ((use-package) (corgi-clojure) (elisp-slime-nav) (pprint-to-buffer))
+;; Package-Requires: ((use-package) (cider) (elisp-slime-nav) (pprint-to-buffer))
 ;;
 ;;; Code:
 

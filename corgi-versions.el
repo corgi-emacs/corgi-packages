@@ -6,7 +6,6 @@
  ("clj-refactor.el" . "6db85b37b57497b56d97d5e5512160e5db85f798")
  ("clojure-mode" . "53ef8ac076ae7811627fbdd408e519ab7fca9a0b")
  ("company-mode" . "3644a595b4647367de42a8de485efa0aae0c0213")
- ("corgi-packages" . "abb365a6a8952d2ff14fe4e9009d3fccc17ddaec")
  ("counsel-projectile" . "06b03c1080d3ccc3fa9b9c41b1ccbcf13f058e4b")
  ("dash.el" . "e47ecb822f6bb10c196ca00030b0e6f5e176495e")
  ("diminish.el" . "6ec6ebc391371418efc6c98d70b013f34af5a2ee")
