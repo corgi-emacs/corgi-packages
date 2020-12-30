@@ -64,7 +64,7 @@
 
 (defun corgi/elisp-thread-first-all (but-last)
   (interactive "P")
-  (corgi/elsip--thread-all "thread-first " but-last))
+  (corgi/elisp--thread-all "thread-first " but-last))
 
 (defun corgi/elisp-thread-last-all (but-last)
   (interactive "P")
