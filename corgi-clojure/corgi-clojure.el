@@ -135,6 +135,10 @@ result."
           clojure-mode-hook)
          . clj-refactor-mode))
 
+(use-package clj-ns-name
+  :config
+  (clj-ns-name-install))
+
 (provide 'corgi-clojure)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
