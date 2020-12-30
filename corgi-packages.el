@@ -19,7 +19,16 @@
              :type git
              :host github
              :files ("pprint-to-buffer/pprint-to-buffer.el")
-             :repo "plexus/plexmacs"))
+             :repo "plexus/plexmacs")
+
+            (corkey
+             :type git
+             :host github
+             :branch "main"
+             :files ("corkey/corkey.el"
+                     "corkey/corgi-keys.el"
+                     "corkey/corgi-signals.el")
+             :repo "lambdaisland/corgi-packages"))
 
           (mapcar
            (lambda (pkg)
@@ -36,8 +45,7 @@
              corgi-emacs-lisp
              corgi-emacs
              corgi-clojure
-             corgi-stateline
-             corkey))))
+             corgi-stateline))))
 
 (defun straight-recipes-corgi-packages-list ()
   (mapcar #'symbol-name (mapcar #'car corgi-all-packages)))
