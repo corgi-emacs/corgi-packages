@@ -2,7 +2,8 @@
 ((corkey-local-mode ( :sexp/slurp-forward sp-forward-slurp-sexp
                       :sexp/barf-forward sp-forward-barf-sexp
                       :sexp/forward evil-cp-forward-sexp
-                      :sexp/backward evil-cp-backward-sexp))
+                      :sexp/backward evil-cp-backward-sexp
+                      :buffer/switch switch-to-buffer))
 
  (prog-mode ( :format/tab-indent indent-for-tab-command))
 

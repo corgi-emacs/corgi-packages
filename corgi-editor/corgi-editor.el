@@ -1,7 +1,7 @@
 ;;; corgi-editor.el --- User interface configuration for Corgi
 ;;
 ;; Filename: corgi-editor.el
-;; Package-Requires: ((use-package) (aggressive-indent) (avy) (company) (counsel) (counsel-projectile) (diminish) (dumb-jump) (evil) (evil-cleverparens) (evil-collection) (evil-surround) (expand-region) (goto-last-change) (ivy) (projectile) (rainbow-delimiters) (smartparens) (smex) (string-edit) (swiper) (undo-fu) (which-key) (winum))
+;; Package-Requires: ((use-package) (aggressive-indent) (avy) (company) (counsel-projectile) (diminish) (dumb-jump) (evil) (evil-cleverparens) (evil-collection) (evil-surround) (expand-region) (goto-last-change) (projectile) (rainbow-delimiters) (selectrum-prescient) (smartparens) (string-edit) (undo-fu) (which-key) (winum) (xclip))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -13,26 +13,11 @@
   eldoc-mode
   subword-mode)
 
-(use-package ivy
-  :defer 0.1
-  :diminish
+(use-package selectrum-prescient
   :config
-  (ivy-mode)
-  (define-key ivy-minibuffer-map (kbd "C-j") #'ivy-next-line)
-  (define-key ivy-minibuffer-map (kbd "C-k") #'ivy-previous-line))
-
-(use-package counsel
-  :after (ivy)
-  :config
-  ;; This ensures that SPC f r (counsel-recentf, show recently opened files)
-  ;; actually works
-  (recentf-mode 1))
-
-;; Make counsel-M-x show most recently used commands first
-(use-package smex)
-
-(use-package swiper
-  :after (ivy))
+  (selectrum-mode +1)
+  (selectrum-prescient-mode +1)
+  (prescient-persist-mode +1))
 
 (use-package avy)
 
