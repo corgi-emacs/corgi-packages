@@ -9,7 +9,7 @@
 ;; <signal>  := keywordp
 ;; <command> := symbolp
 
-(normal
+(normal|visual
  ("TAB" "Indent" :format/tab-indent)
  (">" "Slurp" :sexp/slurp-forward)
  ("<" "Barf" :sexp/barf-forward)
