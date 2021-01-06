@@ -3,7 +3,30 @@
                       :sexp/barf-forward sp-forward-barf-sexp
                       :sexp/forward evil-cp-forward-sexp
                       :sexp/backward evil-cp-backward-sexp
-                      :buffer/switch switch-to-buffer))
+
+                      :command/execute execute-extended-command
+
+                      :file/open find-file
+                      :file/save save-buffer
+                      :file/save-all evil-write-all
+                      :file/open-recent consult-recent-file
+
+                      :buffer/switch consult-buffer
+                      :buffer/incremental-search consult-line
+
+                      :project/open-file projectile-find-file
+                      :project/switch projectile-switch-project
+                      :project/incremental-search projectile-grep
+
+                      :jump/identifier consult-imenu
+                      :jump/character avy-goto-char
+                      :jump/last-change goto-last-change
+
+                      :help/describe-key describe-key
+                      :help/describe-variable describe-variable
+                      :help/describe-function describe-function
+                      :help/describe-mode describe-mode
+                      :help/describe-bindings describe-bindings))
 
  (prog-mode ( :format/tab-indent indent-for-tab-command))
 

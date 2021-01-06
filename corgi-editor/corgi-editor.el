@@ -1,7 +1,7 @@
 ;;; corgi-editor.el --- User interface configuration for Corgi
 ;;
 ;; Filename: corgi-editor.el
-;; Package-Requires: ((use-package) (aggressive-indent) (avy) (company) (counsel-projectile) (diminish) (dumb-jump) (evil) (evil-cleverparens) (evil-collection) (evil-surround) (expand-region) (goto-last-change) (projectile) (rainbow-delimiters) (selectrum-prescient) (smartparens) (string-edit) (undo-fu) (which-key) (winum) (xclip))
+;; Package-Requires: ((use-package) (aggressive-indent) (avy) (company) (consult) (consult-selectrum) (diminish) (dumb-jump) (evil) (evil-cleverparens) (evil-collection) (evil-surround) (expand-region) (goto-last-change) (projectile) (rainbow-delimiters) (selectrum-prescient) (smartparens) (string-edit) (undo-fu) (which-key) (winum) (xclip))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -105,8 +105,11 @@
   (projectile-global-mode)
   (setq projectile-create-missing-test-files t))
 
-(use-package counsel-projectile
-  :after (projectile))
+(use-package consult
+  :config
+  (setq consult-project-root-function #'projectile-project-root))
+
+(use-package consult-selectrum)
 
 (use-package dumb-jump)
 

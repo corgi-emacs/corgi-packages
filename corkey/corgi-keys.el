@@ -47,10 +47,10 @@
    ("w" "Toggle read-only" read-only-mode))
 
   ("f" "File commands"
-   ("f" "Find file" counsel-find-file)
-   ("s" "Save file" save-buffer)
-   ("S" "Save all" evil-write-all)
-   ("r" "Recently opened files" counsel-recentf)
+   ("f" "Find file" :file/open)
+   ("s" "Save file" :file/save)
+   ("S" "Save all" :file/save-all)
+   ("r" "Recently opened files" :file/open-recent)
    ("A" "Find alternate file" find-alternate-file)
    ("e" "Emacs files"
     ("i" "Open init.el" corgi/open-init-el)
@@ -58,28 +58,29 @@
     ("u" "Open user config" corgi/open-user-config)))
 
   ("s" "Search commands"
-   ("s" "Search in buffer" swiper)
-   ("p" "Grep in project" counsel-git-grep))
+   ("s" "Search in buffer" :buffer/incremental-search))
 
   ("p" "Project"
-   ("f" "Find file" counsel-projectile-find-file)
-   ("p" "Switch project" counsel-projectile-switch-project))
+   ("f" "Find file" :project/open-file)
+   ("p" "Switch project" :project/switch)
+   ("s" "Search in project" :project/incremental-search))
 
   ("g" "Git"
    ("s" "Magit Status" magit-status))
 
   ("h" "Help"
    ("d" "Describe"
-    ("k" "Describe key" describe-key)
-    ("v" "Describe variable" counsel-describe-variable)
-    ("f" "Describe function" counsel-describe-function)
-    ("m" "Describe mode" describe-mode)
-    ("b" "Describe bindings" describe-bindings)))
+    ("k" "Describe key" :help/describe-key)
+    ("v" "Describe variable" :help/describe-variable)
+    ("f" "Describe function" :help/describe-function)
+    ("m" "Describe mode" :help/describe-mode)
+    ("b" "Describe bindings" :help/describe-bindings)))
 
+  ;; TODO: Unify this with , g (go...)
   ("j" "Jump"
-   ("i" "Jump in buffer" counsel-imenu)
-   ("j" "Jump to character" avy-goto-char)
-   ("c" "Jump to last change" goto-last-change))
+   ("i" "Jump in buffer" :jump/identifier)
+   ("j" "Jump to character" :jump/character)
+   ("c" "Jump to last change" :jump/last-change))
 
   ("w" "Windows"
    ("TAB" "Alternate window" alternate-window)
@@ -102,7 +103,7 @@
    ("l" "Toggle line numbers" linum-mode))
 
 
-  ("SPC" "Execute command (M-x)" counsel-M-x)
+  ("SPC" "Execute command (M-x)" :command/execute)
   ("u" "Universal prefix" universal-argument)
   ("TAB" "Switch to previous buffer" corgi/switch-to-previous-buffer)
   ("1" "Select window 1" winum-select-window-1)
