@@ -19,6 +19,14 @@
   (selectrum-prescient-mode +1)
   (prescient-persist-mode +1))
 
+(use-package consult
+  :config
+  (setq consult-project-root-function #'projectile-project-root
+        consult-find-command
+        '("sh" "-c" "find . -not '(' -wholename '*/.*' -prune ')' | grep --perl-regexp -e ${1}" "--")))
+
+(use-package consult-selectrum)
+
 (use-package avy)
 
 (use-package undo-fu)
@@ -104,12 +112,6 @@
   :config
   (projectile-global-mode)
   (setq projectile-create-missing-test-files t))
-
-(use-package consult
-  :config
-  (setq consult-project-root-function #'projectile-project-root))
-
-(use-package consult-selectrum)
 
 (use-package dumb-jump)
 
