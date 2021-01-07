@@ -57,24 +57,24 @@
   :group 'corgi)
 
 (defun corgi-stateline/enter-normal-state ()
-  (set-face-foreground 'mode-line corgi-stateline-normal-fg)
-  (set-face-background 'mode-line corgi-stateline-normal-bg))
+  (face-remap-add-relative 'mode-line :foreground corgi-stateline-normal-fg)
+  (face-remap-add-relative 'mode-line :background corgi-stateline-normal-bg))
 
 (defun corgi-stateline/enter-motion-state ()
-  (set-face-foreground 'mode-line corgi-stateline-motion-fg)
-  (set-face-background 'mode-line corgi-stateline-motion-bg))
+  (face-remap-add-relative 'mode-line :foreground corgi-stateline-motion-fg)
+  (face-remap-add-relative 'mode-line :background corgi-stateline-motion-bg))
 
 (defun corgi-stateline/enter-insert-state ()
-  (set-face-foreground 'mode-line corgi-stateline-insert-fg)
-  (set-face-background 'mode-line corgi-stateline-insert-bg))
+  (face-remap-add-relative 'mode-line :foreground corgi-stateline-insert-fg)
+  (face-remap-add-relative 'mode-line :background corgi-stateline-insert-bg))
 
 (defun corgi-stateline/enter-visual-state ()
-  (set-face-foreground 'mode-line corgi-stateline-visual-fg)
-  (set-face-background 'mode-line corgi-stateline-visual-bg))
+  (face-remap-add-relative 'mode-line :foreground corgi-stateline-visual-fg)
+  (face-remap-add-relative 'mode-line :background corgi-stateline-visual-bg))
 
 (defun corgi-stateline/enter-emacs-state ()
-  (set-face-foreground 'mode-line corgi-stateline-emacs-fg)
-  (set-face-background 'mode-line corgi-stateline-emacs-bg))
+  (face-remap-add-relative 'mode-line :foreground corgi-stateline-emacs-fg)
+  (face-remap-add-relative 'mode-line :background corgi-stateline-emacs-bg))
 
 (add-hook 'evil-normal-state-entry-hook #'corgi-stateline/enter-normal-state)
 (add-hook 'evil-motion-state-entry-hook #'corgi-stateline/enter-motion-state)

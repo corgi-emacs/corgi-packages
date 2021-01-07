@@ -22,6 +22,7 @@
 (use-package consult
   :config
   (setq consult-project-root-function #'projectile-project-root
+        consult-async-default-split nil
         consult-find-command
         '("sh" "-c" "find . -not '(' -wholename '*/.*' -prune ')' | grep --perl-regexp -e ${1}" "--")))
 
@@ -134,13 +135,13 @@
                (y-or-n-p (format "Directory `%s' does not exist! Create it?" parent-directory)))
       (make-directory parent-directory t))))
 
-(add-to-list 'find-file-not-found-functions 'magnars/create-non-existent-directory)
+(add-to-list 'find-file-not-found-functions #'magnars/create-non-existent-directory)
 
 (defun corgi-editor/-on-buffer-change (win)
   (unless (and (minibufferp) (not evil-want-minibuffer))
     (evil-normal-state)))
 
-(push #'corgi-editor/-on-buffer-change window-buffer-change-functions)
+(add-to-list 'window-buffer-change-functions #'corgi-editor/-on-buffer-change)
 
 (provide 'corgi-editor)
 
