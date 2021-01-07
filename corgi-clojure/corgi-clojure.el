@@ -140,5 +140,26 @@ result."
 
 (provide 'corgi-clojure)
 
+;; TODO: submit upstream (?)
+(defun corgi/cider-pprint-register (register)
+  "Evaluate a Clojure snippet stored in a register.
+
+Will ask for the register when used interactively. Put `#_clj' or
+`#_cljs' at the start of the snippet to force evaluation to go to
+a specific REPL type, no matter the mode (clojure-mode or
+clojurescript-mode) of the current buffer."
+  (interactive (list (register-read-with-preview "Eval register: ")))
+  (let ((reg (get-register register)))
+    (cond
+     ((string-match-p "^#_cljs" reg)
+      (with-current-buffer (car (cider-repls 'cljs))
+        (cider--pprint-eval-form reg)))
+     ((string-match-p "^#_clj" reg)
+      (with-current-buffer (car (cider-repls 'clj))
+        (cider--pprint-eval-form reg)))
+     (t
+      (cider--pprint-eval-form reg)))))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; corgi-clojure.el ends here

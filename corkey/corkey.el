@@ -11,6 +11,29 @@
 (use-package which-key)
 (use-package a)
 
+(defun corkey--ancestor-modes (mode)
+  "List of the given mode, plus any of its ancestors
+
+By traversing the 'derived-mode-parent symbol property."
+  (cons mode
+        (when-let (derived-mode (get mode 'derived-mode-parent))
+          (corkey--ancestor-modes derived-mode))))
+
+(defun corkey--set-shadow-mode-vars ()
+  "Create shadow-mode variables based on the major-mode
+
+For each major mode Corkey creates a buffer-local variable which
+is set to `t' when the major mode is active, or `nil' if it is
+not. We treat these as minor modes which shadow the major mode,
+and assign key bindings that are specific to a given major mode
+to this minor mode instead, so that we don't mutate the
+major-mode keymap. This way the bindings can easily be disabled
+when corkey-mode is switched off."
+  (seq-doseq (mode (corkey--ancestor-modes major-mode))
+    (let ((shadow-mode-var (intern (concat "corkey--" (symbol-name mode)))))
+      (make-variable-buffer-local shadow-mode-var)
+      (set shadow-mode-var corkey-local-mode))))
+
 (define-minor-mode corkey-local-mode
   "Minor mode providing corkey bindings"
   :lighter ""
@@ -20,12 +43,7 @@
   ;; the major mode, hence the name). When loading key bindings into evil we
   ;; associate them with this shadow minor mode. This way the corkey bindings
   ;; remain isolated and can easily be toggled.
-  (let ((shadow-mode-var (intern (concat "corkey--" (symbol-name major-mode)))))
-    (if corkey-local-mode
-        (progn
-          (make-variable-buffer-local shadow-mode-var)
-          (set shadow-mode-var t))
-      (set shadow-mode-var nil))))
+  (corkey--set-shadow-mode-vars))
 
 (defun corkey-initialize ()
   (unless (and (minibufferp) (not evil-want-minibuffer))

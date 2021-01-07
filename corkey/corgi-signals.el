@@ -16,7 +16,7 @@
 
                       :project/open-file projectile-find-file
                       :project/switch projectile-switch-project
-                      :project/incremental-search projectile-grep
+                      :project/incremental-search consult-ripgrep
 
                       :jump/identifier consult-imenu
                       :jump/character avy-goto-char

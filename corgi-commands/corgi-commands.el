@@ -40,12 +40,6 @@ Repeated invocations toggle between the two most recently open buffers."
                        (or (car previous-files) "*scratch*"))
     (balance-windows)))
 
-;; TODO: move to corgi-clojure (and from there submit it upstream)
-;;
-;; (defun corgi/cider-pprint-register (register)
-;;   (interactive (list (register-read-with-preview "Eval register: ")))
-;;   (cider--pprint-eval-form (get-register register)))
-
 (defun corgi/open-init-el ()
   (interactive)
   (find-file (expand-file-name "init.el" user-emacs-directory)))
