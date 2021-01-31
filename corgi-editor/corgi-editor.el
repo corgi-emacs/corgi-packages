@@ -1,7 +1,7 @@
 ;;; corgi-editor.el --- User interface configuration for Corgi
 ;;
 ;; Filename: corgi-editor.el
-;; Package-Requires: ((use-package) (aggressive-indent) (avy) (company) (consult) (consult-selectrum) (diminish) (dumb-jump) (evil) (evil-cleverparens) (evil-collection) (evil-surround) (expand-region) (goto-last-change) (projectile) (rainbow-delimiters) (selectrum-prescient) (smartparens) (string-edit) (undo-fu) (which-key) (winum) (xclip))
+;; Package-Requires: ((use-package) (aggressive-indent) (avy) (company) (counsel) (diminish) (dumb-jump) (evil) (evil-cleverparens) (evil-collection) (evil-surround) (expand-region) (goto-last-change) (ivy) (projectile) (rainbow-delimiters) (smartparens) (smex) (string-edit) (swiper) (undo-fu) (which-key) (winum) (xclip))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -13,20 +13,26 @@
   eldoc-mode
   subword-mode)
 
-(use-package selectrum-prescient
+(use-package ivy
+  :defer 0.1
+  :diminish
   :config
-  (selectrum-mode +1)
-  (selectrum-prescient-mode +1)
-  (prescient-persist-mode +1))
+  (ivy-mode)
+  (define-key ivy-minibuffer-map (kbd "C-j") #'ivy-next-line)
+  (define-key ivy-minibuffer-map (kbd "C-k") #'ivy-previous-line))
 
-(use-package consult
+(use-package counsel
+  :after (ivy)
   :config
-  (setq consult-project-root-function #'projectile-project-root
-        consult-async-default-split nil
-        consult-find-command
-        '("sh" "-c" "find . -not '(' -wholename '*/.*' -prune ')' | grep --perl-regexp -e ${1}" "--")))
+  ;; This ensures that SPC f r (counsel-recentf, show recently opened files)
+  ;; actually works
+  (recentf-mode 1))
 
-(use-package consult-selectrum)
+;; Make counsel-M-x show most recently used commands first
+(use-package smex)
+
+(use-package swiper
+  :after (ivy))
 
 (use-package avy)
 

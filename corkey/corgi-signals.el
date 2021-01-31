@@ -6,19 +6,20 @@
 
                       :command/execute execute-extended-command
 
-                      :file/open find-file
+                      :file/open counsel-find-file
                       :file/save save-buffer
                       :file/save-all evil-write-all
-                      :file/open-recent consult-recent-file
+                      :file/open-recent counsel-recentf
 
-                      :buffer/switch consult-buffer
-                      :buffer/incremental-search consult-line
+
+                      :buffer/switch switch-to-buffer
+                      :buffer/incremental-search swiper
 
                       :project/open-file projectile-find-file
                       :project/switch projectile-switch-project
-                      :project/incremental-search consult-ripgrep
+                      :project/incremental-search counsel-git-grep
 
-                      :jump/identifier consult-imenu
+                      :jump/identifier counsel-imenu
                       :jump/character avy-goto-char
                       :jump/last-change goto-last-change
 
