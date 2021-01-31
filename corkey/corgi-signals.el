@@ -49,31 +49,6 @@
                  :sexp/forward clojure-forward-logical-sexp
                  :sexp/backward clojure-backward-logical-sexp
 
-                 :eval/last-sexp cider-eval-last-sexp
-                 :eval/last-sexp-pprint cider-pprint-eval-last-sexp
-                 :eval/last-sexp-pprint-comment cider-pprint-eval-last-sexp-to-comment
-                 :eval/ns-form cider-eval-ns-form
-                 :eval/last-sexp-replace cider-eval-last-sexp-and-replace
-                 :eval/buffer cider-eval-buffer
-                 :eval/region cider-eval-region
-                 :eval/registry-pprint corgi/cider-pprint-register
-                 :eval/interrupt cider-interrupt
-                 :eval/up-to-point cider-eval-sexp-up-to-point
-
-                 :repl/toggle cider-switch-to-repl-buffer
-                 :repl/quit cider-quit
-                 :repl/quit-all corgi/cider-quit-all
-                 :repl/other cider-repl-switch-to-other
-                 :repl/connect cider-connect
-                 :repl/jack-in ("Jack-in Clojure" cider-jack-in-clj)
-                 :repl/jack-in-other ("Jack in ClojureScript" cider-jack-in-clj)
-                 :repl/jack-in-all ("Jack in Clj+Cljs" cider-jack-in-clj&cljs)
-                 ;; TODO: this should clear the BUFFER, not just the last output
-                 :repl/clear cider-find-and-clear-repl-output
-
-                 :jump/definition cider-find-var
-                 :jump/back cider-pop-back
-                 :jump/ns cider-find-ns
 
                  :refactor/thread-first clojure-thread-first-all
                  :refactor/thread-last clojure-thread-last-all
@@ -82,6 +57,36 @@
                  :refactor/sort-namespace-declaration clojure-sort-ns
                  :refactor/add-missing cljr-add-missing-libspec
                  :refactor/extract-function cljr-extract-function))
+
+ (cider-mode ( :eval/last-sexp cider-eval-last-sexp
+               :eval/last-sexp-pprint cider-pprint-eval-last-sexp
+               :eval/last-sexp-pprint-comment cider-pprint-eval-last-sexp-to-comment
+               :eval/ns-form cider-eval-ns-form
+               :eval/last-sexp-replace cider-eval-last-sexp-and-replace
+               :eval/buffer cider-eval-buffer
+               :eval/region cider-eval-region
+               :eval/registry-pprint corgi/cider-pprint-register
+               :eval/interrupt cider-interrupt
+               :eval/up-to-point cider-eval-sexp-up-to-point
+
+               :repl/toggle cider-switch-to-repl-buffer
+               :repl/quit cider-quit
+               :repl/quit-all corgi/cider-quit-all
+               :repl/other cider-repl-switch-to-other
+               :repl/connect cider-connect
+               :repl/jack-in ("Jack-in Clojure" cider-jack-in-clj)
+               :repl/jack-in-other ("Jack in ClojureScript" cider-jack-in-clj)
+               :repl/jack-in-all ("Jack in Clj+Cljs" cider-jack-in-clj&cljs)
+               ;; TODO: this should clear the BUFFER, not just the last output
+               :repl/clear cider-find-and-clear-repl-output
+
+               :jump/definition cider-find-var
+               :jump/back cider-pop-back
+               :jump/ns cider-find-ns
+               ))
+
+ (inf-clojure-minor-mode ( :eval/last-sexp inf-clojure-eval-last-sexp
+                           :repl/toggle inf-clojure))
 
  (cider-repl-mode ( :repl/toggle cider-switch-to-last-clojure-buffer
                     :repl/quit cider-quit
