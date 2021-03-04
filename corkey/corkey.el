@@ -7,6 +7,8 @@
 ;;
 ;;; Code:
 
+(require 'use-package)
+
 (use-package evil :init (setq evil-want-keybinding nil))
 (use-package which-key)
 (use-package a)
