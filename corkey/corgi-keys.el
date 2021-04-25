@@ -38,6 +38,8 @@
  ("gc" "Comment region" comment-region)
  ("gC" "Uncomment region" uncomment-region)
 
+ ("C-x" ("C-e" "Eval form before cursor" :eval/last-sexp))
+
  ("SPC" "Global leader key"
   ("b" "Buffer commands"
    ("b" "Switch buffer" ivy-switch-buffer)
