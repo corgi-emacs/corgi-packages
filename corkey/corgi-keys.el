@@ -94,16 +94,13 @@
    ("o" "Go to other window" other-window)
    ("d" "Delete window" delete-window))
 
-  ;; TODO: this is temporary, using the keybinding from Spacemac's lisp editing
-  ;; mode, but we don't want to copy lisp editing mode, so we might look for
-  ;; more suitable bindings for this
-  ("k" "Structural editing"
-   ("E" "Splice backwards" sp-splice-sexp-killing-backward))
-
   ("t" "Toggle modes"
    ("a" "Toggle aggressive indent mode" aggressive-indent-mode)
    ("l" "Toggle line numbers" linum-mode))
 
+  ("x" "Text editing"
+   ("t" "Transpose sexps" transpose-sexps)
+   ("s" "Splice backwards" sp-splice-sexp-killing-backward))
 
   ("SPC" "Execute command (M-x)" :command/execute)
   ("u" "Universal prefix" universal-argument)
@@ -170,4 +167,5 @@
    ("e" "Extract..."
     ("f" "Extract function" :refactor/extract-function)))
 
-  ("," "Eval from registry and pprint" :eval/registry-pprint)))
+  ("," "Eval from registry and pprint" :eval/registry-pprint)
+  ("<RET>" "Eval outer sexp" :eval/outer-sexp)))

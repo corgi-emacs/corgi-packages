@@ -30,8 +30,10 @@
   :diminish cider-mode
   :config
   (setq cider-preferred-build-tool 'clojure-cli
-        ;; make sure we can always debug nrepl issues
-        nrepl-log-messages t)
+        ;; ~make sure we can always debug nrepl issues~
+        ;; Turning this off again, seems it may really blow up memory usage
+        ;; nrepl-log-messages nil
+        )
 
   ;; TODO: clean this up, submit to upstream where possible
   ;; More CIDER/clojure-mode stuff
