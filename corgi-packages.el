@@ -73,6 +73,17 @@
       (make-directory straight-version-dir t))
     (copy-file version-file-source version-file-target t)))
 
+(defun corgi-upgrade-self ()
+  "Upgrade Corgi
+
+   Fetch the latest corgi-packages, and make straight use the
+versions specified therein. Will overwrite any local changes to
+straight/versions/corgi.el"
+  (interactive)
+  (straight-pull-package "corgi-packages")
+  (corgi-copy-versions-file)
+  (straight-thaw-versions))
+
 (when (not (file-exists-p (corgi-version-file-path)))
   (corgi-copy-versions-file))
 
