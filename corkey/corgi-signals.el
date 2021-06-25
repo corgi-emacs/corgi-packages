@@ -1,33 +1,33 @@
 ;;; -*- no-byte-compile: t -*-
 ((corkey-local-mode ( :sexp/slurp-forward sp-forward-slurp-sexp
-                                          :sexp/barf-forward sp-forward-barf-sexp
-                                          :sexp/forward evil-cp-forward-sexp
-                                          :sexp/backward evil-cp-backward-sexp
+                      :sexp/barf-forward sp-forward-barf-sexp
+                      :sexp/forward evil-cp-forward-sexp
+                      :sexp/backward evil-cp-backward-sexp
 
-                                          :command/execute execute-extended-command
+                      :command/execute execute-extended-command
 
-                                          :file/open counsel-find-file
-                                          :file/save save-buffer
-                                          :file/save-all evil-write-all
-                                          :file/open-recent counsel-recentf
+                      :file/open counsel-find-file
+                      :file/save save-buffer
+                      :file/save-all evil-write-all
+                      :file/open-recent counsel-recentf
 
 
-                                          :buffer/switch switch-to-buffer
-                                          :buffer/incremental-search swiper
+                      :buffer/switch switch-to-buffer
+                      :buffer/incremental-search swiper
 
-                                          :project/open-file projectile-find-file
-                                          :project/switch projectile-switch-project
-                                          :project/incremental-search counsel-git-grep
+                      :project/open-file projectile-find-file
+                      :project/switch projectile-switch-project
+                      :project/incremental-search counsel-git-grep
 
-                                          :jump/identifier counsel-imenu
-                                          :jump/character avy-goto-char
-                                          :jump/last-change goto-last-change
+                      :jump/identifier counsel-imenu
+                      :jump/character avy-goto-char
+                      :jump/last-change goto-last-change
 
-                                          :help/describe-key describe-key
-                                          :help/describe-variable describe-variable
-                                          :help/describe-function describe-function
-                                          :help/describe-mode describe-mode
-                                          :help/describe-bindings describe-bindings))
+                      :help/describe-key describe-key
+                      :help/describe-variable describe-variable
+                      :help/describe-function describe-function
+                      :help/describe-mode describe-mode
+                      :help/describe-bindings describe-bindings))
 
  (prog-mode ( :format/tab-indent indent-for-tab-command))
 
@@ -50,7 +50,7 @@
  (clojure-mode (
                 :repl/connect cider-connect
                 :repl/jack-in ("Jack-in Clojure" cider-jack-in-clj)
-                :repl/jack-in-other ("Jack in ClojureScript" cider-jack-in-clj)
+                :repl/jack-in-other ("Jack in ClojureScript" cider-jack-in-cljs)
                 :repl/jack-in-all ("Jack in Clj+Cljs" cider-jack-in-clj&cljs)
                 :sexp/slurp-forward sp-forward-slurp-sexp
                 :sexp/barf-forward sp-forward-barf-sexp
@@ -113,7 +113,7 @@
                    :jump/ns cider-find-ns))
 
  (c-mode ( :jump/definition xref-find-definitions
-                            :jump/back xref-pop-marker-stack))
+           :jump/back xref-pop-marker-stack))
 
  (sql-mode (
             :repl/toggl sql-show-sqli-buffer
