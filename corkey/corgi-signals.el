@@ -17,6 +17,7 @@
 
                       :project/open-file projectile-find-file
                       :project/switch projectile-switch-project
+                      :project/kill projectile-kill-buffers
                       :project/incremental-search counsel-git-grep
 
                       :jump/identifier counsel-imenu
@@ -46,6 +47,10 @@
                    :refactor/thread-last corgi/elisp-thread-last-all))
 
  (inferior-emacs-lisp-mode ( :repl/toggle corgi/switch-to-last-elisp-buffer))
+
+ (scheme-mode ( :eval/last-sexp geiser-eval-last-sexp
+                :eval/buffer geiser-eval-buffer
+                :eval/region geiser-eval-region))
 
  (clojure-mode (
                 :repl/connect cider-connect

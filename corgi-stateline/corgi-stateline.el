@@ -11,7 +11,7 @@
   :type 'color
   :group 'corgi)
 
-(defcustom corgi-stateline-normal-bg "orange"
+(defcustom corgi-stateline-normal-bg "gray"
   "Background color of the modeline in evil normal state"
   :type 'color
   :group 'corgi)
