@@ -44,6 +44,7 @@
   ("b" "Buffer commands"
    ("b" "Switch buffer" ivy-switch-buffer)
    ("d" "Kill buffer" kill-this-buffer)
+   ("k" "Pick & kill" kill-buffer)
    ("l" "List buffers" list-buffers)
    ("r" "Rename buffer" rename-buffer)
    ("w" "Toggle read-only" read-only-mode))
@@ -65,6 +66,7 @@
   ("p" "Project"
    ("f" "Find file" :project/open-file)
    ("p" "Switch project" :project/switch)
+   ("k" "Kill buffers" :project/kill)
    ("s" "Search in project" :project/incremental-search))
 
   ("g" "Git"
