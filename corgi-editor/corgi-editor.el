@@ -128,10 +128,10 @@
 
 (use-package string-edit)
 
-(use-package xclip
-  :config
-  (unless (executable-find xclip-program)
-    (xclip-mode t)))
+;; (use-package xclip
+;;   :config
+;;   (when (executable-find xclip-program)
+;;     (xclip-mode t)))
 
 ;; Offer to create parent directories if they do not exist
 ;; http://iqbalansari.github.io/blog/2014/12/07/automatically-create-parent-directories-on-visiting-a-new-file-in-emacs/
