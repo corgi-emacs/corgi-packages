@@ -90,6 +90,7 @@
               :repl/other cider-repl-switch-to-other
               ;; TODO: this should clear the BUFFER, not just the last output
               :repl/clear cider-find-and-clear-repl-output
+              :repl/set-ns cider-repl-set-ns
 
               :jump/definition cider-find-var
               :jump/back cider-pop-back

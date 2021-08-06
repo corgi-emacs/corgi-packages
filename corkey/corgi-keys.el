@@ -137,7 +137,8 @@
    ("Q" "Quit all active REPLs" :repl/quit-all)
    ("o" "Switch to Other REPL" :repl/other)
    ("c" "Connect to REPL" :repl/connect)
-   ("l" "Clear REPL" :repl/clear))
+   ("l" "Clear REPL" :repl/clear)
+   ("n" "Set namespace" :repl/set-ns))
 
   ("g" "Go places"
    ("g" "Go to definition" :jump/definition)
