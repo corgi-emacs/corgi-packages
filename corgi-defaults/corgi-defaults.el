@@ -114,6 +114,12 @@
 ;; Stop asking about following symlinks to version controlled files
 (setq vc-follow-symlinks t)
 
+;; Configure common Emoji fonts, making it more likely that Emoji will work out of the box
+(set-fontset-font t 'symbol "Apple Color Emoji")
+(set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
+(set-fontset-font t 'symbol "Segoe UI Emoji" nil 'append)
+(set-fontset-font t 'symbol "Symbola" nil 'append)
+
 (provide 'corgi-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
