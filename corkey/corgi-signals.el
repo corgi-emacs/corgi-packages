@@ -91,6 +91,7 @@
               ;; TODO: this should clear the BUFFER, not just the last output
               :repl/clear cider-find-and-clear-repl-output
               :repl/set-ns cider-repl-set-ns
+              :repl/toggle-message-logging nrepl-toggle-message-logging
 
               :jump/definition cider-find-var
               :jump/back cider-pop-back
@@ -111,7 +112,7 @@
                    :repl/jack-in-other ("Jack in ClojureScript" cider-jack-in-clj)
                    :repl/jack-in-all ("Jack in Clj+Cljs" cider-jack-in-clj&cljs)
                    :repl/clear cider-repl-clear-buffer
-
+                   :repl/toggle-message-logging nrepl-toggle-message-logging
                    :eval/registry-pprint corgi/cider-pprint-register
 
                    :jump/definition cider-find-var

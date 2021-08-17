@@ -138,7 +138,8 @@
    ("o" "Switch to Other REPL" :repl/other)
    ("c" "Connect to REPL" :repl/connect)
    ("l" "Clear REPL" :repl/clear)
-   ("n" "Set namespace" :repl/set-ns))
+   ("n" "Set namespace" :repl/set-ns)
+   ("m" "Toggle message logging" :repl/toggle-message-logging))
 
   ("g" "Go places"
    ("g" "Go to definition" :jump/definition)
