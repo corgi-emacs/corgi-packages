@@ -43,7 +43,7 @@
  ("SPC" "Global leader key"
   ("b" "Buffer commands"
    ("b" "Switch buffer" ivy-switch-buffer)
-   ("d" "Kill buffer" kill-this-buffer)
+   ("d" "Kill current buffer" kill-this-buffer)
    ("k" "Pick & kill" kill-buffer)
    ("l" "List buffers" list-buffers)
    ("r" "Rename buffer" rename-buffer)
