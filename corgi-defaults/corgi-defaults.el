@@ -120,6 +120,12 @@
 (set-fontset-font t 'symbol "Segoe UI Emoji" nil 'append)
 (set-fontset-font t 'symbol "Symbola" nil 'append)
 
+;; Configure mac modifiers to be what you expect, and turn off the bell noise
+(if (equal system-type 'darwin)
+  (setq ring-bell-function 'ignore
+        mac-command-modifier 'control
+        mac-option-modifier 'meta))
+
 (provide 'corgi-defaults)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
