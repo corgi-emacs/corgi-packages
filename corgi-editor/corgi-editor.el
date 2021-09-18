@@ -143,11 +143,20 @@
 
 (add-to-list 'find-file-not-found-functions #'magnars/create-non-existent-directory)
 
-(defun corgi-editor/-on-buffer-change (win)
-  (unless (and (minibufferp) (not evil-want-minibuffer))
+(defvar corgi-editor--last-buffer
+  nil
+  "The last current buffer.")
+
+(defun corgi-editor/-on-buffer-change (&optional _win)
+  (unless (or (and (minibufferp) (not evil-want-minibuffer))
+              (eq (current-buffer) corgi-editor--last-buffer))
+    (setq corgi-editor--last-buffer (current-buffer))
     (evil-normal-state)))
 
-(add-to-list 'window-buffer-change-functions #'corgi-editor/-on-buffer-change)
+(if (boundp 'window-buffer-change-functions)
+    ;; Emacs 27.1+ only
+    (add-hook 'window-buffer-change-functions #'corgi-editor/-on-buffer-change)
+  (add-hook 'post-command-hook #'corgi-editor/-on-buffer-change))
 
 (provide 'corgi-editor)
 
