@@ -121,20 +121,20 @@ result."
   (defadvice cider-find-var (before add-evil-jump activate)
     (evil-set-jump)))
 
-(use-package clj-refactor
-  :after (cider)
-  :diminish clj-refactor-mode
-  :config
-  (setq cljr-cljc-clojure-test-declaration "[clojure.test :refer [deftest testing is are use-fixtures run-tests join-fixtures]]"
-        cljr-cljs-clojure-test-declaration "[clojure.test :refer [deftest testing is are use-fixtures run-tests join-fixtures]]"
-        cljr-clojure-test-declaration "[clojure.test :refer [deftest testing is are use-fixtures run-tests join-fixtures]]"
-        cljr-eagerly-build-asts-on-startup nil
-        cljr-warn-on-eval nil)
-  :hook ((clojurex-mode-hook
-          clojurescript-mode-hook
-          clojurec-mode-hook
-          clojure-mode-hook)
-         . clj-refactor-mode))
+;; (use-package clj-refactor
+;;   :after (cider)
+;;   :diminish clj-refactor-mode
+;;   :config
+;;   (setq cljr-cljc-clojure-test-declaration "[clojure.test :refer [deftest testing is are use-fixtures run-tests join-fixtures]]"
+;;         cljr-cljs-clojure-test-declaration "[clojure.test :refer [deftest testing is are use-fixtures run-tests join-fixtures]]"
+;;         cljr-clojure-test-declaration "[clojure.test :refer [deftest testing is are use-fixtures run-tests join-fixtures]]"
+;;         cljr-eagerly-build-asts-on-startup nil
+;;         cljr-warn-on-eval nil)
+;;   :hook ((clojurex-mode-hook
+;;           clojurescript-mode-hook
+;;           clojurec-mode-hook
+;;           clojure-mode-hook)
+;;          . clj-refactor-mode))
 
 (use-package clj-ns-name
   :config

@@ -30,7 +30,11 @@
                       :help/describe-mode describe-mode
                       :help/describe-bindings describe-bindings))
 
- (prog-mode ( :format/tab-indent indent-for-tab-command))
+ (prog-mode (
+             :format/tab-indent indent-for-tab-command
+             :jump/definition xref-find-definitions
+             :jump/back xref-pop-marker-stack
+             ))
 
  (emacs-lisp-mode (
                    :eval/last-sexp eval-last-sexp
@@ -40,17 +44,20 @@
                    :eval/outer-sexp eval-defun
                    :repl/toggle ielm
                    :eval/last-sexp-pprint-comment pprint-to-buffer-last-sexp-to-current-buffer
-                   :jump/definition xref-find-definitions
-                   :jump/back xref-pop-marker-stack
 
                    :refactor/thread-first corgi/elisp-thread-first-all
-                   :refactor/thread-last corgi/elisp-thread-last-all))
+                   :refactor/thread-last corgi/elisp-thread-last-all
+                   ))
 
- (inferior-emacs-lisp-mode ( :repl/toggle corgi/switch-to-last-elisp-buffer))
+ (inferior-emacs-lisp-mode (
+                            :repl/toggle corgi/switch-to-last-elisp-buffer
+                            ))
 
- (scheme-mode ( :eval/last-sexp geiser-eval-last-sexp
-                :eval/buffer geiser-eval-buffer
-                :eval/region geiser-eval-region))
+ (scheme-mode (
+               :eval/last-sexp geiser-eval-last-sexp
+               :eval/buffer geiser-eval-buffer
+               :eval/region geiser-eval-region
+               ))
 
  (clojure-mode (
                 :repl/connect cider-connect
@@ -93,8 +100,6 @@
               :repl/set-ns cider-repl-set-ns
               :repl/toggle-message-logging nrepl-toggle-message-logging
 
-              :jump/definition cider-find-var
-              :jump/back cider-pop-back
               :jump/ns cider-find-ns
               ))
 
@@ -114,13 +119,9 @@
                    :repl/clear cider-repl-clear-buffer
                    :repl/toggle-message-logging nrepl-toggle-message-logging
                    :eval/registry-pprint corgi/cider-pprint-register
-
-                   :jump/definition cider-find-var
-                   :jump/back cider-pop-back
                    :jump/ns cider-find-ns))
 
- (c-mode ( :jump/definition xref-find-definitions
-           :jump/back xref-pop-marker-stack))
+ (c-mode ())
 
  (sql-mode (
             :repl/toggl sql-show-sqli-buffer
