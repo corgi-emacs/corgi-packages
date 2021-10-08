@@ -48,6 +48,13 @@ Repeated invocations toggle between the two most recently open buffers."
   (interactive)
   (find-file (expand-file-name "corgi-bindings.el" user-emacs-directory)))
 
+(defun corgi/emulate-tab ()
+  "Emulates pressing <tab>, used for binding to TAB for tab key
+support in terminals."
+  (let ((cmd (key-binding (kbd "<tab>"))))
+    (when (commandp cmd)
+      (call-interactively cmd))))
+
 (provide 'corgi-commands)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

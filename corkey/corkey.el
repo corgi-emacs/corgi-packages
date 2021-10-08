@@ -1,6 +1,6 @@
 ;;; corkey.el --- Keybinding mechanics for Corgi
 ;;
-;; Copyright (C) 2020 Gaiwan GmbH
+;; Copyright (C) 2020-2021 Gaiwan GmbH
 ;;
 ;; Author: Arne Brasseur <arne@gaiwan.co>
 ;; Package-Requires: ((use-package) (a) (evil) (which-key))
@@ -39,6 +39,7 @@ when corkey-mode is switched off."
 (define-minor-mode corkey-local-mode
   "Minor mode providing corkey bindings"
   :lighter ""
+  :keymap (make-sparse-keymap)
   ;; To have bindings that are specific to a major mode, without actually
   ;; changing that major-mode's mode-map, we fake a minor mode (really just a
   ;; variable) that is true/on when the given major-mode is enabled (it shadows
@@ -56,6 +57,13 @@ when corkey-mode is switched off."
   corkey-initialize)
 
 (defun corkey/-flatten-bindings (state prefix bindings)
+  "Takes nested binding definitions as found in corkey-keys.el, and
+returns a flat list of (state binding description signal-or-command), e.g.
+
+```
+ (visual \"SPC f r\" \"Recently opened files\" :file/open-recent)
+ (normal \"SPC f A\" \"Find alternate file\" find-alternate-file)
+```"
   (let ((head (car bindings))
         (rest (cdr-safe bindings))
         (states (mapcar #'intern (split-string (symbol-name state) "|"))))
@@ -91,33 +99,67 @@ when corkey-mode is switched off."
    signals
    acc))
 
+(defun corkey/define-key (state mode-sym keys target &optional description)
+  "Install a single binding, for a specific Evil STATE and a given
+major/minor mode. Note that in the case of major modes this does
+not change the major-modes keymap itself, but instead adds the
+binding to a \"shadow-mode\" which will always be enabled in
+tandem with the major mode. For minor modes we do currently
+manipulate the mode's keymap itself.
+
+If STATE is `\'global' then the binding is available regardless
+of evil's state.
+
+When the optional DESCRIPTION is provided then we set up
+`which-key' to use this description."
+  (let ((mode-var (if (boundp mode-sym)
+                      ;; This is for minor modes, in this case we
+                      ;; do change the minor mode keymap, instead
+                      ;; of the shadow mode keymap, since we don't
+                      ;; shadow minor modes.
+                      mode-sym
+                    (intern (concat "corkey--" (symbol-name mode-sym))))))
+    (if (eq 'global state)
+        (define-key
+          (symbol-value
+           (intern (concat (symbol-name mode-var) "-map")))
+          (kbd keys)
+          target)
+      (evil-define-minor-mode-key state mode-var (kbd keys) target)))
+  (when description
+    (which-key-add-major-mode-key-based-replacements mode-sym keys description)))
+
 (defun corkey/setup-keymaps (bindings signals)
+  "Take a list of (flattened) Corgkey bindings, and a list of
+signals, combines them to find per-state-and-mode bindings, and
+installs them in the corresponding evil keymaps, setting up
+which-key replacements where available."
   (mapc
    (lambda (binding)
-     (pcase-let ((`(,mode ,keys ,desc ,target) binding))
-       (which-key-add-key-based-replacements keys desc)
+     (pcase-let ((`(,state ,keys ,desc ,target) binding))
+
        (cond
         ;; Prefixes
-        ((not target))
+        ((not target)
+         (which-key-add-key-based-replacements keys desc))
+
         ;; Signal dispatch
         ((keywordp target)
          (let ((mode-targets (cdr (assoc target signals))))
            (mapc
             (lambda (mode-target)
               (let* ((mode-name (car mode-target))
-                     (mode-var (if (boundp mode-name)
-                                   mode-name
-                                 (intern (concat "corkey--" (symbol-name mode-name)))))
                      (rest (cdr mode-target)))
                 (if (symbolp rest)
-                    (evil-define-minor-mode-key mode mode-var (kbd keys) rest)
+                    (corkey/define-key state mode-name keys rest desc)
+
                   ;; Major-mode specific description
-                  (evil-define-minor-mode-key mode mode-var (kbd keys) (cadr rest))
-                  (which-key-add-major-mode-key-based-replacements mode-name keys (car rest)))))
+                  (corkey/define-key state mode-name keys (cadr rest) (car rest)))))
             mode-targets)))
+
         ;; Direct mapping to command
         ((symbolp target)
-         (evil-define-minor-mode-key mode 'corkey-local-mode (kbd keys) target)))))
+         (corkey/define-key state 'corkey-local-mode keys target desc)))))
    bindings)
   nil)
 
@@ -128,12 +170,45 @@ when corkey-mode is switched off."
     (read (current-buffer))))
 
 (defun corkey/-locate-file (fname)
+  "Look up a Corkey binding or signal file. Should be either a
+symbol or a relative file name. Will first check the
+user-emacs-directory, falling back to locating the file on
+emacs's library path.
+
+```
+(corkey/-locate-file 'corgi-bindings)
+(corkey/-locate-file \"corgi-bindings.el\")
+```
+"
   (cond
    ((symbolp fname)
     (corkey/-locate-file (concat (symbol-name fname) ".el")))
    ((file-exists-p (expand-file-name fname user-emacs-directory))
     (expand-file-name fname user-emacs-directory))
    (t (locate-library fname))))
+
+(defun corkey/-load-bindings (binding-files)
+  "Load one or more BINDING_FILES, a list of symbols or relative
+file names, see [[corkey/-locate-file]], and return the fully
+merged and flattened list of bindings defined therein."
+  (seq-mapcat
+   (lambda (f)
+     (thread-last f
+       corkey/-locate-file
+       corkey/-read-file
+       (corkey/-flatten-bindings 'normal "")))
+   binding-files))
+
+(defun corkey/-load-signals (signal-files)
+  "Load one or more SIGNAL_FILES, a list of symbols or relative
+file names, see [[corkey/-locate-file]], and return the fully
+merged and flattened list of signals defined therein."
+  (seq-reduce
+   #'corkey/-flatten-signals
+   (mapcar (lambda (f)
+             (corkey/-read-file (corkey/-locate-file f)))
+           signal-files)
+   nil))
 
 (defun corkey/install-bindings (&optional binding-files signal-files)
   (interactive)
@@ -145,23 +220,14 @@ when corkey-mode is switched off."
                           (list binding-files)))
          (signal-files (if (listp signal-files)
                            signal-files
-                         (list signal-files)))
-         (bindings (seq-mapcat
-                    (lambda (f)
-                      (thread-last f
-                        corkey/-locate-file
-                        corkey/-read-file
-                        (corkey/-flatten-bindings 'normal "")))
-                    binding-files))
-         (signals (seq-reduce
-                   #'corkey/-flatten-signals
-                   (mapcar (lambda (f)
-                             (corkey/-read-file (corkey/-locate-file f)))
-                           signal-files)
-                   nil)))
+                         (list signal-files))))
 
-    (corkey/setup-keymaps bindings signals)))
+    (corkey/setup-keymaps
+     (corkey/-load-bindings binding-files)
+     (corkey/-load-signals signal-files))))
 
 (provide 'corkey)
+
+
 
 ;;; corkey.el ends here
