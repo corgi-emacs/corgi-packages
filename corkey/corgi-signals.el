@@ -105,7 +105,13 @@
 
  (inf-clojure-minor-mode (
                           :eval/last-sexp inf-clojure-eval-last-sexp
-                          :repl/toggle inf-clojure))
+                          :eval/buffer inf-clojure-eval-buffer
+                          :eval/region inf-clojure-eval-region
+                          :eval/outer-sexp inf-clojure-eval-defun
+
+                          :repl/toggle inf-clojure-switch-to-repl
+                          :repl/quit inf-clojure-quit
+                          ))
 
  (cider-repl-mode (
                    :repl/toggle cider-switch-to-last-clojure-buffer
