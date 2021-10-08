@@ -51,6 +51,7 @@ Repeated invocations toggle between the two most recently open buffers."
 (defun corgi/emulate-tab ()
   "Emulates pressing <tab>, used for binding to TAB for tab key
 support in terminals."
+  (interactive)
   (let ((cmd (key-binding (kbd "<tab>"))))
     (when (commandp cmd)
       (call-interactively cmd))))
