@@ -11,13 +11,18 @@
 
 (bindings
  (global
-  ("TAB" "Emulate <tab> on terminals" corgi/emulate-tab)
+  ;; This needs revisiting, since it breaks org-cycle. We translate TAB into
+  ;; <tab>, but it seems the default (?) local-function-key-map translates <tab>
+  ;; into TAB, so as long as we bind commands to `TAB' (and not `<tab>'), it
+  ;; should already "just work" in GUI and terminal
+  ;;
+  ;; ("TAB" "Emulate <tab> on terminals" corgi/emulate-tab)
   ("M-[ 1 ~" "Home key" beginning-of-line)
   ("M-[ 4 ~" "End key" end-of-line)
   ("<select>" "Home key" end-of-line))
 
  (normal|visual
-  ("<tab>" "Indent" :format/tab-indent)
+  ("TAB" "Indent" :format/tab-indent)
   (">" "Slurp" :sexp/slurp-forward)
   ("<" "Barf" :sexp/barf-forward)
 
