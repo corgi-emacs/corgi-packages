@@ -5,9 +5,32 @@
 ;; Author: Arne Brasseur <arne@gaiwan.co>
 ;; Package-Requires: ((use-package) (a) (evil) (which-key))
 ;;
+
+;;; Commentary:
+
+;; For infor on use, see the Corgi manual.
+
+;;;; Implementation:
+
+;; This code heavily piggiebacks on Evil, and as such it's good to understand
+;; where Evil's keybindings live. Evil makes use of "emulation" keymaps via
+;; `emulation-mode-map-alists', which have high precedence. They come before
+;; minor mode keymaps, before the "local" map (which contains the major-mode
+;; bindings), and before the "global" map.
+;;
+;; `emulation-mode-map-alists' will contain the `evil-mode-map-alist' variable,
+;; which gets rebuilt whenever the evil state changes, based on a number of
+;; other variables. The main one we are concerned about is
+;; `evil-minor-mode-keymaps-alist', which contains per-state per-minor-mode
+;; keymaps.
+;;
+;; In here we create "fake" minor modes for each major mode, as well as adding
+;; entries for `corkey-local-mode', our globalized minor mode.
+
 ;;; Code:
 
 (require 'use-package)
+(require 'seq)
 
 (use-package evil :init (setq evil-want-keybinding nil))
 (use-package which-key)
@@ -99,6 +122,28 @@ returns a flat list of (state binding description signal-or-command), e.g.
    signals
    acc))
 
+;; This has become a bit of a mess, where we use a mix of different ways of
+;; setting key bindings. The good news is that it now works as advertised.
+;;
+;; - possible to set minor mode keys
+;; - possible to set major mode keys
+;; - possible to set global (mode-independent) keys
+;; - key precedence is correct (minor overrides major overrides global)
+;; - Corkey bindings override other bindings (always have preference)
+;; - evil state is respected
+;; - support a "global" state, i.e. any evil state
+;;
+;; The bad news is that disabling corkey-mode will no longer diable all bindings
+;; that were set up via Corkey, but only the major mode and global bindings.
+;; Minor mode bindings will remain, since these are added directly to the
+;; minor-mode keymap or global keymap.
+;;
+;; How are bindings set up?
+;; - minor mode + evil state -> evil-define-minor-mode-key
+;; - major mode + evil state -> evil-define-minor-mode-key on "shadow" mode (see other comments in this file)
+;; - minor or major mode + "global" state -> define-key on the minor-mode-map or shadow mode map
+;; - "global" mode -> corgi-local-mode (globalized minor mode) mode map via evil-define-minor-mode-key
+
 (defun corkey/define-key (state mode-sym keys target &optional description)
   "Install a single binding, for a specific Evil STATE and a given
 major/minor mode. Note that in the case of major modes this does
@@ -110,6 +155,9 @@ manipulate the mode's keymap itself.
 If STATE is `\'global' then the binding is available regardless
 of evil's state.
 
+if MODE-SYM is `\'global' then the binding is available
+regardless of the major mode.
+
 When the optional DESCRIPTION is provided then we set up
 `which-key' to use this description."
   (let ((mode-var (if (boundp mode-sym)
@@ -119,15 +167,43 @@ When the optional DESCRIPTION is provided then we set up
                       ;; shadow minor modes.
                       mode-sym
                     (intern (concat "corkey--" (symbol-name mode-sym))))))
-    (if (eq 'global state)
-        (define-key
-          (symbol-value
-           (intern (concat (symbol-name mode-var) "-map")))
-          (kbd keys)
-          target)
-      (evil-define-minor-mode-key state mode-var (kbd keys) target)))
+    (cond
+     ;; ((and (eq 'global state) (eq 'global mode-sym))
+     ;;  (global-set-key (kbd keys) target))
+     ((eq 'global state)
+      (define-key
+       (symbol-value
+        (intern (concat (symbol-name mode-var) "-map")))
+       (kbd keys)
+       target))
+     ((eq 'global mode-sym)
+      (evil-define-minor-mode-key state 'corkey-local-mode (kbd keys) target))
+     (t
+      (evil-define-minor-mode-key state mode-var (kbd keys) target))))
   (when description
     (which-key-add-major-mode-key-based-replacements mode-sym keys description)))
+
+(defun corgi/fix-keymap-precedence ()
+  "Move `corkey-local-mode' bindings to the end of
+`evil-minor-mode-keymaps-alist'. This allows us to override
+`global' bindings for specific major modes, e.g. have a different
+forward-sexp (`L') in `clojure-mode'. The overriding binding is
+set via a shadow minor mode var, which will come before the
+`corkey-local-mode' var, which contains our bindings."
+  (setq evil-minor-mode-keymaps-alist
+        (seq-map
+         (lambda (sm)
+           (let ((state (car sm))
+                 (modes (cdr sm)))
+             (cons state
+                   (append
+                    (seq-remove (lambda (el)
+                                  (eq (car el) 'corkey-local-mode))
+                                modes)
+                    (seq-filter (lambda (el)
+                                  (eq (car el) 'corkey-local-mode))
+                                modes)))))
+         evil-minor-mode-keymaps-alist)))
 
 (defun corkey/setup-keymaps (bindings signals)
   "Take a list of (flattened) Corgkey bindings, and a list of
@@ -159,8 +235,9 @@ which-key replacements where available."
 
         ;; Direct mapping to command
         ((symbolp target)
-         (corkey/define-key state 'corkey-local-mode keys target desc)))))
+         (corkey/define-key state 'global keys target desc)))))
    bindings)
+  (corgi/fix-keymap-precedence)
   nil)
 
 (defun corkey/-read-file (file-name)
