@@ -168,8 +168,8 @@ When the optional DESCRIPTION is provided then we set up
                       mode-sym
                     (intern (concat "corkey--" (symbol-name mode-sym))))))
     (cond
-     ;; ((and (eq 'global state) (eq 'global mode-sym))
-     ;;  (global-set-key (kbd keys) target))
+     ((and (eq 'global state) (eq 'global mode-sym))
+      (define-key corkey-local-mode-map (kbd keys) target))
      ((eq 'global state)
       (define-key
        (symbol-value
