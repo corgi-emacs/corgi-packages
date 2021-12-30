@@ -1,4 +1,4 @@
-;;; corgi-clojure.el --- Clojure configuration for Corgi
+;;; corgi-clojure.el --- Clojure configuration for Corgi -*- lexical-binding: t -*-
 ;;
 ;; Filename: corgi-clojure.el
 ;; Package-Requires: ((use-package) (cider) (clj-ns-name) (clj-refactor) (clojure-mode))
@@ -142,8 +142,7 @@ result."
 
 (provide 'corgi-clojure)
 
-;; TODO: submit upstream (?)
-(defun corgi/cider-pprint-register (register)
+(defun corgi/cider-pprint-eval-register (register)
   "Evaluate a Clojure snippet stored in a register.
 
 Will ask for the register when used interactively. Put `#_clj' or
@@ -162,6 +161,85 @@ clojurescript-mode) of the current buffer."
      (t
       (cider--pprint-eval-form reg)))))
 
+;; Backwards compatibility
+(defalias 'corgi/cider-pprint-eval-register #'corgi/cider-pprint-register)
+
+(defun corgi/cider-jack-in-babashka (&optional project-dir)
+  "Start a utility CIDER REPL backed by Babashka, not related to a
+specific project."
+  (interactive)
+  (let ((project-dir (or project-dir user-emacs-directory)))
+    (nrepl-start-server-process
+     project-dir
+     "bb --nrepl-server 0"
+     (lambda (server-buffer)
+       (cider-nrepl-connect
+        (list :repl-buffer server-buffer
+              :repl-type 'clj
+              :host (plist-get nrepl-endpoint :host)
+              :port (plist-get nrepl-endpoint :port)
+              :project-dir project-dir
+              :session-name "babashka"
+              :repl-init-function (lambda ()
+                                    (setq-local cljr-suppress-no-project-warning t
+                                                cljr-suppress-middleware-warnings t)
+                                    (rename-buffer "*babashka-repl*"))))))))
+
+(defun corgi/cider-modeline-info ()
+  (when (derived-mode-p 'clojure-mode)
+    (let ((source-project-name (projectile-project-name)))
+      (if-let* ((repls (ignore-errors (cider-repls (cider-repl-type-for-buffer)))))
+          (thread-last
+            repls
+            (seq-map
+             (lambda (repl)
+               (with-current-buffer repl
+                 (if (equal (buffer-name repl) "*babashka-repl*")
+                     (propertize "bb" 'face '( :background "green"
+                                               :foreground "black"))
+                   (let ((info (concat
+                                (when-let ((repl-project-name (cider--project-name nrepl-project-dir)))
+                                  (when (not (equal repl-project-name source-project-name))
+                                    (concat ":" repl-project-name)))
+                                (pcase (plist-get nrepl-endpoint :host)
+                                  ("localhost" "")
+                                  ("127.0.0.1" "")
+                                  (x (concat ":" x)))
+                                ;;(format ":%d" (plist-get nrepl-endpoint :port))
+                                )))
+                     (cl-case cider-repl-type
+                       (clj (propertize (concat "clj" info) 'face '( :background "#5881D8"
+                                                                     :foreground "white")))
+                       (cljs (propertize (concat "cljs" info) 'face '( :background "#f7df1e"
+                                                                       :foreground "black")))
+                       (pending-cljs (propertize (concat "pending-cljs" info) 'face '( :background "#f7df1e"
+                                                                                       :foreground "black")))))))))
+            (s-join " "))
+        (propertize "<not connected>" 'face '( :background "red"
+                                               :foreground "white"))))))
+
+
+(defun corgi/enable-cider-connection-indicator-in-current-buffer ()
+  (when (not (seq-find (lambda (e) (eq e '(:eval (corgi/cider-modeline-info)))) mode-line-format))
+    (setq mode-line-format
+          (seq-mapcat
+           (lambda (e)
+             (if (eq 'mode-line-modes e)
+                 '(" " (:eval (corgi/cider-modeline-info)) " " mode-line-modes)
+               (list e)))
+           mode-line-format))))
+
+(defun corgi/enable-cider-connection-indicator ()
+  "In Clojure buffers show an indicator in the modeline for which
+CIDER REPLs the current buffer is linked to, with color coding
+for clj/cljs/bb, and extra info if the link goes to a different
+project or host."
+  (interactive)
+  (add-hook 'clojure-mode-hook #'corgi/enable-cider-connection-indicator-in-current-buffer)
+  (dolist (buf (buffer-list))
+    (with-current-buffer buf
+      (when (eq 'clojure-mode major-mode)
+        (corgi/enable-cider-connection-indicator-in-current-buffer)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; corgi-clojure.el ends here
