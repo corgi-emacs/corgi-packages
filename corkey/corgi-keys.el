@@ -1,9 +1,10 @@
 ;;; -*- no-byte-compile: t -*-
 
-;; <def>    = '(' <key> <doc> <target> ')' | '(' <prefix> <def> + ')'
-;; <target> = <signal> | <command>
-;; <prefix> = <state> | <key>
-;; <state>  = 'normal' | 'insert' | 'visual' | 'emacs' | 'motion'
+;; BINDINGS  := '(bindings' <def>+ ')'
+;; <def>     := '(' <key> <doc> <target> ')' | '(' <prefix> <def> + ')'
+;; <target>  := <signal> | <command>
+;; <prefix>  := <state> | <key>
+;; <state>   := 'normal' | 'insert' | 'visual' | 'emacs' | 'motion'
 ;; <key>     := stringp
 ;; <doc>     := stringp
 ;; <signal>  := keywordp

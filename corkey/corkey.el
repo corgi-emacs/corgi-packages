@@ -127,22 +127,22 @@ returns a flat list of (state binding description signal-or-command), e.g.
 ;;
 ;; - possible to set minor mode keys
 ;; - possible to set major mode keys
-;; - possible to set global (mode-independent) keys
-;; - key precedence is correct (minor overrides major overrides global)
+;; - possible to set default (mode-independent) keys
+;; - key precedence is correct (minor overrides major overrides default)
 ;; - Corkey bindings override other bindings (always have preference)
 ;; - evil state is respected
 ;; - support a "global" state, i.e. any evil state
 ;;
-;; The bad news is that disabling corkey-mode will no longer diable all bindings
-;; that were set up via Corkey, but only the major mode and global bindings.
+;; The bad news is that disabling corkey-mode will no longer disable all bindings
+;; that were set up via Corkey, but only the major mode and default bindings.
 ;; Minor mode bindings will remain, since these are added directly to the
-;; minor-mode keymap or global keymap.
+;; minor-mode keymap.
 ;;
 ;; How are bindings set up?
 ;; - minor mode + evil state -> evil-define-minor-mode-key
 ;; - major mode + evil state -> evil-define-minor-mode-key on "shadow" mode (see other comments in this file)
 ;; - minor or major mode + "global" state -> define-key on the minor-mode-map or shadow mode map
-;; - "global" mode -> corgi-local-mode (globalized minor mode) mode map via evil-define-minor-mode-key
+;; - default mode -> corgi-local-mode (globalized minor mode) mode map via evil-define-minor-mode-key
 
 (defun corkey/define-key (state mode-sym keys target &optional description)
   "Install a single binding, for a specific Evil STATE and a given
@@ -168,7 +168,7 @@ When the optional DESCRIPTION is provided then we set up
                       mode-sym
                     (intern (concat "corkey--" (symbol-name mode-sym))))))
     (cond
-     ((and (eq 'global state) (eq 'global mode-sym))
+     ((and (eq 'global state) (eq 'default mode-sym))
       (define-key corkey-local-mode-map (kbd keys) target))
      ((eq 'global state)
       (define-key
@@ -176,7 +176,7 @@ When the optional DESCRIPTION is provided then we set up
         (intern (concat (symbol-name mode-var) "-map")))
        (kbd keys)
        target))
-     ((eq 'global mode-sym)
+     ((eq 'default mode-sym)
       (evil-define-minor-mode-key state 'corkey-local-mode (kbd keys) target))
      (t
       (evil-define-minor-mode-key state mode-var (kbd keys) target))))
@@ -186,7 +186,7 @@ When the optional DESCRIPTION is provided then we set up
 (defun corgi/fix-keymap-precedence ()
   "Move `corkey-local-mode' bindings to the end of
 `evil-minor-mode-keymaps-alist'. This allows us to override
-`global' bindings for specific major modes, e.g. have a different
+`default' bindings for specific major modes, e.g. have a different
 forward-sexp (`L') in `clojure-mode'. The overriding binding is
 set via a shadow minor mode var, which will come before the
 `corkey-local-mode' var, which contains our bindings."
@@ -235,16 +235,17 @@ which-key replacements where available."
 
         ;; Direct mapping to command
         ((symbolp target)
-         (corkey/define-key state 'global keys target desc)))))
+         (corkey/define-key state 'default keys target desc)))))
    bindings)
   (corgi/fix-keymap-precedence)
   nil)
 
 (defun corkey/-read-file (file-name)
-  (with-current-buffer (find-file-noselect file-name)
-    (auto-revert-mode 1)
-    (goto-char (point-min))
-    (read (current-buffer))))
+  (when file-name
+    (with-current-buffer (find-file-noselect file-name)
+      (auto-revert-mode 1)
+      (goto-char (point-min))
+      (read (current-buffer)))))
 
 (defun corkey/-locate-file (fname)
   "Look up a Corkey binding or signal file. Should be either a
@@ -289,8 +290,8 @@ merged and flattened list of signals defined therein."
 
 (defun corkey/install-bindings (&optional binding-files signal-files)
   (interactive)
-  (let* ((binding-files (or binding-files 'corgi-keys))
-         (signal-files (or signal-files 'corgi-signals))
+  (let* ((binding-files (or binding-files '(corgi-keys user-keys)))
+         (signal-files (or signal-files '(corgi-signals user-signals)))
 
          (binding-files (if (listp binding-files)
                             binding-files
