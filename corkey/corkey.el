@@ -41,8 +41,9 @@
 
 By traversing the 'derived-mode-parent symbol property."
   (cons mode
-        (when-let (derived-mode (get mode 'derived-mode-parent))
-          (corkey--ancestor-modes derived-mode))))
+        (let (derived-mode (get mode 'derived-mode-parent))
+          (when derived-mode
+            (corkey--ancestor-modes derived-mode)))))
 
 (defun corkey--set-shadow-mode-vars ()
   "Create shadow-mode variables based on the major-mode
@@ -59,7 +60,6 @@ when corkey-mode is switched off."
       (make-variable-buffer-local shadow-mode-var)
       (set shadow-mode-var corkey-local-mode))))
 
-
 (define-minor-mode corkey-local-mode
   "Minor mode providing corkey bindings"
   :lighter ""
@@ -73,6 +73,7 @@ when corkey-mode is switched off."
   (corkey--set-shadow-mode-vars))
 
 (defun corkey-initialize ()
+  "Initialize the minor mode, unless we're in the minibuffer"
   (unless (and (minibufferp) (not evil-want-minibuffer))
     (corkey-local-mode)))
 
