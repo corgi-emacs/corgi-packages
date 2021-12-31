@@ -337,6 +337,8 @@ files."
   (corkey/remove-bindings)
   (corkey/install-bindings key-files signal-files))
 
+(defvar corkey/-watches nil)
+
 (defun corkey/load-and-watch (&optional key-files signal-files)
   "Load the given key/signal files, and auto-reload them when they change."
   (interactive)
@@ -344,15 +346,27 @@ files."
          (signal-files (or signal-files '(corgi-signals user-signals)))
          (key-files (if (listp key-files) key-files (list key-files)))
          (signal-files (if (listp signal-files) signal-files (list signal-files))))
-    (corkey/install-bindings key-files signal-files)
-    (seq-do
-     (lambda (f)
-       (let ((path (corkey/-locate-file f)))
-         (when path
-           (file-notify-add-watch path '(change) (lambda (e) (corkey/install-bindings key-files signal-files))))))
-     (append key-files signal-files))))
+    (let ((find-file-suppress-same-file-warnings t))
+      (corkey/install-bindings key-files signal-files))
+    (when corkey/-watches
+      (seq-do (lambda (d)
+                (when d
+                  (file-notify-rm-watch d)))
+              corkey/-watches))
+    (setq corkey/-watches
+          (seq-map
+           (lambda (f)
+             (let ((path (corkey/-locate-file f)))
+               (when path
+                 (file-notify-add-watch
+                  path '(change)
+                  (lambda (e)
+                    (let ((find-file-suppress-same-file-warnings t))
+                      (corkey/install-bindings key-files signal-files)))))))
+           (append key-files signal-files)))))
 
 (provide 'corkey)
+
 
 ;;; corkey.el ends here
 
