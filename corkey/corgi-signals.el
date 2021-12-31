@@ -1,4 +1,10 @@
 ;;; -*- no-byte-compile: t -*-
+
+;; This is Corgi's built-in "signals" file, it defines how abstract signals like
+;; `:eval/buffer' map to concrete commands like `cider-eval-buffer', based on
+;; the major (or sometimes minor) mode. This is how Corgi achieves consistency
+;; in key bindings across languages.
+
 ((default ( :command/execute execute-extended-command
 
             :file/open counsel-find-file
@@ -58,7 +64,6 @@
                  :sexp/barf-forward sp-forward-barf-sexp
                  :sexp/forward clojure-forward-logical-sexp
                  :sexp/backward clojure-backward-logical-sexp
-
 
                  :refactor/thread-first clojure-thread-first-all
                  :refactor/thread-last clojure-thread-last-all

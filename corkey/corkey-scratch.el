@@ -35,7 +35,7 @@ minor-mode-map-alist
 evil-mode-map-alist
 ;; buffer local, created / populated by
 (evil-normalize-keymaps)
-
+evil-minor-mode-keymaps-alist
 "Create a buffer-local value for `evil-mode-map-alist'.
 This is a keymap alist, determined by the current state
 \(or by STATE if specified)."

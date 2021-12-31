@@ -1,10 +1,38 @@
 ;;; -*- no-byte-compile: t -*-
 
+;;; Usage:
+
+;; This file contains Corgi's built-in key bindings. Your own bindings should go
+;; in `user-keys.el' in your `user-emacs-directory'. Use `SPC f e k'
+;; (`corgi/open-user-keys-file') to create a stub version and open it.
+;;
+;; Bindings here are nested, e.g. `("SPC" ("b" ("k" kill-buffer)))' means that
+;; "space" followed by "b" and then "k" will invoke `M-x kill-buffer'.
+;;
+;; You can add a descriptions before the command, this will show up in a pop-up
+;; when you press the prefix key and wait a bit. (This uses which-key)
+;;
+;; Instead of a prefix key you can use a symbol like `normal' or `insert', which
+;; designates the Evil state (what vim calls the mode). `global' means any
+;; state, `normal|visual' means either normal or visual.
+;;
+;; Instead of a command like `kill-buffer' you can put a keyword like
+;; `:eval/buffer'. This is called a "signal". In the `corgi-signals' (or
+;; `user-signals') file these are bound to specific commands based on the major
+;; mode. E.g. in Emacs Lisp `:eval/buffer' means `eval-buffer', whereas in
+;; Clojure it means `cider-eval-buffer'.
+;;
+;; If you want to alter Corgi's bindings directly then copy this file to your
+;; `user-emacs-directory', and Corgi will pick up your local version instead of
+;; the version it ships with.
+
+;;; Grammar:
+
 ;; BINDINGS  := '(bindings' <def>+ ')'
 ;; <def>     := '(' <key> <doc> <target> ')' | '(' <prefix> <def> + ')'
 ;; <target>  := <signal> | <command>
 ;; <prefix>  := <state> | <key>
-;; <state>   := 'normal' | 'insert' | 'visual' | 'emacs' | 'motion'
+;; <state>   := 'normal' | 'insert' | 'visual' | 'emacs' | 'motion' | 'global'
 ;; <key>     := stringp
 ;; <doc>     := stringp
 ;; <signal>  := keywordp
@@ -70,8 +98,10 @@
     ("A" "Find alternate file" find-alternate-file)
     ("e" "Emacs files"
      ("i" "Open init.el" corgi/open-init-el)
-     ("b" "Open bindings file" corgi/open-bindings)
-     ("u" "Open user config" corgi/open-user-config)))
+     ("k" "Open user-keys key bindings file" corgi/open-user-keys-file)
+     ("s" "Open user-signals signals file" corgi/open-user-signals-file)
+     ("K" "Open corgi-key key bindings file" corgi/open-keys-file)
+     ("S" "Open corgi-signals signals file" corgi/open-signals-file)))
 
    ("s" "Search commands"
     ("s" "Search in buffer" :buffer/incremental-search))
@@ -122,16 +152,16 @@
    ("SPC" "Execute command (M-x)" :command/execute)
    ("u" "Universal prefix" universal-argument)
    ("TAB" "Switch to previous buffer" corgi/switch-to-previous-buffer)
-   ("1" "Select window 1" winum-select-window-1)
-   ("2" "Select window 2" winum-select-window-2)
-   ("3" "Select window 3" winum-select-window-3)
-   ("4" "Select window 4" winum-select-window-4)
-   ("5" "Select window 5" winum-select-window-5)
-   ("6" "Select window 6" winum-select-window-6)
-   ("7" "Select window 7" winum-select-window-7)
-   ("8" "Select window 8" winum-select-window-8)
-   ("9" "Select window 9" winum-select-window-9)
-   ("0" "Select window 10" winum-select-window-10))
+   ("1" "Go to window 1" winum-select-window-1)
+   ("2" "Go to window 2" winum-select-window-2)
+   ("3" "Go to window 3" winum-select-window-3)
+   ("4" "Go to window 4" winum-select-window-4)
+   ("5" "Go to window 5" winum-select-window-5)
+   ;; ("6" "Go to window 6" winum-select-window-6)
+   ;; ("7" "Go to window 7" winum-select-window-7)
+   ;; ("8" "Go to window 8" winum-select-window-8)
+   ;; ("9" "Go to window 9" winum-select-window-9)
+   )
 
   ("," "Project specific leader key"
 

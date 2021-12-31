@@ -1,4 +1,4 @@
-;;; corkey.el --- Keybinding mechanics for Corgi
+;;; corkey.el --- Keybinding mechanics for Corgi -*- lexical-binding: t -*-
 ;;
 ;; Copyright (C) 2020-2021 Gaiwan GmbH
 ;;
@@ -59,6 +59,7 @@ when corkey-mode is switched off."
       (make-variable-buffer-local shadow-mode-var)
       (set shadow-mode-var corkey-local-mode))))
 
+
 (define-minor-mode corkey-local-mode
   "Minor mode providing corkey bindings"
   :lighter ""
@@ -96,8 +97,9 @@ returns a flat list of (state binding description signal-or-command), e.g.
                     (corkey/-flatten-bindings head prefix b))
                   rest))
      (t
-      (let ((desc (car-safe rest))
-            (rest (cdr-safe rest)))
+      (let* ((desc (car-safe rest))
+             (rest (if (stringp desc) (cdr-safe rest) rest))
+             (desc (if (stringp desc) desc)))
         (if (consp (car rest))
             (append (mapcar (lambda (state)
                               (list state (concat prefix head) desc))
@@ -160,6 +162,7 @@ regardless of the major mode.
 
 When the optional DESCRIPTION is provided then we set up
 `which-key' to use this description."
+  ;; (message "%S" (list 'CORKEY/define-key state mode-sym keys target))
   (let ((mode-var (if (boundp mode-sym)
                       ;; This is for minor modes, in this case we
                       ;; do change the minor mode keymap, instead
@@ -181,7 +184,9 @@ When the optional DESCRIPTION is provided then we set up
      (t
       (evil-define-minor-mode-key state mode-var (kbd keys) target))))
   (when description
-    (which-key-add-major-mode-key-based-replacements mode-sym keys description)))
+    (if (eq 'default mode-sym)
+        (which-key-add-key-based-replacements keys description)
+      (which-key-add-major-mode-key-based-replacements mode-sym keys description))))
 
 (defun corgi/fix-keymap-precedence ()
   "Move `corkey-local-mode' bindings to the end of
@@ -217,7 +222,8 @@ which-key replacements where available."
        (cond
         ;; Prefixes
         ((not target)
-         (which-key-add-key-based-replacements keys desc))
+         (when desc
+           (which-key-add-key-based-replacements keys desc)))
 
         ;; Signal dispatch
         ((keywordp target)
@@ -241,6 +247,7 @@ which-key replacements where available."
   nil)
 
 (defun corkey/-read-file (file-name)
+  "Slurp a file and read its contents as Elisp forms"
   (when file-name
     (with-current-buffer (find-file-noselect file-name)
       (auto-revert-mode 1)
@@ -288,22 +295,66 @@ merged and flattened list of signals defined therein."
            signal-files)
    nil))
 
-(defun corkey/install-bindings (&optional binding-files signal-files)
+(defun corkey/remove-bindings ()
+  "Empty out Corgi's keymaps, does not yet call `evil-normalize-keymaps'."
   (interactive)
-  (let* ((binding-files (or binding-files '(corgi-keys user-keys)))
+  (setcdr corkey-local-mode-map nil)
+  (setq evil-minor-mode-keymaps-alist
+        (seq-map
+         (lambda (sm)
+           (let ((state (car sm))
+                 (modes (cdr sm)))
+             (cons state
+                   (seq-remove (lambda (el)
+                                 (string-prefix-p "corkey" (symbol-name (car el))))
+                               modes))))
+         evil-minor-mode-keymaps-alist)))
+
+(defun corkey/install-bindings (&optional key-files signal-files)
+  "Install Corkey bindings into the `corkey-local-mode-map' and
+various mode-specific shadow mode-maps. Takes optionally a
+list (or single symbol/string) of key bindign files and signal
+files."
+  (interactive)
+  (let* ((key-files (or key-files '(corgi-keys user-keys)))
          (signal-files (or signal-files '(corgi-signals user-signals)))
 
-         (binding-files (if (listp binding-files)
-                            binding-files
-                          (list binding-files)))
+         (key-files (if (listp key-files)
+                        key-files
+                      (list key-files)))
          (signal-files (if (listp signal-files)
                            signal-files
                          (list signal-files))))
 
     (corkey/setup-keymaps
-     (corkey/-load-bindings binding-files)
-     (corkey/-load-signals signal-files))))
+     (corkey/-load-bindings key-files)
+     (corkey/-load-signals signal-files))
+    (evil-normalize-keymaps)))
+
+(defun corkey/reload (&optional key-files signal-files)
+  "Remove existing Corkey bindings, then load the bindings."
+  (corkey/remove-bindings)
+  (corkey/install-bindings key-files signal-files))
+
+(defun corkey/load-and-watch (&optional key-files signal-files)
+  "Load the given key/signal files, and auto-reload them when they change."
+  (interactive)
+  (let* ((key-files (or key-files '(corgi-keys user-keys)))
+         (signal-files (or signal-files '(corgi-signals user-signals)))
+         (key-files (if (listp key-files) key-files (list key-files)))
+         (signal-files (if (listp signal-files) signal-files (list signal-files))))
+    (corkey/install-bindings key-files signal-files)
+    (seq-do
+     (lambda (f)
+       (let ((path (corkey/-locate-file f)))
+         (when path
+           (file-notify-add-watch path '(change) (lambda (e) (corkey/install-bindings key-files signal-files))))))
+     (append key-files signal-files))))
 
 (provide 'corkey)
 
 ;;; corkey.el ends here
+
+;; (corkey/-load-bindings
+;;  (list (corkey/-locate-file 'corgi-keys)
+;;        (corkey/-locate-file 'user-keys)))

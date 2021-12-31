@@ -3,8 +3,8 @@
 ;; Filename: corgi-stateline.el
 ;; Package-Requires: ()
 ;;
-;;; Code:
 
+;;; Code:
 
 (defcustom corgi-stateline-normal-fg "black"
   "Foreground color of the modeline in evil normal state"
@@ -57,24 +57,24 @@
   :group 'corgi)
 
 (defun corgi-stateline/enter-normal-state ()
-  (face-remap-add-relative 'mode-line :foreground corgi-stateline-normal-fg)
-  (face-remap-add-relative 'mode-line :background corgi-stateline-normal-bg))
+  (face-remap-add-relative 'mode-line-active  :foreground corgi-stateline-normal-fg)
+  (face-remap-add-relative 'mode-line-active  :background corgi-stateline-normal-bg))
 
 (defun corgi-stateline/enter-motion-state ()
-  (face-remap-add-relative 'mode-line :foreground corgi-stateline-motion-fg)
-  (face-remap-add-relative 'mode-line :background corgi-stateline-motion-bg))
+  (face-remap-add-relative 'mode-line-active  :foreground corgi-stateline-motion-fg)
+  (face-remap-add-relative 'mode-line-active  :background corgi-stateline-motion-bg))
 
 (defun corgi-stateline/enter-insert-state ()
-  (face-remap-add-relative 'mode-line :foreground corgi-stateline-insert-fg)
-  (face-remap-add-relative 'mode-line :background corgi-stateline-insert-bg))
+  (face-remap-add-relative 'mode-line-active  :foreground corgi-stateline-insert-fg)
+  (face-remap-add-relative 'mode-line-active  :background corgi-stateline-insert-bg))
 
 (defun corgi-stateline/enter-visual-state ()
-  (face-remap-add-relative 'mode-line :foreground corgi-stateline-visual-fg)
-  (face-remap-add-relative 'mode-line :background corgi-stateline-visual-bg))
+  (face-remap-add-relative 'mode-line-active  :foreground corgi-stateline-visual-fg)
+  (face-remap-add-relative 'mode-line-active  :background corgi-stateline-visual-bg))
 
 (defun corgi-stateline/enter-emacs-state ()
-  (face-remap-add-relative 'mode-line :foreground corgi-stateline-emacs-fg)
-  (face-remap-add-relative 'mode-line :background corgi-stateline-emacs-bg))
+  (face-remap-add-relative 'mode-line-active :foreground corgi-stateline-emacs-fg)
+  (face-remap-add-relative 'mode-line-active :background corgi-stateline-emacs-bg))
 
 (add-hook 'evil-normal-state-entry-hook #'corgi-stateline/enter-normal-state)
 (add-hook 'evil-motion-state-entry-hook #'corgi-stateline/enter-motion-state)

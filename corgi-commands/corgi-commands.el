@@ -41,6 +41,7 @@ Repeated invocations toggle between the two most recently open buffers."
     (balance-windows)))
 
 (defun corgi/open-init-el ()
+  "Open the user's init.el file"
   (interactive)
   (find-file (expand-file-name "init.el" user-emacs-directory)))
 
