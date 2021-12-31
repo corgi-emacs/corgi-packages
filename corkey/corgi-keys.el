@@ -183,6 +183,8 @@
     ("Q" "Quit all active REPLs" :repl/quit-all)
     ("o" "Switch to Other REPL" :repl/other)
     ("c" "Connect to REPL" :repl/connect)
+    ("o" "Connect to Other REPL Type" :repl/connect-other)
+    ("a" "Connect to All REPL Types" :repl/connect-all)
     ("l" "Clear REPL" :repl/clear)
     ("n" "Set namespace" :repl/set-ns)
     ("m" "Toggle message logging" :repl/toggle-message-logging))
@@ -194,11 +196,11 @@
     ("t" "Go to test/implemenentation" projectile-toggle-between-implementation-and-test))
 
    ("l" "Link to REPL"
-    ("p" "Link with project" sesman-link-with-project)
-    ("b" "Link with buffer" sesman-link-with-buffer)
-    ("d" "Link with directory" sesman-link-with-directory)
-    ("l" "Link least specific" sesman-link-with-least-specific)
-    ("u" "Unlink" sesman-unlink))
+    ("p" "Link with project" :link-repl/project sesman-link-with-project)
+    ("b" "Link with buffer" :link-repl/buffer sesman-link-with-buffer)
+    ("d" "Link with directory" :link-repl/directory sesman-link-with-directory)
+    ("l" "Link least specific" :link-repl/least-specific sesman-link-with-least-specific)
+    ("u" "Unlink" :link-repl/unlink sesman-unlink))
 
    ("j" "Jack-in"
     ("j" "Jack in" :repl/jack-in)

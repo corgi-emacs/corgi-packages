@@ -56,7 +56,9 @@
                 :eval/buffer geiser-eval-buffer
                 :eval/region geiser-eval-region))
 
- (clojure-mode ( :repl/connect cider-connect
+ (clojure-mode ( :repl/connect ("Connect clj" cider-connect)
+                 :repl/connect-other ("Connect cljs" cider-connect-cljs)
+                 :repl/connect-all ("Connect clj&cljs" cider-connect-clj&cljs)
                  :repl/jack-in ("Jack-in Clojure" cider-jack-in-clj)
                  :repl/jack-in-other ("Jack in ClojureScript" cider-jack-in-cljs)
                  :repl/jack-in-all ("Jack in Clj+Cljs" cider-jack-in-clj&cljs)
@@ -94,7 +96,13 @@
                :repl/set-ns cider-repl-set-ns
                :repl/toggle-message-logging nrepl-toggle-message-logging
 
-               :jump/ns cider-find-ns))
+               :jump/ns cider-find-ns
+
+               :link-repl/project sesman-link-with-project
+               :link-repl/buffer sesman-link-with-buffer
+               :link-repl/directory sesman-link-with-directory
+               :link-repl/least-specific sesman-link-with-least-specific
+               :link-repl/unlink sesman-unlink))
 
  (inf-clojure-minor-mode ( :eval/last-sexp inf-clojure-eval-last-sexp
                            :eval/buffer inf-clojure-eval-buffer
@@ -108,7 +116,9 @@
                     :repl/quit cider-quit
                     :repl/other cider-repl-switch-to-other
                     :repl/quit-all corgi/cider-quit-all
-                    :repl/connect cider-connect
+                    :repl/connect ("Connect clj" cider-connect)
+                    :repl/connect-other ("Connect cljs" cider-connect-cljs)
+                    :repl/connect-all ("Connect clj&cljs" cider-connect-clj&cljs)
                     :repl/jack-in ("Jack-in Clojure" cider-jack-in-clj)
                     :repl/jack-in-other ("Jack in ClojureScript" cider-jack-in-clj)
                     :repl/jack-in-all ("Jack in Clj+Cljs" cider-jack-in-clj&cljs)
