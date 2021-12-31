@@ -75,7 +75,7 @@
       (make-directory straight-version-dir t))
     (copy-file version-file-source version-file-target t)))
 
-(defun corgi-upgrade-self ()
+(defun corgi/upgrade-self ()
   "Upgrade Corgi
 
    Fetch the latest corgi-packages, and make straight use the
@@ -85,6 +85,8 @@ straight/versions/corgi.el"
   (straight-pull-package "corgi-packages")
   (corgi-copy-versions-file)
   (straight-thaw-versions))
+
+(defalias corgi-upgrade-self 'corgi/upgrade-self)
 
 (when (not (file-exists-p (corgi-version-file-path)))
   (corgi-copy-versions-file))
