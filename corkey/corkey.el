@@ -279,10 +279,9 @@ file names, see [[corkey/-locate-file]], and return the fully
 merged and flattened list of bindings defined therein."
   (seq-mapcat
    (lambda (f)
-     (thread-last f
-       corkey/-locate-file
-       corkey/-read-file
-       (corkey/-flatten-bindings 'normal "")))
+     (corkey/-flatten-bindings
+      'normal ""
+      (corkey/-read-file (corkey/-locate-file f))))
    binding-files))
 
 (defun corkey/-load-signals (signal-files)
