@@ -86,7 +86,7 @@ straight/versions/corgi.el"
   (corgi-copy-versions-file)
   (straight-thaw-versions))
 
-(defalias corgi-upgrade-self 'corgi/upgrade-self)
+(defalias 'corgi-upgrade-self 'corgi/upgrade-self)
 
 (when (not (file-exists-p (corgi-version-file-path)))
   (corgi-copy-versions-file))
