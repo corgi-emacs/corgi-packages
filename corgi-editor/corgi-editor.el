@@ -75,7 +75,8 @@
 (use-package which-key
   :diminish which-key-mode
   :config
-  (which-key-mode 1))
+  (which-key-mode 1)
+  (setq which-key-sort-order 'which-key-prefix-then-key-order))
 
 (use-package winum
   :config (winum-mode 1))

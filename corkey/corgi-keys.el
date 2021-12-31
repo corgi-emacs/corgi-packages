@@ -157,10 +157,11 @@
    ("3" "Go to window 3" winum-select-window-3)
    ("4" "Go to window 4" winum-select-window-4)
    ("5" "Go to window 5" winum-select-window-5)
-   ;; ("6" "Go to window 6" winum-select-window-6)
-   ;; ("7" "Go to window 7" winum-select-window-7)
-   ;; ("8" "Go to window 8" winum-select-window-8)
-   ;; ("9" "Go to window 9" winum-select-window-9)
+   ("6" "Go to window 6" winum-select-window-6)
+   ("7" "Go to window 7" winum-select-window-7)
+   ("8" "Go to window 8" winum-select-window-8)
+   ("9" "Go to window 9" winum-select-window-9)
+   ("0" "Go to window 0 or 10" winum-select-window-0-or-10)
    )
 
   ("," "Project specific leader key"
