@@ -41,7 +41,7 @@
 
 By traversing the 'derived-mode-parent symbol property."
   (cons mode
-        (let (derived-mode (get mode 'derived-mode-parent))
+        (let ((derived-mode (get mode 'derived-mode-parent)))
           (when derived-mode
             (corkey--ancestor-modes derived-mode)))))
 
