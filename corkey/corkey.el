@@ -347,7 +347,7 @@ files."
          (key-files (if (listp key-files) key-files (list key-files)))
          (signal-files (if (listp signal-files) signal-files (list signal-files))))
     (let ((find-file-suppress-same-file-warnings t))
-      (corkey/install-bindings key-files signal-files))
+      (corkey/reload key-files signal-files))
     (when corkey/-watches
       (seq-do (lambda (d)
                 (when d
@@ -362,7 +362,7 @@ files."
                   path '(change)
                   (lambda (e)
                     (let ((find-file-suppress-same-file-warnings t))
-                      (corkey/install-bindings key-files signal-files)))))))
+                      (corkey/reload key-files signal-files)))))))
            (append key-files signal-files)))))
 
 (provide 'corkey)

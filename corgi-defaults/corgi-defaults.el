@@ -104,6 +104,12 @@
 ;; Don't make backup~ files
 ;; (setq make-backup-files nil)
 
+(when (not (file-directory-p (expand-file-name "backups" user-emacs-directory)))
+  (make-directory (expand-file-name "backups" user-emacs-directory)))
+
+(when (not (file-directory-p (expand-file-name "auto-save-list" user-emacs-directory)))
+  (make-directory (expand-file-name "auto-save-list" user-emacs-directory)))
+
 ;; Put backups and auto-save files in subdirectories, so the
 ;; user-emacs-directory doesn't clutter
 (setq backup-directory-alist
