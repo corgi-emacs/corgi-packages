@@ -27,7 +27,9 @@
              :branch "main"
              :files ("corkey/corkey.el"
                      "corkey/corgi-keys.el"
-                     "corkey/corgi-signals.el")
+                     "corkey/corgi-signals.el"
+                     "corkey/user-keys-template.el"
+                     "corkey/user-signals-template.el")
              :repo "lambdaisland/corgi-packages"))
 
           (mapcar

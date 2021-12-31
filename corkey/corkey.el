@@ -306,6 +306,4 @@ merged and flattened list of signals defined therein."
 
 (provide 'corkey)
 
-
-
 ;;; corkey.el ends here

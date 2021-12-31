@@ -55,7 +55,8 @@ Repeated invocations toggle between the two most recently open buffers."
   (find-file (corkey/-locate-file 'corgi-signals)))
 
 (defun corgi/open-user-keys-file ()
-  "Open the Corgi built-in key binding file"
+  "Open the user key binding file in the emacs user directory
+Will create one if it doesn't exist."
   (interactive)
   (let ((keys-file (corkey/-locate-file 'user-keys)))
     (when (not keys-file)
@@ -64,9 +65,14 @@ Repeated invocations toggle between the two most recently open buffers."
     (find-file (corkey/-locate-file 'user-keys))))
 
 (defun corgi/open-user-signals-file ()
-  "Open the Corgi built-in signals file"
+  "Open the user signal file in the emacs user directory
+Will create one if it doesn't exist."
   (interactive)
-  (find-file (corkey/-locate-file 'user-signals)))
+  (let ((signals-file (corkey/-locate-file 'user-signals)))
+    (when (not signals-file)
+      (copy-file (corkey/-locate-file 'user-signals-template)
+                 (expand-file-name "user-signals.el" user-emacs-directory)))
+    (find-file (corkey/-locate-file 'user-signals))))
 
 ;; Taking this out, see explanation in corgi-keys.el
 ;;

@@ -1,3 +1,5 @@
+;;; -*- no-byte-compile: t -*-
+
 ;; This is your user keys file, here you can configure key bindings that will
 ;; get added to Corgi. You can also override Corgi's default bindings this way.
 (bindings
