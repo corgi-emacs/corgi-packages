@@ -119,7 +119,22 @@ result."
       (cider-pprint-eval-last-sexp-to-comment)))
 
   (defadvice cider-find-var (before add-evil-jump activate)
-    (evil-set-jump)))
+    (evil-set-jump))
+
+  (defun corgi/around-cider--choose-reusable-repl-buffer (command params)
+    "Redefine cider--choose-reusable-repl-buffer to something more
+sensible. If any dead REPL buffers exist when creating a new one
+then simply delete them first. Return nil co `cider-creat-repl'
+creates a new one. Don't unnecessarily bother the user."
+    (seq-do #'kill-buffer
+            (seq-filter (lambda (b)
+                          (with-current-buffer b
+                            (and (derived-mode-p 'cider-repl-mode)
+                                 (not (process-live-p (get-buffer-process b))))))
+                        (buffer-list)))
+    nil)
+
+  (advice-add #'cider--choose-reusable-repl-buffer :around #'corgi/around-cider--choose-reusable-repl-buffer))
 
 ;; (use-package clj-refactor
 ;;   :after (cider)
