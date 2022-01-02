@@ -162,7 +162,7 @@ clojurescript-mode) of the current buffer."
       (cider--pprint-eval-form reg)))))
 
 ;; Backwards compatibility
-(defalias 'corgi/cider-pprint-eval-register #'corgi/cider-pprint-register)
+(defalias 'corgi/cider-pprint-register #'corgi/cider-pprint-eval-register)
 
 (defun corgi/cider-jack-in-babashka (&optional project-dir)
   "Start a utility CIDER REPL backed by Babashka, not related to a

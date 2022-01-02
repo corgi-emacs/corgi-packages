@@ -82,7 +82,7 @@
                :eval/last-sexp-replace cider-eval-last-sexp-and-replace
                :eval/buffer cider-eval-buffer
                :eval/region cider-eval-region
-               :eval/registry-pprint corgi/cider-pprint-register
+               :eval/registry-pprint corgi/cider-pprint-eval-register
                :eval/interrupt cider-interrupt
                :eval/outer-sexp cider-eval-defun-at-point
                :eval/up-to-point cider-eval-sexp-up-to-point
@@ -124,7 +124,7 @@
                     :repl/jack-in-all ("Jack in Clj+Cljs" cider-jack-in-clj&cljs)
                     :repl/clear cider-repl-clear-buffer
                     :repl/toggle-message-logging nrepl-toggle-message-logging
-                    :eval/registry-pprint corgi/cider-pprint-register
+                    :eval/registry-pprint corgi/cider-pprint-eval-register
                     :jump/ns cider-find-ns))
 
  (sql-mode ( :repl/toggl sql-show-sqli-buffer
