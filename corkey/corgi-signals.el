@@ -33,7 +33,9 @@
             :sexp/slurp-forward sp-forward-slurp-sexp
             :sexp/barf-forward sp-forward-barf-sexp
             :sexp/forward evil-cp-forward-sexp
-            :sexp/backward evil-cp-backward-sexp))
+            :sexp/backward evil-cp-backward-sexp
+
+            :toggle/read-only read-only-mode))
 
  (prog-mode ( :format/tab-indent indent-for-tab-command
               :jump/definition xref-find-definitions
@@ -129,5 +131,9 @@
 
  (sql-mode ( :repl/toggl sql-show-sqli-buffer
              :eval/last-sexp sql-send-paragraph
+             :eval/outer-sexp sql-send-paragraph
              :eval/buffer sql-send-buffer
-             :eval/region sql-send-region)))
+             :eval/region sql-send-region))
+
+ (dired-mode (:toggle/read-only wdired-change-to-wdired-mode))
+ (wdired-mode (:toggle/read-only wdired-finish-edit)))

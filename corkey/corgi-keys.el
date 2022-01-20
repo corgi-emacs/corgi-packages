@@ -88,7 +88,7 @@
     ("k" "Pick & kill" kill-buffer)
     ("l" "List buffers" list-buffers)
     ("r" "Rename buffer" rename-buffer)
-    ("w" "Toggle read-only" read-only-mode))
+    ("w" "Toggle read-only" :toggle/read-only))
 
    ("f" "File commands"
     ("f" "Find file" :file/open)
