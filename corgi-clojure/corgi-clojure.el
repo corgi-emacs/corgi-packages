@@ -163,9 +163,19 @@ creates a new one. Don't unnecessarily bother the user."
 Will ask for the register when used interactively. Put `#_clj' or
 `#_cljs' at the start of the snippet to force evaluation to go to
 a specific REPL type, no matter the mode (clojure-mode or
-clojurescript-mode) of the current buffer."
+clojurescript-mode) of the current buffer.
+
+You can use {{...}} to insert emacs-lisp code that willg get
+evaluated, like `(println \"{{buffer-file-name}}\")'.
+"
   (interactive (list (register-read-with-preview "Eval register: ")))
-  (let ((reg (get-register register)))
+  (let ((reg (replace-regexp-in-string
+              "{{\\([^}]+\\)}}"
+              (lambda (s)
+                (eval
+                 (read
+                  (match-string 1 s))))
+              (get-register register))))
     (cond
      ((string-match-p "^#_cljs" reg)
       (with-current-buffer (car (cider-repls 'cljs))
