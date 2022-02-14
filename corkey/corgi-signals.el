@@ -129,7 +129,7 @@
                     :eval/registry-pprint corgi/cider-pprint-eval-register
                     :jump/ns cider-find-ns))
 
- (sql-mode ( :repl/toggl sql-show-sqli-buffer
+ (sql-mode ( :repl/toggle sql-show-sqli-buffer
              :eval/last-sexp sql-send-paragraph
              :eval/outer-sexp sql-send-paragraph
              :eval/buffer sql-send-buffer
