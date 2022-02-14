@@ -72,6 +72,8 @@ when corkey-mode is switched off."
   ;; remain isolated and can easily be toggled.
   (corkey--set-shadow-mode-vars))
 
+(add-hook 'after-change-major-mode-hook #'corkey--set-shadow-mode-vars)
+
 (defun corkey-initialize ()
   "Initialize the minor mode, unless we're in the minibuffer"
   (unless (and (minibufferp) (not evil-want-minibuffer))
