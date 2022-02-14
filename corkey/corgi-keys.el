@@ -166,6 +166,32 @@
 
   ("," "Project specific leader key"
 
+   ("j" "Jack-in"
+    ("j" "Jack in" :repl/jack-in)
+    ("o" "Jack in other" :repl/jack-in-other)
+    ("a" "Jack in all" :repl/jack-in-all))
+
+   ("c"
+    ("c" "Connect to REPL" :repl/connect)
+    ("o" "Connect to Other REPL Type" :repl/connect-other)
+    ("a" "Connect to All REPL Types" :repl/connect-all))
+
+   ("s" "REPL"
+    ("s" "Toggle REPL" :repl/toggle)
+    ("q" "Quit current REPL" :repl/quit)
+    ("Q" "Quit all active REPLs" :repl/quit-all)
+    ("o" "Switch to Other REPL" :repl/other)
+    ("l" "Clear REPL" :repl/clear)
+    ("n" "Set namespace" :repl/set-ns)
+    ("m" "Toggle message logging" :repl/toggle-message-logging))
+
+   ("l" "Link to REPL"
+    ("p" "Link with project" :link-repl/project sesman-link-with-project)
+    ("b" "Link with buffer" :link-repl/buffer sesman-link-with-buffer)
+    ("d" "Link with directory" :link-repl/directory sesman-link-with-directory)
+    ("l" "Link least specific" :link-repl/least-specific sesman-link-with-least-specific)
+    ("u" "Unlink" :link-repl/unlink sesman-unlink))
+
    ("e" "Evaluate expressions"
     ("b" "Eval buffer" :eval/buffer)
     ("e" "Eval form before cursor" :eval/last-sexp)
@@ -177,35 +203,11 @@
     ("i" "Interrupt eval" :eval/interrupt)
     ("-" "Eval up to point" :eval/up-to-point))
 
-   ("s" "REPL"
-    ("s" "Toggle REPL" :repl/toggle)
-    ("q" "Quit current REPL" :repl/quit)
-    ("Q" "Quit all active REPLs" :repl/quit-all)
-    ("o" "Switch to Other REPL" :repl/other)
-    ("c" "Connect to REPL" :repl/connect)
-    ("o" "Connect to Other REPL Type" :repl/connect-other)
-    ("a" "Connect to All REPL Types" :repl/connect-all)
-    ("l" "Clear REPL" :repl/clear)
-    ("n" "Set namespace" :repl/set-ns)
-    ("m" "Toggle message logging" :repl/toggle-message-logging))
-
    ("g" "Go places"
     ("g" "Go to definition" :jump/definition)
     ("b" "Go back" :jump/back)
     ("n" "Go to namespace" :jump/ns)
     ("t" "Go to test/implemenentation" projectile-toggle-between-implementation-and-test))
-
-   ("l" "Link to REPL"
-    ("p" "Link with project" :link-repl/project sesman-link-with-project)
-    ("b" "Link with buffer" :link-repl/buffer sesman-link-with-buffer)
-    ("d" "Link with directory" :link-repl/directory sesman-link-with-directory)
-    ("l" "Link least specific" :link-repl/least-specific sesman-link-with-least-specific)
-    ("u" "Unlink" :link-repl/unlink sesman-unlink))
-
-   ("j" "Jack-in"
-    ("j" "Jack in" :repl/jack-in)
-    ("o" "Jack in other" :repl/jack-in-other)
-    ("a" "Jack in all" :repl/jack-in-all))
 
    ("r" "Refactor"
     ("t" "Threading"
