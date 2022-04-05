@@ -60,14 +60,7 @@
 (use-package evil-collection
   :after (evil)
   :config
-  (evil-collection-init)
-  ;; Stop changing how last-sexp works. Even though we have evil-move-beyond-eol
-  ;; set, this is still being added, and I can't figure out why. Resorting to
-  ;; this hack.
-  (cl-loop
-   for fun
-   in '(elisp--preceding-sexp cider-last-sexp pp-last-sexp)
-   do (advice-mapc (lambda (advice _props) (advice-remove fun advice)) fun)))
+  (evil-collection-init))
 
 (use-package evil-surround
   :config (global-evil-surround-mode 1))
