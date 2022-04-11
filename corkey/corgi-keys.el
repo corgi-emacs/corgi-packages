@@ -221,5 +221,9 @@
     ("e" "Extract..."
      ("f" "Extract function" :refactor/extract-function)))
 
+   ("t" "Trace"
+    ("v" "Toggle trace var" :trace/toggle-var)
+    ("n" "Toggle trace var" :trace/toggle-ns))
+
    ("," "Eval from registry and pprint" :eval/registry-pprint)
    ("<RET>" "Eval outer sexp" :eval/outer-sexp))))

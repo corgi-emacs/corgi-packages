@@ -104,7 +104,10 @@
                :link-repl/buffer sesman-link-with-buffer
                :link-repl/directory sesman-link-with-directory
                :link-repl/least-specific sesman-link-with-least-specific
-               :link-repl/unlink sesman-unlink))
+               :link-repl/unlink sesman-unlink
+
+               :trace/toggle-var cider-toggle-trace-var
+               :trace/toggle-ns cider-toggle-trace-ns))
 
  (inf-clojure-minor-mode ( :eval/last-sexp inf-clojure-eval-last-sexp
                            :eval/buffer inf-clojure-eval-buffer
