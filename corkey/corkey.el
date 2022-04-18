@@ -63,6 +63,7 @@ when corkey-mode is switched off."
 (define-minor-mode corkey-local-mode
   "Minor mode providing corkey bindings"
   :lighter ""
+  :init-value t ;; enable in fundamental-mode buffers
   :keymap (make-sparse-keymap)
   ;; To have bindings that are specific to a major mode, without actually
   ;; changing that major-mode's mode-map, we fake a minor mode (really just a
@@ -147,7 +148,7 @@ returns a flat list of (state binding description signal-or-command), e.g.
 ;; - minor mode + evil state -> evil-define-minor-mode-key
 ;; - major mode + evil state -> evil-define-minor-mode-key on "shadow" mode (see other comments in this file)
 ;; - minor or major mode + "global" state -> define-key on the minor-mode-map or shadow mode map
-;; - default mode -> corgi-local-mode (globalized minor mode) mode map via evil-define-minor-mode-key
+;; - default mode -> corkey-local-mode (globalized minor mode) mode map via evil-define-minor-mode-key
 
 (defun corkey/define-key (state mode-sym keys target &optional description)
   "Install a single binding, for a specific Evil STATE and a given
