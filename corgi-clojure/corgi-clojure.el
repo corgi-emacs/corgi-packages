@@ -33,6 +33,7 @@
         ;; ~make sure we can always debug nrepl issues~
         ;; Turning this off again, seems it may really blow up memory usage
         ;; nrepl-log-messages nil
+
         )
 
   ;; TODO: clean this up, submit to upstream where possible
@@ -136,6 +137,15 @@ creates a new one. Don't unnecessarily bother the user."
 
   (advice-add #'cider--choose-reusable-repl-buffer :around #'corgi/around-cider--choose-reusable-repl-buffer))
 
+;; Most annoying JVM "feature" of all time
+;; https://docs.cider.mx/cider/troubleshooting.html#empty-java-stacktraces
+(defun corgi/around-cider-jack-in-global-options (command project-type)
+  (if (eq 'clojure-cli project-type)
+      (concat cider-clojure-cli-global-options
+              " -J-XX:-OmitStackTraceInFastThrow")
+    (command project-type)))
+
+(advice-add #'cider-jack-in-global-options :around #'corgi/around-cider-jack-in-global-options)
 ;; (use-package clj-refactor
 ;;   :after (cider)
 ;;   :diminish clj-refactor-mode
