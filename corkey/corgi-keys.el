@@ -141,7 +141,7 @@
 
    ("t" "Toggle modes"
     ("a" "Toggle aggressive indent mode" aggressive-indent-mode)
-    ("l" "Toggle line numbers" linum-mode)
+    ("l" "Toggle line numbers" display-line-numbers-mode)
     ("q" "Toggle debug on quit" toggle-debug-on-quit)
     ("e" "Toggle debug on error" toggle-debug-on-error))
 
