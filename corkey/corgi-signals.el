@@ -19,6 +19,7 @@
             :project/switch projectile-switch-project
             :project/kill projectile-kill-buffers
             :project/incremental-search counsel-git-grep
+            :project/switch-buffer projectile-switch-to-buffer
 
             :jump/identifier counsel-imenu
             :jump/character avy-goto-char

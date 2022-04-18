@@ -110,7 +110,8 @@
     ("f" "Find file" :project/open-file)
     ("p" "Switch project" :project/switch)
     ("k" "Kill buffers" :project/kill)
-    ("s" "Search in project" :project/incremental-search))
+    ("s" "Search in project" :project/incremental-search)
+    ("b" "Switch to project buffer" :project/switch-buffer))
 
    ("g" "Git"
     ("s" "Magit Status" magit-status))
