@@ -208,6 +208,8 @@ specific project."
      project-dir
      "bb --nrepl-server 0"
      (lambda (server-buffer)
+       (set-process-query-on-exit-flag
+        (get-buffer-process server-buffer) nil)
        (cider-nrepl-connect
         (list :repl-buffer server-buffer
               :repl-type 'clj
@@ -217,7 +219,10 @@ specific project."
               :session-name "babashka"
               :repl-init-function (lambda ()
                                     (setq-local cljr-suppress-no-project-warning t
-                                                cljr-suppress-middleware-warnings t)
+                                                cljr-suppress-middleware-warnings t
+                                                process-query-on-exit-flag nil)
+                                    (set-process-query-on-exit-flag
+                                     (get-buffer-process (current-buffer)) nil)
                                     (rename-buffer "*babashka-repl*"))))))))
 
 (defun corgi/cider-modeline-info ()
