@@ -56,31 +56,65 @@
   :type 'color
   :group 'corgi)
 
+(defvar corgi-stateline-remap-cookie nil
+  "Cookie used to hold reference to face remapping.")
+
+(defun corgi-stateline/map-mode-line-face (fg bg)
+  (when corgi-stateline-remap-cookie
+    (face-remap-remove-relative corgi-stateline-remap-cookie))
+  (setq corgi-stateline-remap-cookie (face-remap-add-relative
+                                      'mode-line :foreground fg :background bg)))
+
 (defun corgi-stateline/enter-normal-state ()
-  (face-remap-add-relative 'mode-line-active  :foreground corgi-stateline-normal-fg)
-  (face-remap-add-relative 'mode-line-active  :background corgi-stateline-normal-bg))
+  (corgi-stateline/map-mode-line-face corgi-stateline-normal-fg
+                                      corgi-stateline-normal-bg))
 
 (defun corgi-stateline/enter-motion-state ()
-  (face-remap-add-relative 'mode-line-active  :foreground corgi-stateline-motion-fg)
-  (face-remap-add-relative 'mode-line-active  :background corgi-stateline-motion-bg))
+  (corgi-stateline/map-mode-line-face corgi-stateline-motion-fg
+                                      corgi-stateline-motion-bg))
 
 (defun corgi-stateline/enter-insert-state ()
-  (face-remap-add-relative 'mode-line-active  :foreground corgi-stateline-insert-fg)
-  (face-remap-add-relative 'mode-line-active  :background corgi-stateline-insert-bg))
+  (corgi-stateline/map-mode-line-face corgi-stateline-insert-fg
+                                      corgi-stateline-insert-bg))
 
 (defun corgi-stateline/enter-visual-state ()
-  (face-remap-add-relative 'mode-line-active  :foreground corgi-stateline-visual-fg)
-  (face-remap-add-relative 'mode-line-active  :background corgi-stateline-visual-bg))
+  (corgi-stateline/map-mode-line-face corgi-stateline-visual-fg
+                                      corgi-stateline-visual-bg))
 
 (defun corgi-stateline/enter-emacs-state ()
-  (face-remap-add-relative 'mode-line-active :foreground corgi-stateline-emacs-fg)
-  (face-remap-add-relative 'mode-line-active :background corgi-stateline-emacs-bg))
+  (corgi-stateline/map-mode-line-face corgi-stateline-emacs-fg
+                                      corgi-stateline-emacs-bg))
 
-(add-hook 'evil-normal-state-entry-hook #'corgi-stateline/enter-normal-state)
-(add-hook 'evil-motion-state-entry-hook #'corgi-stateline/enter-motion-state)
-(add-hook 'evil-insert-state-entry-hook #'corgi-stateline/enter-insert-state)
-(add-hook 'evil-visual-state-entry-hook #'corgi-stateline/enter-visual-state)
-(add-hook 'evil-emacs-state-entry-hook #'corgi-stateline/enter-emacs-state)
+(defun corgi-stateline/turn-on ()
+  (message "corgi-stateline adding hooks")
+  (add-hook 'evil-normal-state-entry-hook #'corgi-stateline/enter-normal-state)
+  (add-hook 'evil-motion-state-entry-hook #'corgi-stateline/enter-motion-state)
+  (add-hook 'evil-insert-state-entry-hook #'corgi-stateline/enter-insert-state)
+  (add-hook 'evil-visual-state-entry-hook #'corgi-stateline/enter-visual-state)
+  (add-hook 'evil-emacs-state-entry-hook #'corgi-stateline/enter-emacs-state))
+
+(defun corgi-stateline/turn-off ()
+  (message "corgi-stateline Removing hooks")
+  (remove-hook 'evil-normal-state-entry-hook #'corgi-stateline/enter-normal-state)
+  (remove-hook 'evil-motion-state-entry-hook #'corgi-stateline/enter-motion-state)
+  (remove-hook 'evil-insert-state-entry-hook #'corgi-stateline/enter-insert-state)
+  (remove-hook 'evil-visual-state-entry-hook #'corgi-stateline/enter-visual-state)
+  (remove-hook 'evil-emacs-state-entry-hook #'corgi-stateline/enter-emacs-state)
+  (when corgi-stateline-remap-cookie
+    (face-remap-remove-relative corgi-stateline-remap-cookie)
+    (setq corgi-steteline-remap-cookie nil)))
+
+(define-minor-mode corgi-stateline-mode
+  "Toggle corgi-stateline-mode.
+
+When enabled, this mode will change the color of the mode line
+based on the current evil editing state."
+  :init-value nil
+  :global t
+  :lighter " StLi"
+  (if (default-value 'corgi-stateline-mode)
+      (corgi-stateline/turn-on)
+    (corgi-stateline/turn-off)))
 
 (provide 'corgi-stateline)
 
