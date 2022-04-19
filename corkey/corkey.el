@@ -62,7 +62,7 @@ when corkey-mode is switched off."
 
 (define-minor-mode corkey-local-mode
   "Minor mode providing corkey bindings"
-  :lighter ""
+  :lighter nil
   :init-value t ;; enable in fundamental-mode buffers
   :keymap (make-sparse-keymap)
   ;; To have bindings that are specific to a major mode, without actually
@@ -71,7 +71,8 @@ when corkey-mode is switched off."
   ;; the major mode, hence the name). When loading key bindings into evil we
   ;; associate them with this shadow minor mode. This way the corkey bindings
   ;; remain isolated and can easily be toggled.
-  (corkey--set-shadow-mode-vars))
+  (when corkey-local-mode
+    (corkey--set-shadow-mode-vars)))
 
 (add-hook 'after-change-major-mode-hook #'corkey--set-shadow-mode-vars)
 

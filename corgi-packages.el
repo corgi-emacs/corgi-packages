@@ -21,6 +21,15 @@
              :files ("pprint-to-buffer/pprint-to-buffer.el")
              :repo "plexus/plexmacs")
 
+            (corgi-clojure
+             :type git
+             :host github
+             :branch "main"
+             :files ("corgi-clojure/corgi-clojure.el"
+                     "corgi-clojure/corgi-clojure-cider-extras.el"
+                     "corgi-clojure/corgi-cider-connection-indicator.el")
+             :repo "lambdaisland/corgi-packages")
+
             (corkey
              :type git
              :host github
@@ -46,7 +55,6 @@
              corgi-commands
              corgi-emacs-lisp
              corgi-emacs
-             corgi-clojure
              corgi-stateline))))
 
 (defun straight-recipes-corgi-packages-list ()

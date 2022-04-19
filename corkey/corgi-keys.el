@@ -227,4 +227,5 @@
     ("n" "Toggle trace var" :trace/toggle-ns))
 
    ("," "Eval from registry and pprint" :eval/registry-pprint)
-   ("<RET>" "Eval outer sexp" :eval/outer-sexp))))
+   ("<RET>" "Eval outer sexp" :eval/outer-sexp)))
+ )
