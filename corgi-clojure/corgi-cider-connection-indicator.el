@@ -107,6 +107,7 @@ REPLs you are connceted to."
 (define-globalized-minor-mode
   corgi/global-cider-connection-indicator-mode
   corgi/cider-connection-indicator-mode
+  :group 'corgi
   (lambda ()
     (when (derived-mode-p 'clojure-mode)
       (corgi/cider-connection-indicator-mode 1))))
