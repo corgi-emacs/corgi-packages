@@ -56,7 +56,7 @@
   :type 'color
   :group 'corgi)
 
-(defvar corgi-stateline-remap-cookie nil
+(defvar-local corgi-stateline-remap-cookie nil
   "Cookie used to hold reference to face remapping.")
 
 (defun corgi-stateline/map-mode-line-face (fg bg)
@@ -86,7 +86,6 @@
                                       corgi-stateline-emacs-bg))
 
 (defun corgi-stateline/turn-on ()
-  (message "corgi-stateline adding hooks")
   (add-hook 'evil-normal-state-entry-hook #'corgi-stateline/enter-normal-state)
   (add-hook 'evil-motion-state-entry-hook #'corgi-stateline/enter-motion-state)
   (add-hook 'evil-insert-state-entry-hook #'corgi-stateline/enter-insert-state)
@@ -94,7 +93,6 @@
   (add-hook 'evil-emacs-state-entry-hook #'corgi-stateline/enter-emacs-state))
 
 (defun corgi-stateline/turn-off ()
-  (message "corgi-stateline Removing hooks")
   (remove-hook 'evil-normal-state-entry-hook #'corgi-stateline/enter-normal-state)
   (remove-hook 'evil-motion-state-entry-hook #'corgi-stateline/enter-motion-state)
   (remove-hook 'evil-insert-state-entry-hook #'corgi-stateline/enter-insert-state)
@@ -111,7 +109,6 @@ When enabled, this mode will change the color of the mode line
 based on the current evil editing state."
   :init-value nil
   :global t
-  :lighter " StLi"
   (if (default-value 'corgi-stateline-mode)
       (corgi-stateline/turn-on)
     (corgi-stateline/turn-off)))
