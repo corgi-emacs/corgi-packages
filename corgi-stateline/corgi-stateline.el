@@ -6,16 +6,6 @@
 
 ;;; Code:
 
-(defcustom corgi-stateline-normal-fg "black"
-  "Foreground color of the modeline in evil normal state"
-  :type 'color
-  :group 'corgi)
-
-(defcustom corgi-stateline-normal-bg "gray"
-  "Background color of the modeline in evil normal state"
-  :type 'color
-  :group 'corgi)
-
 (defcustom corgi-stateline-motion-fg "black"
   "Foreground color of the modeline in evil motion state"
   :type 'color
@@ -65,9 +55,13 @@
   (setq corgi-stateline-remap-cookie (face-remap-add-relative
                                       'mode-line :foreground fg :background bg)))
 
+(defun corgi-stateline/unmap-mode-line-face ()
+  (when corgi-stateline-remap-cookie
+    (face-remap-remove-relative corgi-stateline-remap-cookie)
+    (setq corgi-steteline-remap-cookie nil)))
+
 (defun corgi-stateline/enter-normal-state ()
-  (corgi-stateline/map-mode-line-face corgi-stateline-normal-fg
-                                      corgi-stateline-normal-bg))
+  (corgi-stateline/unmap-mode-line-face))
 
 (defun corgi-stateline/enter-motion-state ()
   (corgi-stateline/map-mode-line-face corgi-stateline-motion-fg
@@ -98,9 +92,7 @@
   (remove-hook 'evil-insert-state-entry-hook #'corgi-stateline/enter-insert-state)
   (remove-hook 'evil-visual-state-entry-hook #'corgi-stateline/enter-visual-state)
   (remove-hook 'evil-emacs-state-entry-hook #'corgi-stateline/enter-emacs-state)
-  (when corgi-stateline-remap-cookie
-    (face-remap-remove-relative corgi-stateline-remap-cookie)
-    (setq corgi-steteline-remap-cookie nil)))
+  (corgi-stateline/unmap-mode-line-face))
 
 (define-minor-mode corgi-stateline-mode
   "Toggle corgi-stateline-mode.
@@ -108,10 +100,15 @@
 When enabled, this mode will change the color of the mode line
 based on the current evil editing state."
   :init-value nil
-  :global t
-  (if (default-value 'corgi-stateline-mode)
+  (if corgi-stateline-mode
       (corgi-stateline/turn-on)
     (corgi-stateline/turn-off)))
+
+(define-globalized-minor-mode global-corgi-stateline-mode
+  corgi-stateline-mode
+  (lambda ()
+    (corgi-stateline-mode 1))
+  :group 'corgi)
 
 (provide 'corgi-stateline)
 
