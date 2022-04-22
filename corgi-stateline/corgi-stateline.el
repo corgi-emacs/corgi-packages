@@ -63,12 +63,25 @@
     (setq corgi-stateline-remap-cookie nil)))
 
 (defun corgi-stateline/update-mode-line-face ()
-  (cl-case evil-state
-    (normal (corgi-stateline/unmap-mode-line-face))
-    (motion (corgi-stateline/map-mode-line-face corgi-stateline-motion-fg corgi-stateline-motion-bg))
-    (insert (corgi-stateline/map-mode-line-face corgi-stateline-insert-fg corgi-stateline-insert-bg))
-    (visual (corgi-stateline/map-mode-line-face corgi-stateline-visual-fg corgi-stateline-visual-bg))
-    (emacs (corgi-stateline/map-mode-line-face corgi-stateline-emacs-fg corgi-stateline-emacs-bg))))
+  (cond
+   ((eq evil-state 'normal)
+    (corgi-stateline/unmap-mode-line-face))
+
+   ((eq evil-state 'motion)
+    (corgi-stateline/map-mode-line-face corgi-stateline-motion-fg
+                                        corgi-stateline-motion-bg))
+
+   ((eq evil-state 'insert)
+    (corgi-stateline/map-mode-line-face corgi-stateline-insert-fg
+                                        corgi-stateline-insert-bg))
+
+   ((eq evil-state 'visual)
+    (corgi-stateline/map-mode-line-face corgi-stateline-visual-fg
+                                        corgi-stateline-visual-bg))
+
+   ((eq evil-state 'emacs)
+    (corgi-stateline/map-mode-line-face corgi-stateline-emacs-fg
+                                        corgi-stateline-emacs-bg))))
 
 (defun corgi-stateline/turn-on ()
   (add-hook 'evil-normal-state-entry-hook #'corgi-stateline/update-mode-line-face)
