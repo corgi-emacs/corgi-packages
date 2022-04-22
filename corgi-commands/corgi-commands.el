@@ -1,4 +1,4 @@
-;;; corgi-commands.el --- Custom commands included with Corgi
+;;; corgi-commands.el --- Custom commands included with Corgi -*- lexical-binding: t -*-
 ;;
 ;; Filename: corgi-commands.el
 ;; Package-Requires: ()

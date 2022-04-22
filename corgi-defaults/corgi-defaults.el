@@ -1,4 +1,4 @@
-;;; corgi-defaults.el --- Sensible defaults for Emacs
+;;; corgi-defaults.el --- Sensible defaults for Emacs -*- lexical-binding: t -*-
 ;;
 ;; Filename: corgi-defaults.el
 ;; Description: Sensible defaults for Emacs

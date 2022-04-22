@@ -1,10 +1,12 @@
-;;; corgi-stateline.el --- Change the background color of the modeline based on the evil state
+;;; corgi-stateline.el --- Change the background color of the modeline based on the evil state -*- lexical-binding: t -*-
 ;;
 ;; Filename: corgi-stateline.el
 ;; Package-Requires: ()
 ;;
 
 ;;; Code:
+
+(require 'face-remap)
 
 (defcustom corgi-stateline-motion-fg "black"
   "Foreground color of the modeline in evil motion state"
@@ -100,6 +102,7 @@
 When enabled, this mode will change the color of the mode line
 based on the current evil editing state."
   :init-value nil
+  :group 'corgi
   (if corgi-stateline-mode
       (corgi-stateline/turn-on)
     (corgi-stateline/turn-off)))
@@ -107,7 +110,8 @@ based on the current evil editing state."
 (define-globalized-minor-mode global-corgi-stateline-mode
   corgi-stateline-mode
   (lambda ()
-    (corgi-stateline-mode 1))
+    (unless (minibufferp)
+      (corgi-stateline-mode 1)))
   :group 'corgi)
 
 (provide 'corgi-stateline)

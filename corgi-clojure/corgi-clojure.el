@@ -7,6 +7,8 @@
 ;;
 ;;; Code:
 
+(require 'use-package)
+
 (use-package clojure-mode
   :magic ("^#![^\n]*/\\(clj\\|clojure\\|bb\\|lumo\\)" . clojure-mode)
   :config

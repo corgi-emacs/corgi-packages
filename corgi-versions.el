@@ -1,3 +1,4 @@
+;;; -*- no-byte-compile: t -*-
 (("a.el" . "93e5ed8c495794d1ba3c04b43041b95ce01079b1")
  ("aggressive-indent-mode" . "cb416faf61c46977c06cf9d99525b04dc109a33c")
  ("annalist.el" . "134fa3f0fb91a636a1c005c483516d4b64905a6d")

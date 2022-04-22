@@ -1,3 +1,14 @@
+;;; corgi-packages.el --- Straight package repo and helpers for Corgi -*- lexical-binding: t -*-
+;;
+;; Filename: corgi-packages.el
+;; Package-Requires: ((straight))
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Code:
+
+(require 'straight)
+
 (defvar corgi-all-packages
   (append '((clj-ns-name
              :type git

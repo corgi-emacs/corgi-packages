@@ -1,11 +1,19 @@
-;;; corgi-emacs-lisp.el --- Emacs-lisp related commands
+;;; corgi-emacs-lisp.el --- Emacs-lisp related commands -*- lexical-binding: t -*-
 ;;
 ;; Filename: corgi-emacs-lisp.el
 ;; Package-Requires: ((use-package) (cider) (elisp-slime-nav) (pprint-to-buffer))
 ;;
 ;;; Code:
 
+(require 'use-package)
+
 (use-package cider)
+
+(use-package elisp-slime-nav
+  :config
+  :hook ((emacs-lisp-mode ielm-mode) . turn-on-elisp-slime-nav-mode))
+
+(use-package pprint-to-buffer)
 
 ;; Show emacs-lisp eval results in an overlay, CIDER style.
 ;; https://endlessparentheses.com/eval-result-overlays-in-emacs-lisp.html
@@ -59,7 +67,7 @@
     (insert-parentheses 1)
     (insert first-or-last-thread))
   (while (save-excursion (corgi/thread)))
-  (when (or but-last clojure-thread-all-but-last)
+  (when but-last
     (clojure-unwind)))
 
 (defun corgi/elisp-thread-first-all (but-last)
@@ -69,12 +77,6 @@
 (defun corgi/elisp-thread-last-all (but-last)
   (interactive "P")
   (corgi/elisp--thread-all "thread-last " but-last))
-
-(use-package elisp-slime-nav
-  :config
-  :hook ((emacs-lisp-mode ielm-mode) . turn-on-elisp-slime-nav-mode))
-
-(use-package pprint-to-buffer)
 
 (provide 'corgi-emacs-lisp)
 
