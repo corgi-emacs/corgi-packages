@@ -1,19 +1,15 @@
 (defvar corgi-all-packages
-  (append '((corgi
-             :type git
-             :repo "/home/arne/github/lambdaisland/corgi")
-
-            (clj-ns-name
+  (append '((clj-ns-name
              :type git
              :host github
              :files ("clj-ns-name/clj-ns-name.el")
-             :repo "plexus/plexmacs")
+             :repo "corgi-emacs/clj-ns-name")
 
             (walkclj
              :type git
              :host github
              :files ("walkclj.el")
-             :repo "plexus/walkclj")
+             :repo "corgi-emacs/walkclj")
 
             (pprint-to-buffer
              :type git
@@ -30,7 +26,15 @@
                      "corkey/corgi-signals.el"
                      "corkey/user-keys-template.el"
                      "corkey/user-signals-template.el")
-             :repo "lambdaisland/corgi-packages"))
+             :repo "corgi-emacs/corkey")
+
+            (corgi-bindings
+             :type git
+             :host github
+             :branch "main"
+             :files ("corgi-bindings/corgi-keys.el"
+                     "corgi-bindings/corgi-signals.el")
+             :repo "corgi-emacs/corgi-packages"))
 
           (mapcar
            (lambda (pkg)
@@ -39,7 +43,7 @@
                :host github
                :branch "main"
                :files (,(concat (symbol-name pkg) "/" (symbol-name pkg) ".el"))
-               :repo "lambdaisland/corgi-packages"))
+               :repo "corgi-emacs/corgi-packages"))
 
            '(corgi-defaults
              corgi-editor
