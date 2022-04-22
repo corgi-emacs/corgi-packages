@@ -62,38 +62,28 @@
     (face-remap-remove-relative corgi-stateline-remap-cookie)
     (setq corgi-stateline-remap-cookie nil)))
 
-(defun corgi-stateline/enter-normal-state ()
-  (corgi-stateline/unmap-mode-line-face))
-
-(defun corgi-stateline/enter-motion-state ()
-  (corgi-stateline/map-mode-line-face corgi-stateline-motion-fg
-                                      corgi-stateline-motion-bg))
-
-(defun corgi-stateline/enter-insert-state ()
-  (corgi-stateline/map-mode-line-face corgi-stateline-insert-fg
-                                      corgi-stateline-insert-bg))
-
-(defun corgi-stateline/enter-visual-state ()
-  (corgi-stateline/map-mode-line-face corgi-stateline-visual-fg
-                                      corgi-stateline-visual-bg))
-
-(defun corgi-stateline/enter-emacs-state ()
-  (corgi-stateline/map-mode-line-face corgi-stateline-emacs-fg
-                                      corgi-stateline-emacs-bg))
+(defun corgi-stateline/update-mode-line-face ()
+  (cl-case evil-state
+    (normal (corgi-stateline/unmap-mode-line-face))
+    (motion (corgi-stateline/map-mode-line-face corgi-stateline-motion-fg corgi-stateline-motion-bg))
+    (insert (corgi-stateline/map-mode-line-face corgi-stateline-insert-fg corgi-stateline-insert-bg))
+    (visual (corgi-stateline/map-mode-line-face corgi-stateline-visual-fg corgi-stateline-visual-bg))
+    (emacs (corgi-stateline/map-mode-line-face corgi-stateline-emacs-fg corgi-stateline-emacs-bg))))
 
 (defun corgi-stateline/turn-on ()
-  (add-hook 'evil-normal-state-entry-hook #'corgi-stateline/enter-normal-state)
-  (add-hook 'evil-motion-state-entry-hook #'corgi-stateline/enter-motion-state)
-  (add-hook 'evil-insert-state-entry-hook #'corgi-stateline/enter-insert-state)
-  (add-hook 'evil-visual-state-entry-hook #'corgi-stateline/enter-visual-state)
-  (add-hook 'evil-emacs-state-entry-hook #'corgi-stateline/enter-emacs-state))
+  (add-hook 'evil-normal-state-entry-hook #'corgi-stateline/update-mode-line-face)
+  (add-hook 'evil-motion-state-entry-hook #'corgi-stateline/update-mode-line-face)
+  (add-hook 'evil-insert-state-entry-hook #'corgi-stateline/update-mode-line-face)
+  (add-hook 'evil-visual-state-entry-hook #'corgi-stateline/update-mode-line-face)
+  (add-hook 'evil-emacs-state-entry-hook #'corgi-stateline/update-mode-line-face)
+  (corgi-stateline/update-mode-line-face))
 
 (defun corgi-stateline/turn-off ()
-  (remove-hook 'evil-normal-state-entry-hook #'corgi-stateline/enter-normal-state)
-  (remove-hook 'evil-motion-state-entry-hook #'corgi-stateline/enter-motion-state)
-  (remove-hook 'evil-insert-state-entry-hook #'corgi-stateline/enter-insert-state)
-  (remove-hook 'evil-visual-state-entry-hook #'corgi-stateline/enter-visual-state)
-  (remove-hook 'evil-emacs-state-entry-hook #'corgi-stateline/enter-emacs-state)
+  (add-hook 'evil-normal-state-entry-hook #'corgi-stateline/update-mode-line-face)
+  (add-hook 'evil-motion-state-entry-hook #'corgi-stateline/update-mode-line-face)
+  (add-hook 'evil-insert-state-entry-hook #'corgi-stateline/update-mode-line-face)
+  (add-hook 'evil-visual-state-entry-hook #'corgi-stateline/update-mode-line-face)
+  (add-hook 'evil-emacs-state-entry-hook #'corgi-stateline/update-mode-line-face)
   (corgi-stateline/unmap-mode-line-face))
 
 (define-minor-mode corgi-stateline-mode
