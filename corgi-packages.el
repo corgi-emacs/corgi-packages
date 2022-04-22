@@ -2,7 +2,7 @@
   (append '((clj-ns-name
              :type git
              :host github
-             :files ("clj-ns-name/clj-ns-name.el")
+             :files ("clj-ns-name.el")
              :repo "corgi-emacs/clj-ns-name")
 
             (walkclj
@@ -21,19 +21,18 @@
              :type git
              :host github
              :branch "main"
-             :files ("corkey/corkey.el"
-                     "corkey/corgi-keys.el"
-                     "corkey/corgi-signals.el"
-                     "corkey/user-keys-template.el"
-                     "corkey/user-signals-template.el")
+             :files ("corkey.el")
              :repo "corgi-emacs/corkey")
 
             (corgi-bindings
              :type git
              :host github
              :branch "main"
-             :files ("corgi-bindings/corgi-keys.el"
-                     "corgi-bindings/corgi-signals.el")
+             :files ("corgi-bindings/corgi-bindings.el"
+                     "corgi-bindings/corgi-keys.el"
+                     "corgi-bindings/corgi-signals.el"
+                     "corgi-bindings/user-keys-template.el"
+                     "corgi-bindings/user-signals-template.el")
              :repo "corgi-emacs/corgi-packages"))
 
           (mapcar
