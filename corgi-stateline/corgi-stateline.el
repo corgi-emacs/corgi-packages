@@ -60,7 +60,7 @@
 (defun corgi-stateline/unmap-mode-line-face ()
   (when corgi-stateline-remap-cookie
     (face-remap-remove-relative corgi-stateline-remap-cookie)
-    (setq corgi-steteline-remap-cookie nil)))
+    (setq corgi-stateline-remap-cookie nil)))
 
 (defun corgi-stateline/enter-normal-state ()
   (corgi-stateline/unmap-mode-line-face))

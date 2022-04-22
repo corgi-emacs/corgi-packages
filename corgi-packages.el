@@ -72,7 +72,7 @@
 (defun straight-recipes-corgi-packages-version ()
   1)
 
-(add-to-list #'straight-recipe-repositories 'corgi-packages)
+(add-to-list 'straight-recipe-repositories 'corgi-packages)
 
 ;; Check if straight/versions/corgi.el exists in the user's emacs directory. If not, then
 ;; we copy it over from Corgi.
@@ -105,7 +105,7 @@ straight/versions/corgi.el"
 (when (not (file-exists-p (corgi-version-file-path)))
   (corgi-copy-versions-file))
 
-(add-to-list #'straight-profiles '(corgi . "corgi.el"))
+(add-to-list 'straight-profiles '(corgi . "corgi.el"))
 
 ;; It sucks that I'm putting this here, but depending on which package gets to
 ;; pull in evil first we keep getting warnings from evil-collection. Seems to

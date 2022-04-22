@@ -16,17 +16,7 @@
         ;; Because of CIDER's insistence to send forms to all linked REPLs, we
         ;; *have* to be able to switch cljc buffer to clj/cljs mode without
         ;; cider complaining.
-        clojure-verify-major-mode nil)
-
-  ;; TODO: get this upstream. #_ is not a logical sexp
-  (defun corgi/clojure--looking-at-non-logical-sexp (command)
-    "Return non-nil if text after point is \"non-logical\" sexp.
-\"Non-logical\" sexp are ^metadata and #reader.macros."
-    (comment-normalize-vars)
-    (comment-forward (point-max))
-    (looking-at-p "\\(?:#?\\^\\)\\|#:?:?[[:alpha:]]\\|#_"))
-
-  (advice-add #'clojure--looking-at-non-logical-sexp :around #'corgi/clojure--looking-at-non-logical-sexp))
+        clojure-verify-major-mode nil))
 
 (use-package cider
   :diminish cider-mode
@@ -76,14 +66,14 @@
   ;; REPLs by using sesman-current-sessions (plural) instead of
   ;; sesman-current-session. It also falls back to the babashka repl if no repls
   ;; are connected/linked, so we can always eval.
-  (defun corgi/around-cider-repls (command &optional type ensure)
+  (defun corgi/around-cider-repls (_command &optional type ensure)
     (let ((type (cond
                  ((listp type)
                   (mapcar #'cider-maybe-intern type))
                  ((cider-maybe-intern type))))
           (repls (delete-dups (seq-mapcat #'cdr (or (sesman-current-sessions 'CIDER)
                                                     (when ensure
-                                                      (user-error "No linked %s sessions" system)))))))
+                                                      (user-error "No linked CIDER sessions")))))))
       (or (seq-filter (lambda (b)
                         (and (cider--match-repl-type type b)
                              (not (equal b (get-buffer "*babashka-repl*")))))
@@ -124,10 +114,10 @@ result."
   (defadvice cider-find-var (before add-evil-jump activate)
     (evil-set-jump))
 
-  (defun corgi/around-cider--choose-reusable-repl-buffer (command params)
+  (defun corgi/around-cider--choose-reusable-repl-buffer (_command _params)
     "Redefine cider--choose-reusable-repl-buffer to something more
 sensible. If any dead REPL buffers exist when creating a new one
-then simply delete them first. Return nil co `cider-creat-repl'
+then simply delete them first. Return nil so `cider-create-repl'
 creates a new one. Don't unnecessarily bother the user."
     (seq-do #'kill-buffer
             (seq-filter (lambda (b)
@@ -139,13 +129,17 @@ creates a new one. Don't unnecessarily bother the user."
 
   (advice-add #'cider--choose-reusable-repl-buffer :around #'corgi/around-cider--choose-reusable-repl-buffer))
 
+;; silence byte compiler
+(require 'clojure-mode)
+(require 'cider)
+
 ;; Most annoying JVM "feature" of all time
 ;; https://docs.cider.mx/cider/troubleshooting.html#empty-java-stacktraces
 (defun corgi/around-cider-jack-in-global-options (command project-type)
   (if (eq 'clojure-cli project-type)
       (concat cider-clojure-cli-global-options
               " -J-XX:-OmitStackTraceInFastThrow")
-    (command project-type)))
+    (funcall command project-type)))
 
 (advice-add #'cider-jack-in-global-options :around #'corgi/around-cider-jack-in-global-options)
 ;; (use-package clj-refactor
@@ -209,11 +203,11 @@ specific project."
     (nrepl-start-server-process
      project-dir
      "bb --nrepl-server 0"
-     (lambda (server-buffer)
+     (lambda (server-buf)
        (set-process-query-on-exit-flag
-        (get-buffer-process server-buffer) nil)
+        (get-buffer-process server-buf) nil)
        (cider-nrepl-connect
-        (list :repl-buffer server-buffer
+        (list :repl-buffer server-buf
               :repl-type 'clj
               :host (plist-get nrepl-endpoint :host)
               :port (plist-get nrepl-endpoint :port)

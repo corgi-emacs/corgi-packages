@@ -25,9 +25,10 @@
 
 ;; Auto refresh buffers
 ;; Also auto refresh dired, but be quiet about it
+(require 'autorevert)
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
-(add-hook 'dired-mode-hook 'auto-revert-mode)
+(add-hook 'dired-mode-hook #'auto-revert-mode)
 (global-auto-revert-mode 1)
 
 ;; Show keystrokes in progress
@@ -130,8 +131,9 @@
 
 ;; Configure mac modifiers to be what you expect, and turn off the bell noise
 (when (equal system-type 'darwin)
-  (setq mac-command-modifier 'control
-        mac-option-modifier 'meta))
+  (with-no-warnings
+    (setq mac-command-modifier 'control
+          mac-option-modifier 'meta)))
 
 (provide 'corgi-defaults)
 
