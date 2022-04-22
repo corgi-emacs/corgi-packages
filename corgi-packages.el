@@ -112,6 +112,6 @@ straight/versions/corgi.el"
 ;; mostly happen after straight clones/builds new or updated packages. So I'm
 ;; defensively setting it here, this is the earliest chance we get apart from
 ;; asking users to put it directly in their config.
-(setq evil-want-keybinding nil)
+(with-no-warnings (setq evil-want-keybinding nil))
 
 (provide 'corgi-packages)

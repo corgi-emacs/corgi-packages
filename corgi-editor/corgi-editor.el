@@ -126,6 +126,7 @@
 
 ;; silence byte compiler
 (require 'evil)
+(require 'evil-core)
 (require 'winum)
 (require 'evil-collection)
 (require 'ivy)
