@@ -187,11 +187,11 @@
     ("m" "Toggle message logging" :repl/toggle-message-logging))
 
    ("l" "Link to REPL"
-    ("p" "Link with project" :link-repl/project sesman-link-with-project)
-    ("b" "Link with buffer" :link-repl/buffer sesman-link-with-buffer)
-    ("d" "Link with directory" :link-repl/directory sesman-link-with-directory)
-    ("l" "Link least specific" :link-repl/least-specific sesman-link-with-least-specific)
-    ("u" "Unlink" :link-repl/unlink sesman-unlink))
+    ("p" "Link with project" :link-repl/project)
+    ("b" "Link with buffer" :link-repl/buffer)
+    ("d" "Link with directory" :link-repl/directory)
+    ("l" "Link least specific" :link-repl/least-specific)
+    ("u" "Unlink" :link-repl/unlink))
 
    ("e" "Evaluate expressions"
     ("b" "Eval buffer" :eval/buffer)
