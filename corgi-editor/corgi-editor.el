@@ -18,6 +18,8 @@
 (use-package ivy
   :defer 0.1
   :diminish
+  :init
+  (setq ivy-use-virtual-buffers t)
   :config
   (ivy-mode)
   (define-key ivy-minibuffer-map (kbd "C-j") #'ivy-next-line)
@@ -26,15 +28,17 @@
 (use-package counsel
   :after (ivy)
   :config
+  (counsel-mode)
   ;; This ensures that SPC f r (counsel-recentf, show recently opened files)
   ;; actually works
   (recentf-mode 1))
 
 ;; Make counsel-M-x show most recently used commands first
-(use-package smex)
+;;(use-package smex)
 
 (use-package swiper
-  :after (ivy))
+  :after (ivy)
+  :bind (("C-s" . swiper)))
 
 (use-package avy)
 
