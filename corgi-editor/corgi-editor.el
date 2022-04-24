@@ -33,8 +33,11 @@
   ;; actually works
   (recentf-mode 1))
 
-;; Make counsel-M-x show most recently used commands first
-;;(use-package smex)
+(use-package ivy-prescient
+  :after (ivy)
+  :config
+  (ivy-prescient-mode 1)
+  (prescient-persist-mode 1))
 
 (use-package swiper
   :after (ivy)
