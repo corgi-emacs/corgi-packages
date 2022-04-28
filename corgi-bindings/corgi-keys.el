@@ -74,7 +74,7 @@
   ;; (")" "Up sexp" evil-cp-up-sexp)
 
   ("<M-up>" "Expand region" er/expand-region)
-  ("<M-down>" "Expand region" er/contract-region)
+  ("<M-down>" "Contract region" er/contract-region)
 
   ("gc" "Comment region" comment-region)
   ("gC" "Uncomment region" uncomment-region)

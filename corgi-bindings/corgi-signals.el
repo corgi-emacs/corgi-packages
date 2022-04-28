@@ -5,7 +5,7 @@
 ;; the major (or sometimes minor) mode. This is how Corgi achieves consistency
 ;; in key bindings across languages.
 
-((default ( :command/execute execute-extended-command
+((default ( :command/execute counsel-M-x
 
             :file/open counsel-find-file
             :file/save save-buffer
