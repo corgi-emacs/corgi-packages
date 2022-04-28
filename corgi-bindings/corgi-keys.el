@@ -87,8 +87,7 @@
     ("d" "Kill current buffer" kill-this-buffer)
     ("k" "Pick & kill" kill-buffer)
     ("l" "List buffers" list-buffers)
-    ("r" "Rename buffer" rename-buffer)
-    ("w" "Toggle read-only" :toggle/read-only))
+    ("r" "Rename buffer" rename-buffer))
 
    ("f" "File commands"
     ("f" "Find file" :file/open)
@@ -101,7 +100,10 @@
      ("k" "Open user-keys key bindings file" corgi/open-user-keys-file)
      ("s" "Open user-signals signals file" corgi/open-user-signals-file)
      ("K" "Open corgi-key key bindings file" corgi/open-keys-file)
-     ("S" "Open corgi-signals signals file" corgi/open-signals-file)))
+     ("S" "Open corgi-signals signals file" corgi/open-signals-file)
+     ("v" "Open Straight's default version file" corgi/open-straight-default-versions-file)
+     ("V" "Open Straight's version file installed by Corgi" corgi/open-straight-corgi-versions-file)
+     ("l" "Find library" find-library)))
 
    ("s" "Search commands"
     ("s" "Search in buffer" :buffer/incremental-search))
@@ -141,10 +143,13 @@
     ("d" "Delete window" delete-window))
 
    ("t" "Toggle modes"
-    ("a" "Toggle aggressive indent mode" aggressive-indent-mode)
-    ("l" "Toggle line numbers" display-line-numbers-mode)
-    ("q" "Toggle debug on quit" toggle-debug-on-quit)
-    ("e" "Toggle debug on error" toggle-debug-on-error))
+    ("a" "Toggle aggressive indent mode" :toggle/aggressive-indent)
+    ("l" "Toggle line numbers" :toggle/word-wrap)
+    ("q" "Toggle debug on quit" :toggle/debug-on-quit)
+    ("e" "Toggle debug on error" :toggle/debug-on-error)
+    ("w" "Toggle soft word-wrap" :toggle/soft-word-wrap)
+    ("W" "Toggle hard word-wrap" :toggle/hard-word-wrap)
+    ("r" "Toggle read-only" :toggle/read-only))
 
    ("x" "Text editing"
     ("t" "Transpose sexps" transpose-sexps)

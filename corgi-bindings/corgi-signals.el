@@ -36,7 +36,13 @@
             :sexp/forward evil-cp-forward-sexp
             :sexp/backward evil-cp-backward-sexp
 
-            :toggle/read-only read-only-mode))
+            :toggle/read-only read-only-mode
+            :toggle/soft-word-wrap visual-line-mode
+            :toggle/hard-word-wrap auto-fill-mode
+            :toggle/line-numbers display-line-numbers-mode
+            :toggle/aggressive-indent aggressive-indent-mode
+            :toggle/debug-on-quit toggle-debug-on-quit
+            :toggle/debug-on-error toggle-debug-on-error))
 
  (prog-mode ( :format/tab-indent indent-for-tab-command
               :jump/definition xref-find-definitions

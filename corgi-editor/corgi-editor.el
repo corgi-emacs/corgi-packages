@@ -25,6 +25,7 @@
 
 (use-package counsel
   :after (ivy)
+  :diminish
   :config
   ;; This ensures that SPC f r (counsel-recentf, show recently opened files)
   ;; actually works
