@@ -84,6 +84,16 @@ Will create one if it doesn't exist."
                  (expand-file-name "user-signals.el" user-emacs-directory)))
     (find-file (corgi/-locate-file 'user-signals))))
 
+(defun corgi/open-straight-corgi-versions-file ()
+  "Open the straight versions file for corgi packages"
+  (interactive)
+  (find-file (expand-file-name "straight/versions/corgi.el" user-emacs-directory)))
+
+(defun corgi/open-straight-default-versions-file ()
+  "Open the straight default versions file"
+  (interactive)
+  (find-file (expand-file-name "straight/versions/default.el" user-emacs-directory)))
+
 ;; Taking this out, see explanation in corgi-keys.el
 ;;
 ;; (defun corgi/emulate-tab ()

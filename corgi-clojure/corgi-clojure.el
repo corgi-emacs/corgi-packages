@@ -1,7 +1,7 @@
 ;;; corgi-clojure.el --- Clojure configuration for Corgi -*- lexical-binding: t -*-
 ;;
 ;; Filename: corgi-clojure.el
-;; Package-Requires: ((use-package) (cider) (clj-ns-name) (clj-refactor) (clojure-mode))
+;; Package-Requires: ((use-package) (cider) (clj-ns-name) (clojure-mode))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
