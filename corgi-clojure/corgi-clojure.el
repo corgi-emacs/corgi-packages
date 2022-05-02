@@ -73,12 +73,14 @@
                  ((cider-maybe-intern type))))
           (repls (delete-dups (seq-mapcat #'cdr (or (sesman-current-sessions 'CIDER)
                                                     (when ensure
-                                                      (user-error "No linked CIDER sessions")))))))
+                                                      (user-error "No linked CIDER sessions"))))))
+          (bb-repl (get-buffer "*babashka-repl*")))
       (or (seq-filter (lambda (b)
                         (and (cider--match-repl-type type b)
-                             (not (equal b (get-buffer "*babashka-repl*")))))
+                             (not (equal b bb-repl))))
                       repls)
-          (list (get-buffer "*babashka-repl*")))))
+          (when bb-repl
+            (list bb-repl)))))
 
   (advice-add #'cider-repls :around #'corgi/around-cider-repls)
 

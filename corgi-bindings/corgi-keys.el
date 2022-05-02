@@ -144,12 +144,13 @@
 
    ("t" "Toggle modes"
     ("a" "Toggle aggressive indent mode" :toggle/aggressive-indent)
+    ("c" "Toggle completion" :toggle/completion)
+    ("e" "Toggle debug on error" :toggle/debug-on-error)
     ("l" "Toggle line numbers" :toggle/word-wrap)
     ("q" "Toggle debug on quit" :toggle/debug-on-quit)
-    ("e" "Toggle debug on error" :toggle/debug-on-error)
+    ("r" "Toggle read-only" :toggle/read-only)
     ("w" "Toggle soft word-wrap" :toggle/soft-word-wrap)
-    ("W" "Toggle hard word-wrap" :toggle/hard-word-wrap)
-    ("r" "Toggle read-only" :toggle/read-only))
+    ("W" "Toggle hard word-wrap" :toggle/hard-word-wrap))
 
    ("x" "Text editing"
     ("t" "Transpose sexps" transpose-sexps)
