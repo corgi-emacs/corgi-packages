@@ -42,7 +42,8 @@
             :toggle/line-numbers display-line-numbers-mode
             :toggle/aggressive-indent aggressive-indent-mode
             :toggle/debug-on-quit toggle-debug-on-quit
-            :toggle/debug-on-error toggle-debug-on-error))
+            :toggle/debug-on-error toggle-debug-on-error
+            :toggle/completion company-mode))
 
  (prog-mode ( :format/tab-indent indent-for-tab-command
               :jump/definition xref-find-definitions
