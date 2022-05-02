@@ -1,7 +1,7 @@
 ;;; corgi-editor.el --- User interface configuration for Corgi -*- lexical-binding: t -*-
 ;;
 ;; Filename: corgi-editor.el
-;; Package-Requires: ((use-package) (aggressive-indent) (avy) (company) (counsel) (diminish) (dumb-jump) (evil) (evil-cleverparens) (evil-collection) (evil-surround) (expand-region) (goto-last-change) (ivy) (projectile) (rainbow-delimiters) (smartparens) (smex) (string-edit) (swiper) (undo-fu) (which-key) (winum) (xclip))
+;; Package-Requires: ((use-package) (aggressive-indent) (avy) (company) (counsel) (diminish) (dumb-jump) (evil) (evil-cleverparens) (evil-collection) (evil-surround) (expand-region) (goto-last-change) (ivy) (ivy-prescient) (projectile) (rainbow-delimiters) (smartparens) (smex) (string-edit) (swiper) (undo-fu) (which-key) (winum) (xclip))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
