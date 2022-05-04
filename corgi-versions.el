@@ -8,7 +8,7 @@
  ("clj-refactor.el" . "f368c56c83843396b160440f472a661a3b639862")
  ("clojure-mode" . "b6f41d74904daa9312648f3a7bea7a72fd8e140b")
  ("company-mode" . "1005540b1cdf176cbcf893b2fa83d2075cbbe3ca")
- ("corkey" . "5c519e5068e2ec95d543b7afe9138a779b192a41")
+ ("corkey" . "1af271783e4df98d101ca14f49e4b6d62a544fa9")
  ("dash.el" . "7fd71338dce041b352f84e7939f6966f4d379459")
  ("diminish.el" . "6b7e837b0cf0129e9d7d6abae48093cf599bb9e8")
  ("dumb-jump" . "dbb915441a2b66f2fbb954ff5de2723c5a4771d4")
