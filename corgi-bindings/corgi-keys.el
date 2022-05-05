@@ -109,6 +109,7 @@
     ("s" "Search in buffer" :buffer/incremental-search))
 
    ("p" "Project"
+    ("d" "Lint diagnostics" :project/diagnostics)
     ("f" "Find file" :project/open-file)
     ("p" "Switch project" :project/switch)
     ("k" "Kill buffers" :project/kill)
@@ -144,13 +145,12 @@
 
    ("t" "Toggle modes"
     ("a" "Toggle aggressive indent mode" :toggle/aggressive-indent)
-    ("c" "Toggle completion" :toggle/completion)
-    ("e" "Toggle debug on error" :toggle/debug-on-error)
     ("l" "Toggle line numbers" :toggle/word-wrap)
     ("q" "Toggle debug on quit" :toggle/debug-on-quit)
-    ("r" "Toggle read-only" :toggle/read-only)
+    ("e" "Toggle debug on error" :toggle/debug-on-error)
     ("w" "Toggle soft word-wrap" :toggle/soft-word-wrap)
-    ("W" "Toggle hard word-wrap" :toggle/hard-word-wrap))
+    ("W" "Toggle hard word-wrap" :toggle/hard-word-wrap)
+    ("r" "Toggle read-only" :toggle/read-only))
 
    ("x" "Text editing"
     ("t" "Transpose sexps" transpose-sexps)
@@ -211,6 +211,8 @@
     ("-" "Eval up to point" :eval/up-to-point))
 
    ("g" "Go places"
+    ("e" "Error next" :jump/next-error)
+    ("E" "Error previous" :jump/prev-error)
     ("g" "Go to definition" :jump/definition)
     ("b" "Go back" :jump/back)
     ("n" "Go to namespace" :jump/ns)

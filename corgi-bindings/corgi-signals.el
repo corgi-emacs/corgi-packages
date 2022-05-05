@@ -20,6 +20,7 @@
             :project/kill projectile-kill-buffers
             :project/incremental-search counsel-git-grep
             :project/switch-buffer projectile-switch-to-buffer
+            :project/diagnostics flymake-show-buffer-diagnostics
 
             :jump/identifier counsel-imenu
             :jump/character avy-goto-char
@@ -42,12 +43,13 @@
             :toggle/line-numbers display-line-numbers-mode
             :toggle/aggressive-indent aggressive-indent-mode
             :toggle/debug-on-quit toggle-debug-on-quit
-            :toggle/debug-on-error toggle-debug-on-error
-            :toggle/completion company-mode))
+            :toggle/debug-on-error toggle-debug-on-error))
 
  (prog-mode ( :format/tab-indent indent-for-tab-command
               :jump/definition xref-find-definitions
-              :jump/back xref-pop-marker-stack))
+              :jump/back xref-pop-marker-stack
+              :jump/next-error flymake-goto-next-error
+              :jump/prev-error flymake-goto-prev-error))
 
  (emacs-lisp-mode ( :eval/last-sexp eval-last-sexp
                     :eval/buffer eval-buffer
