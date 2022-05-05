@@ -1,13 +1,18 @@
 ;;; corgi-clojure.el --- Clojure configuration for Corgi -*- lexical-binding: t -*-
 ;;
 ;; Filename: corgi-clojure.el
-;; Package-Requires: ((use-package) (cider) (clj-ns-name) (clojure-mode))
+;; Package-Requires: ((use-package) (cider) (clj-ns-name) (clojure-mode) (flymake-kondor))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Code:
 
 (require 'use-package)
+
+(use-package flymake-kondor
+  :config
+  (add-hook 'clojure-mode-hook (lambda ()
+	                         (flymake-kondor-setup))))
 
 (use-package clojure-mode
   :magic ("^#![^\n]*/\\(clj\\|clojure\\|bb\\|lumo\\)" . clojure-mode)
@@ -27,6 +32,7 @@
         ;; nrepl-log-messages nil
 
         )
+
 
   ;; TODO: clean this up, submit to upstream where possible
   ;; More CIDER/clojure-mode stuff
@@ -73,14 +79,12 @@
                  ((cider-maybe-intern type))))
           (repls (delete-dups (seq-mapcat #'cdr (or (sesman-current-sessions 'CIDER)
                                                     (when ensure
-                                                      (user-error "No linked CIDER sessions"))))))
-          (bb-repl (get-buffer "*babashka-repl*")))
+                                                      (user-error "No linked CIDER sessions")))))))
       (or (seq-filter (lambda (b)
                         (and (cider--match-repl-type type b)
-                             (not (equal b bb-repl))))
+                             (not (equal b (get-buffer "*babashka-repl*")))))
                       repls)
-          (when bb-repl
-            (list bb-repl)))))
+          (list (get-buffer "*babashka-repl*")))))
 
   (advice-add #'cider-repls :around #'corgi/around-cider-repls)
 
@@ -131,6 +135,7 @@ creates a new one. Don't unnecessarily bother the user."
 
   (advice-add #'cider--choose-reusable-repl-buffer :around #'corgi/around-cider--choose-reusable-repl-buffer))
 
+
 ;; silence byte compiler
 (require 'clojure-mode)
 (require 'cider)
@@ -163,7 +168,6 @@ creates a new one. Don't unnecessarily bother the user."
   :config
   (clj-ns-name-install))
 
-(provide 'corgi-clojure)
 
 (defun corgi/cider-pprint-eval-register (register)
   "Evaluate a Clojure snippet stored in a register.
@@ -279,5 +283,6 @@ project or host."
       (when (eq 'clojure-mode major-mode)
         (corgi/enable-cider-connection-indicator-in-current-buffer)))))
 
+(provide 'corgi-clojure)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; corgi-clojure.el ends here
