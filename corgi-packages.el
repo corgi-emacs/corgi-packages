@@ -61,6 +61,7 @@
              corgi-emacs-lisp
              corgi-emacs
              corgi-clojure
+             corgi-clojure-kondo
              corgi-stateline))))
 
 (defun straight-recipes-corgi-packages-list ()

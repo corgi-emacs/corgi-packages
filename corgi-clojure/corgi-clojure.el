@@ -1,18 +1,13 @@
 ;;; corgi-clojure.el --- Clojure configuration for Corgi -*- lexical-binding: t -*-
 ;;
 ;; Filename: corgi-clojure.el
-;; Package-Requires: ((use-package) (cider) (clj-ns-name) (clojure-mode) (flymake-kondor))
+;; Package-Requires: ((use-package) (cider) (clj-ns-name) (clojure-mode))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Code:
 
 (require 'use-package)
-
-(use-package flymake-kondor
-  :config
-  (add-hook 'clojure-mode-hook (lambda ()
-	                         (flymake-kondor-setup))))
 
 (use-package clojure-mode
   :magic ("^#![^\n]*/\\(clj\\|clojure\\|bb\\|lumo\\)" . clojure-mode)
