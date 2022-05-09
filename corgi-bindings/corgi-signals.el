@@ -43,13 +43,12 @@
             :toggle/line-numbers display-line-numbers-mode
             :toggle/aggressive-indent aggressive-indent-mode
             :toggle/debug-on-quit toggle-debug-on-quit
-            :toggle/debug-on-error toggle-debug-on-error))
+            :toggle/debug-on-error toggle-debug-on-error
+            :toggle/completion company-mode))
 
  (prog-mode ( :format/tab-indent indent-for-tab-command
               :jump/definition xref-find-definitions
-              :jump/back xref-pop-marker-stack
-              :jump/next-error flymake-goto-next-error
-              :jump/prev-error flymake-goto-prev-error))
+              :jump/back xref-pop-marker-stack))
 
  (emacs-lisp-mode ( :eval/last-sexp eval-last-sexp
                     :eval/buffer eval-buffer
