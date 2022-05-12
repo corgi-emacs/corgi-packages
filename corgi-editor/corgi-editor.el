@@ -1,7 +1,7 @@
 ;;; corgi-editor.el --- User interface configuration for Corgi -*- lexical-binding: t -*-
 ;;
 ;; Filename: corgi-editor.el
-;; Package-Requires: ((use-package) (aggressive-indent) (avy) (company) (counsel) (diminish) (dumb-jump) (evil) (evil-cleverparens) (evil-collection) (evil-surround) (expand-region) (goto-last-change) (ivy) (ivy-prescient) (projectile) (rainbow-delimiters) (smartparens) (smex) (string-edit) (swiper) (undo-fu) (which-key) (winum) (xclip) (flymake))
+;; Package-Requires: ((use-package) (aggressive-indent) (avy) (company) (counsel) (diminish) (dumb-jump) (flymake) (evil) (evil-cleverparens) (evil-collection) (evil-surround) (expand-region) (goto-last-change) (ivy) (ivy-prescient) (projectile) (rainbow-delimiters) (smartparens) (smex) (string-edit) (swiper) (undo-fu) (which-key) (winum) (xclip))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -46,12 +46,11 @@
 
 (use-package avy)
 
-(use-package undo-fu)
-
 (use-package flymake
   :config
-  (remove-hook 'flymake-diagnostic-functions #'flymake-proc-legacy-flymake)
-  (add-hook 'prog-mode-hook (lambda () (flymake-mode +1))))
+  (remove-hook 'flymake-diagnostic-functions #'flymake-proc-legacy-flymake))
+
+(use-package undo-fu)
 
 (use-package evil
   :init (setq evil-want-keybinding nil)
@@ -74,6 +73,7 @@
 
 (use-package evil-collection
   :after (evil)
+  :diminish evil-collection-unimpaired-mode
   :config
   (evil-collection-init))
 

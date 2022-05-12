@@ -28,7 +28,6 @@
 
         )
 
-
   ;; TODO: clean this up, submit to upstream where possible
   ;; More CIDER/clojure-mode stuff
   ;; - logical-sexp doesn't treat #_ correctly
@@ -74,12 +73,14 @@
                  ((cider-maybe-intern type))))
           (repls (delete-dups (seq-mapcat #'cdr (or (sesman-current-sessions 'CIDER)
                                                     (when ensure
-                                                      (user-error "No linked CIDER sessions")))))))
+                                                      (user-error "No linked CIDER sessions"))))))
+          (bb-repl (get-buffer "*babashka-repl*")))
       (or (seq-filter (lambda (b)
                         (and (cider--match-repl-type type b)
-                             (not (equal b (get-buffer "*babashka-repl*")))))
+                             (not (equal b bb-repl))))
                       repls)
-          (list (get-buffer "*babashka-repl*")))))
+          (when bb-repl
+            (list bb-repl)))))
 
   (advice-add #'cider-repls :around #'corgi/around-cider-repls)
 
@@ -130,7 +131,6 @@ creates a new one. Don't unnecessarily bother the user."
 
   (advice-add #'cider--choose-reusable-repl-buffer :around #'corgi/around-cider--choose-reusable-repl-buffer))
 
-
 ;; silence byte compiler
 (require 'clojure-mode)
 (require 'cider)
@@ -163,6 +163,7 @@ creates a new one. Don't unnecessarily bother the user."
   :config
   (clj-ns-name-install))
 
+(provide 'corgi-clojure)
 
 (defun corgi/cider-pprint-eval-register (register)
   "Evaluate a Clojure snippet stored in a register.
@@ -278,6 +279,5 @@ project or host."
       (when (eq 'clojure-mode major-mode)
         (corgi/enable-cider-connection-indicator-in-current-buffer)))))
 
-(provide 'corgi-clojure)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; corgi-clojure.el ends here
