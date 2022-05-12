@@ -12,12 +12,6 @@
 ;;
 ;; (let ((straight-current-profile 'corgi))
 ;;   ...
-;;
-;;   ;; Extensive setup for a good Clojure experience, including clojure-mode,
-;;   ;; CIDER, and a modeline indicator that shows which REPLs your evaluations go
-;;   ;; to.
-;;   ;; Also contains `corgi/cider-pprint-eval-register', bound to `,,', see
-;;   ;; `set-register' calls below.
 ;;   (use-package corgi-clojure)
 ;;   (use-package corgi-clojure-kondo)
 ;;
