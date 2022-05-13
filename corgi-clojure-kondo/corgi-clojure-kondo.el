@@ -20,11 +20,13 @@
 ;;
 ;;; Code:
 
-(use-package flymake-kondor
-  :config
-  (add-hook 'clojure-mode-hook (lambda ()
-	                         (flymake-kondor-setup)
-                                 (flymake-mode +1))))
+(require 'flymake)
+
+(straight-use-package 'flymake-kondor)
+
+(add-hook 'clojure-mode-hook (lambda ()
+	                       (flymake-kondor-setup)
+                               (flymake-mode +1)))
 
 (provide 'corgi-clojure-kondo)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
