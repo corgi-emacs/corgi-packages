@@ -11,6 +11,8 @@
 
 (use-package clojure-mode
   :magic ("^#![^\n]*/\\(clj\\|clojure\\|bb\\|lumo\\)" . clojure-mode)
+  :init
+  (add-to-list 'auto-mode-alist '("\\.ednl$" . clojure-mode))
   :config
   (setq clojure-toplevel-inside-comment-form t
         ;; Because of CIDER's insistence to send forms to all linked REPLs, we

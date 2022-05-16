@@ -178,7 +178,7 @@
     ("o" "Jack in other" :repl/jack-in-other)
     ("a" "Jack in all" :repl/jack-in-all))
 
-   ("c"
+   ("c" "Connect to REPL"
     ("c" "Connect to REPL" :repl/connect)
     ("o" "Connect to Other REPL Type" :repl/connect-other)
     ("a" "Connect to All REPL Types" :repl/connect-all))
