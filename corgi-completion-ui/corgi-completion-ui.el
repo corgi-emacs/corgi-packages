@@ -44,6 +44,9 @@
   :diminish company-mode
   :hook (prog-mode . company-mode))
 
+;; silence byte compiler
+(require 'ivy)
+
 (provide 'corgi-completion-ui)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
