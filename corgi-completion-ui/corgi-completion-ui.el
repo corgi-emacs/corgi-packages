@@ -6,6 +6,8 @@
 ;;
 ;;; Code:
 
+(require 'use-package)
+
 (use-package ivy
   :defer 0.1
   :diminish
