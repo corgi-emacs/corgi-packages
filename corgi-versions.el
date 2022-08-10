@@ -3,7 +3,7 @@
  ("aggressive-indent-mode" . "cb416faf61c46977c06cf9d99525b04dc109a33c")
  ("annalist.el" . "134fa3f0fb91a636a1c005c483516d4b64905a6d")
  ("avy" . "ba5f035be33693d1a136a5cbeedb24327f551a92")
- ("cider" . "cfea755de682bb91dd59ef7e789d4d2bb170efe1")
+ ("cider" . "68974c9fb6ee6e95a4568c46a9c4371b24d2f0e9")
  ("clj-ns-name" . "2a0898ba7888a07724dc40cdbba282371b921fd0")
  ("clj-refactor.el" . "f368c56c83843396b160440f472a661a3b639862")
  ("clojure-mode" . "b6f41d74904daa9312648f3a7bea7a72fd8e140b")
