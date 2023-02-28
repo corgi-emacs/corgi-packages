@@ -85,6 +85,26 @@
             (list bb-repl)))))
 
   (advice-add #'cider-repls :around #'corgi/around-cider-repls)
+  ;;  (advice-remove #'cider-repls #'corgi/around-cider-repls)
+
+  (defvar-local corgi--clojure-indent-cache nil
+    "Hashtable that caches indent information, for performance")
+
+  (defun corgi/clojure-get-indent (function-name)
+    (when (not corgi--clojure-indent-cache)
+      (setq corgi--clojure-indent-cache (make-hash-table :test 'equal)))
+    (let* ((no-props (substring-no-properties function-name))
+           (indent (gethash no-props corgi--clojure-indent-cache nil)))
+      (message "%S" no-props)
+      (if indent
+          indent
+        (let ((indent (cider--get-symbol-indent function-name)))
+          (puthash no-props indent corgi--clojure-indent-cache)
+          indent))))
+
+  ;; Leave off by default, still evaluating this
+  ;; (setq cider-dynamic-indentation nil)
+  ;; (setq clojure-get-indent-function 'corgi/clojure-get-indent)
 
   (defun corgi/cider-eval-last-sexp-and-replace ()
     "Alternative to cider-eval-last-sexp-and-replace, but kills
