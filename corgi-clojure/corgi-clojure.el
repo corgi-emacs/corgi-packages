@@ -259,8 +259,10 @@ specific project."
                                                :foreground "white"))))))
 
 
+
 (defun corgi/enable-cider-connection-indicator-in-current-buffer ()
   (when (not (seq-find (lambda (e) (eq e '(:eval (corgi/cider-modeline-info)))) mode-line-format))
+    (setq corgi/original-mode-line-format mode-line-format)
     (setq mode-line-format
           (seq-mapcat
            (lambda (e)
@@ -268,6 +270,10 @@ specific project."
                  '(" " (:eval (corgi/cider-modeline-info)) " " mode-line-modes)
                (list e)))
            mode-line-format))))
+
+(defun corgi/disable-cider-connection-indicator-in-current-buffer ()
+  (when corgi/original-mode-line-format
+    (setq mode-line-format corgi/original-mode-line-format)))
 
 (defun corgi/enable-cider-connection-indicator ()
   "In Clojure buffers show an indicator in the modeline for which
@@ -280,6 +286,18 @@ project or host."
     (with-current-buffer buf
       (when (eq 'clojure-mode major-mode)
         (corgi/enable-cider-connection-indicator-in-current-buffer)))))
+
+(defun corgi/disable-cider-connection-indicator ()
+  "In Clojure buffers show an indicator in the modeline for which
+CIDER REPLs the current buffer is linked to, with color coding
+for clj/cljs/bb, and extra info if the link goes to a different
+project or host."
+  (interactive)
+  (remove-hook 'clojure-mode-hook #'corgi/enable-cider-connection-indicator-in-current-buffer)
+  (dolist (buf (buffer-list))
+    (with-current-buffer buf
+      (when corgi/original-mode-line-format
+        (corgi/disable-cider-connection-indicator-in-current-buffer)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; corgi-clojure.el ends here
