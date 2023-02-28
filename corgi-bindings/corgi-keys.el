@@ -146,7 +146,7 @@
     ("a" "Toggle aggressive indent mode" :toggle/aggressive-indent)
     ("c" "Toggle completion" :toggle/completion)
     ("e" "Toggle debug on error" :toggle/debug-on-error)
-    ("l" "Toggle line numbers" :toggle/word-wrap)
+    ("l" "Toggle line numbers" :toggle/line-numbers)
     ("q" "Toggle debug on quit" :toggle/debug-on-quit)
     ("r" "Toggle read-only" :toggle/read-only)
     ("w" "Toggle soft word-wrap" :toggle/soft-word-wrap)
