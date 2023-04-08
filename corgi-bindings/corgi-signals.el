@@ -62,10 +62,12 @@
 
  (inferior-emacs-lisp-mode ( :repl/toggle corgi/switch-to-last-elisp-buffer))
 
- (list-mode ( :eval/last-sexp lisp-eval-last-sexp
+ (lisp-mode ( :eval/last-sexp lisp-eval-last-sexp
               :eval/buffer lisp-eval-buffer
               :eval/outer-sexp lisp-eval-defun
-              :eval/region lisp-eval-region))
+              :eval/region lisp-eval-region
+              :repl/toggle run-lisp
+              :repl/connect run-lisp))
 
  (scheme-mode ( :eval/last-sexp geiser-eval-last-sexp
                 :eval/buffer geiser-eval-buffer
