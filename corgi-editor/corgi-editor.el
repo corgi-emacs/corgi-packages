@@ -166,7 +166,7 @@
   (unless (or (and (minibufferp) (not evil-want-minibuffer))
               (eq (current-buffer) corgi-editor--last-buffer))
     (setq corgi-editor--last-buffer (current-buffer))
-    (evil-normal-state)))
+    (evil-change-to-initial-state)))
 
 (if (boundp 'window-buffer-change-functions)
     ;; Emacs 27.1+ only
