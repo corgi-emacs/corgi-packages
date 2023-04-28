@@ -44,7 +44,13 @@
                      "corgi-bindings/corgi-signals.el"
                      "corgi-bindings/user-keys-template.el"
                      "corgi-bindings/user-signals-template.el")
-             :repo "corgi-emacs/corgi-packages"))
+             :repo "corgi-emacs/corgi-packages")
+
+            (piglet-mode
+             :type git
+             :host github
+             :files ("piglet-mode.el")
+             :repo "piglet-lang/piglet-emacs"))
 
           (mapcar
            (lambda (pkg)
