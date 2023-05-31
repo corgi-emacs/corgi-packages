@@ -46,7 +46,7 @@
                      "corgi-bindings/user-signals-template.el")
              :repo "corgi-emacs/corgi-packages")
 
-            (piglet-mode
+            (piglet-emacs
              :type git
              :host github
              :files ("piglet-mode.el" "pdp.el")
