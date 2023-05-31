@@ -49,7 +49,8 @@
             (piglet-emacs
              :type git
              :host github
-             :files ("piglet-mode.el" "pdp.el")
+             :files ("piglet-emacs.el" "piglet-emacs-pkg.el"
+                     "piglet-mode.el" "pdp.el")
              :repo "piglet-lang/piglet-emacs"))
 
           (mapcar
