@@ -49,7 +49,7 @@
             (piglet-mode
              :type git
              :host github
-             :files ("piglet-mode.el")
+             :files ("piglet-mode.el" "pdp.el")
              :repo "piglet-lang/piglet-emacs"))
 
           (mapcar
