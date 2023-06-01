@@ -102,7 +102,9 @@
           clojurec-mode
           clojure-mode
           emacs-lisp-mode
-          lisp-data-mode)
+          lisp-data-mode
+          js-mode
+          piglet-mode)
          . aggressive-indent-mode))
 
 (use-package rainbow-delimiters
