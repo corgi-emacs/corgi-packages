@@ -147,6 +147,8 @@
                     :eval/registry-pprint corgi/cider-pprint-eval-register
                     :jump/ns cider-find-ns))
 
+ (piglet-mode ( :eval/outer-sexp pdp-eval-outer-sexp))
+
  (sql-mode ( :repl/toggle sql-show-sqli-buffer
              :eval/last-sexp sql-send-paragraph
              :eval/outer-sexp sql-send-paragraph
