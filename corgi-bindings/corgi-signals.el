@@ -149,7 +149,9 @@
 
  (piglet-mode ( :eval/last-sexp pdp-eval-last-sexp
                 :eval/outer-sexp pdp-eval-outer-sexp
-                :eval/buffer pdp-eval-buffer))
+                :eval/region pdp-eval-region
+                :eval/buffer pdp-eval-buffer
+                :jump/definition pdp-jump-to-definition))
 
  (sql-mode ( :repl/toggle sql-show-sqli-buffer
              :eval/last-sexp sql-send-paragraph
