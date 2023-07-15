@@ -151,6 +151,7 @@
                 :eval/outer-sexp pdp-eval-outer-sexp
                 :eval/region pdp-eval-region
                 :eval/buffer pdp-eval-buffer
+                :eval/last-sexp-pprint pdp-eval-last-sexp-to-result-buffer
                 :jump/definition pdp-jump-to-definition))
 
  (sql-mode ( :repl/toggle sql-show-sqli-buffer
