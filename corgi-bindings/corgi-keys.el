@@ -150,7 +150,8 @@
     ("q" "Toggle debug on quit" :toggle/debug-on-quit)
     ("r" "Toggle read-only" :toggle/read-only)
     ("w" "Toggle soft word-wrap" :toggle/soft-word-wrap)
-    ("W" "Toggle hard word-wrap" :toggle/hard-word-wrap))
+    ("W" "Toggle hard word-wrap" :toggle/hard-word-wrap)
+    ("W" "Toggle wrap at fill-column" visual-fill-column-mode))
 
    ("x" "Text editing"
     ("t" "Transpose sexps" transpose-sexps)
