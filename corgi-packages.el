@@ -54,6 +54,7 @@
                      "piglet-emacs.el"
                      "piglet-emacs-pkg.el"
                      "piglet-mode.el"
+                     "piglet-cbor.el"
                      "README.md")
              :repo "piglet-lang/piglet-emacs"))
 
