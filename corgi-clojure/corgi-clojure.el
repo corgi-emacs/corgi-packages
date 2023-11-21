@@ -223,6 +223,8 @@ evaluated, like `(println \"{{buffer-file-name}}\")'.
   "Start a utility CIDER REPL backed by Babashka, not related to a
 specific project."
   (interactive)
+  (when (get-buffer "*babashka-repl*")
+    (kill-buffer "*babashka-repl*"))
   (let ((project-dir (or project-dir user-emacs-directory)))
     (nrepl-start-server-process
      project-dir
@@ -246,7 +248,8 @@ specific project."
                                     (rename-buffer "*babashka-repl*"))))))))
 
 (defun corgi/cider-modeline-info ()
-  (when (derived-mode-p 'clojure-mode)
+  (when (or (derived-mode-p 'clojure-mode)
+            (derived-mode-p 'org-mode))
     (let ((source-project-name (projectile-project-name)))
       (if-let* ((repls (ignore-errors (cider-repls (cider-repl-type-for-buffer)))))
           (thread-last
@@ -304,7 +307,8 @@ project or host."
   (add-hook 'clojure-mode-hook #'corgi/enable-cider-connection-indicator-in-current-buffer)
   (dolist (buf (buffer-list))
     (with-current-buffer buf
-      (when (eq 'clojure-mode major-mode)
+      (when  (or (derived-mode-p 'clojure-mode)
+                 (derived-mode-p 'org-mode))
         (corgi/enable-cider-connection-indicator-in-current-buffer)))))
 
 (defun corgi/disable-cider-connection-indicator ()
