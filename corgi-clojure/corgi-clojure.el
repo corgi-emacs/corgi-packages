@@ -225,7 +225,7 @@ specific project."
   (interactive)
   (when (get-buffer "*babashka-repl*")
     (kill-buffer "*babashka-repl*"))
-  (let ((project-dir (or project-dir user-emacs-directory)))
+  (let ((project-dir (or project-dir (projectile-project-root) user-emacs-directory)))
     (nrepl-start-server-process
      project-dir
      "bb --nrepl-server 0"
