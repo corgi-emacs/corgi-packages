@@ -161,7 +161,7 @@ creates a new one. Don't unnecessarily bother the user."
 ;; https://docs.cider.mx/cider/troubleshooting.html#empty-java-stacktraces
 (defun corgi/around-cider-jack-in-global-options (command project-type)
   (if (eq 'clojure-cli project-type)
-      (concat cider-clojure-cli-global-options
+      (concat cider-clojure-cli-parameters
               " -J-XX:-OmitStackTraceInFastThrow")
     (funcall command project-type)))
 
