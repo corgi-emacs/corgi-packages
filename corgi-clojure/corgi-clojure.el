@@ -249,6 +249,7 @@ specific project."
 
 (defun corgi/cider-modeline-info ()
   (when (or (derived-mode-p 'clojure-mode)
+            (derived-mode-p 'clojure-ts-mode)
             (derived-mode-p 'org-mode))
     (let ((source-project-name (projectile-project-name)))
       (if-let* ((repls (ignore-errors (cider-repls (cider-repl-type-for-buffer)))))
@@ -305,9 +306,11 @@ for clj/cljs/bb, and extra info if the link goes to a different
 project or host."
   (interactive)
   (add-hook 'clojure-mode-hook #'corgi/enable-cider-connection-indicator-in-current-buffer)
+  (add-hook 'clojure-ts-mode-hook #'corgi/enable-cider-connection-indicator-in-current-buffer)
   (dolist (buf (buffer-list))
     (with-current-buffer buf
       (when  (or (derived-mode-p 'clojure-mode)
+                 (derived-mode-p 'clojure-ts-mode)
                  (derived-mode-p 'org-mode))
         (corgi/enable-cider-connection-indicator-in-current-buffer)))))
 
@@ -318,6 +321,7 @@ for clj/cljs/bb, and extra info if the link goes to a different
 project or host."
   (interactive)
   (remove-hook 'clojure-mode-hook #'corgi/enable-cider-connection-indicator-in-current-buffer)
+  (remove-hook 'clojure-ts-mode-hook #'corgi/enable-cider-connection-indicator-in-current-buffer)
   (dolist (buf (buffer-list))
     (with-current-buffer buf
       (when corgi/original-mode-line-format
