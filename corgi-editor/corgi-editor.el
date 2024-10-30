@@ -1,7 +1,7 @@
-;;; corgi-editor.el --- User interface configuration for Corgi -*- lexical-binding: t -*-
+;;; corgi-editor.el --- Editing user interface configuration for Corgi -*- lexical-binding: t -*-
 ;;
 ;; Filename: corgi-editor.el
-;; Package-Requires: ((use-package) (aggressive-indent) (avy) (company) (counsel) (diminish) (dumb-jump) (evil) (evil-cleverparens) (evil-collection) (evil-surround) (expand-region) (goto-last-change) (ivy) (ivy-prescient) (projectile) (rainbow-delimiters) (smartparens) (smex) (string-edit-at-point) (swiper) (undo-fu) (which-key) (winum) (xclip))
+;; Package-Requires: ((use-package) (aggressive-indent) (avy) (diminish) (dumb-jump) (evil) (evil-cleverparens) (evil-collection) (evil-surround) (expand-region) (goto-last-change) (rainbow-delimiters) (smartparens) (smex) (string-edit-at-point) (undo-fu) (which-key) (winum) (xclip))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -14,35 +14,6 @@
   elisp-slime-nav-mode
   eldoc-mode
   subword-mode)
-
-(use-package ivy
-  :defer 0.1
-  :diminish
-  :init
-  (setq ivy-use-virtual-buffers t)
-  :config
-  (ivy-mode)
-  (define-key ivy-minibuffer-map (kbd "C-j") #'ivy-next-line)
-  (define-key ivy-minibuffer-map (kbd "C-k") #'ivy-previous-line))
-
-(use-package counsel
-  :after (ivy)
-  :diminish
-  :config
-  (counsel-mode)
-  ;; This ensures that SPC f r (counsel-recentf, show recently opened files)
-  ;; actually works
-  (recentf-mode 1))
-
-(use-package ivy-prescient
-  :after (ivy)
-  :config
-  (ivy-prescient-mode 1)
-  (prescient-persist-mode 1))
-
-(use-package swiper
-  :after (ivy)
-  :bind (("C-s" . swiper)))
 
 (use-package avy)
 
@@ -118,15 +89,6 @@
           inferior-emacs-lisp-mode)
          . rainbow-delimiters-mode))
 
-(use-package company
-  :diminish company-mode
-  :hook (prog-mode . company-mode))
-
-(use-package projectile
-  :config
-  (projectile-mode)
-  (setq projectile-create-missing-test-files t))
-
 (use-package dumb-jump)
 
 (use-package goto-last-change)
@@ -140,7 +102,6 @@
 (require 'evil-core)
 (require 'winum)
 (require 'evil-collection)
-(require 'ivy)
 
 (when (and (not (display-graphic-p))
            (executable-find "xclip"))
