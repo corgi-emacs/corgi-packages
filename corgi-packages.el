@@ -69,6 +69,7 @@
 
            '(corgi-defaults
              corgi-editor
+	     corgi-completion-ui
              corgi-commands
              corgi-emacs-lisp
              corgi-emacs
