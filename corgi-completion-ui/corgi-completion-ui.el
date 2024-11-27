@@ -1,7 +1,7 @@
 ;;; corgi-completion-ui.el --- Interactive completion user interface configuration for Corgi -*- lexical-binding: t -*-
 ;;
 ;; Filename: corgi-completion-ui.el
-;; Package-Requires: ((company) (counsel) (ivy) (ivy-prescient) (projectile) (swiper))
+;; Package-Requires: ((use-package) (company) (counsel) (ivy) (ivy-prescient) (projectile) (swiper))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Code:
