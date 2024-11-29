@@ -160,10 +160,10 @@ creates a new one. Don't unnecessarily bother the user."
 ;; Most annoying JVM "feature" of all time
 ;; https://docs.cider.mx/cider/troubleshooting.html#empty-java-stacktraces
 (defun corgi/around-cider-jack-in-global-options (command project-type)
-  (if (eq 'clojure-cli project-type)
-      (concat cider-clojure-cli-parameters
-              " -J-XX:-OmitStackTraceInFastThrow")
-    (funcall command project-type)))
+  (let ((opts (funcall command project-type)))
+    (if (eq 'clojure-cli project-type)
+        (concat opts " -J-XX:-OmitStackTraceInFastThrow")
+      opts)))
 
 (advice-add #'cider-jack-in-global-options :around #'corgi/around-cider-jack-in-global-options)
 ;; (use-package clj-refactor
