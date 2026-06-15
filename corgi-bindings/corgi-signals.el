@@ -92,6 +92,21 @@
                  :refactor/add-missing cljr-add-missing-libspec
                  :refactor/extract-function cljr-extract-function))
 
+ (edn-mode ( :repl/connect ("Connect clj" cider-connect)
+             :repl/connect-other ("Connect cljs" cider-connect-cljs)
+             :repl/connect-all ("Connect clj&cljs" cider-connect-clj&cljs)
+             :repl/jack-in ("Jack-in Clojure" cider-jack-in-clj)
+             :repl/jack-in-other ("Jack in ClojureScript" cider-jack-in-cljs)
+             :repl/jack-in-all ("Jack in Clj+Cljs" cider-jack-in-clj&cljs)
+             :sexp/slurp-forward sp-forward-slurp-sexp
+             :sexp/barf-forward sp-forward-barf-sexp
+             :sexp/forward clojure-forward-logical-sexp
+             :sexp/backward clojure-backward-logical-sexp
+
+             :refactor/thread-first clojure-thread-first-all
+             :refactor/thread-last clojure-thread-last-all
+             :refactor/unwind-thread clojure-unwind-all))
+
  (cider-mode ( :eval/last-sexp cider-eval-last-sexp
                :eval/last-sexp-pprint cider-pprint-eval-last-sexp
                :eval/last-sexp-pprint-comment cider-pprint-eval-last-sexp-to-comment
