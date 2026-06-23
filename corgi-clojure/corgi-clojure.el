@@ -68,7 +68,7 @@
   ;; REPLs by using sesman-current-sessions (plural) instead of
   ;; sesman-current-session. It also falls back to the babashka repl if no repls
   ;; are connected/linked, so we can always eval.
-  (defun corgi/around-cider-repls (_command &optional type ensure)
+  (defun corgi/around-cider-repls (_command &optional type ensure required-ops)
     (let ((type (cond
                  ((listp type)
                   (mapcar #'cider-maybe-intern type))
@@ -79,7 +79,12 @@
           (bb-repl (get-buffer "*babashka-repl*")))
       (or (seq-filter (lambda (b)
                         (and (cider--match-repl-type type b)
-                             (not (equal b bb-repl))))
+                             (not (equal b bb-repl))
+                             ;; Filter by required-ops if specified
+                             (or (null required-ops)
+                                 (seq-every-p (lambda (op)
+                                                (nrepl-op-supported-p op b))
+                                              required-ops))))
                       repls)
           (when bb-repl
             (list bb-repl)))))
