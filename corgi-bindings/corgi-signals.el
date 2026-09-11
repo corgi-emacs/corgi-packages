@@ -33,8 +33,8 @@
 
             :sexp/slurp-forward sp-forward-slurp-sexp
             :sexp/barf-forward sp-forward-barf-sexp
-            :sexp/forward evil-cp-forward-sexp
-            :sexp/backward evil-cp-backward-sexp
+            :sexp/forward corgi-forward-sexp
+            :sexp/backward corgi-backward-sexp
 
             :toggle/read-only read-only-mode
             :toggle/soft-word-wrap visual-line-mode
@@ -81,8 +81,8 @@
                  :repl/jack-in-all ("Jack in Clj+Cljs" cider-jack-in-clj&cljs)
                  :sexp/slurp-forward sp-forward-slurp-sexp
                  :sexp/barf-forward sp-forward-barf-sexp
-                 :sexp/forward clojure-forward-logical-sexp
-                 :sexp/backward clojure-backward-logical-sexp
+                 :sexp/forward corgi-clojure-forward-logical-sexp
+                 :sexp/backward corgi-clojure-backward-logical-sexp
 
                  :refactor/thread-first clojure-thread-first-all
                  :refactor/thread-last clojure-thread-last-all
@@ -100,8 +100,8 @@
              :repl/jack-in-all ("Jack in Clj+Cljs" cider-jack-in-clj&cljs)
              :sexp/slurp-forward sp-forward-slurp-sexp
              :sexp/barf-forward sp-forward-barf-sexp
-             :sexp/forward clojure-forward-logical-sexp
-             :sexp/backward clojure-backward-logical-sexp
+             :sexp/forward corgi-clojure-forward-logical-sexp
+             :sexp/backward corgi-clojure-backward-logical-sexp
 
              :refactor/thread-first clojure-thread-first-all
              :refactor/thread-last clojure-thread-last-all

@@ -156,6 +156,21 @@ creates a new one. Don't unnecessarily bother the user."
 ;; silence byte compiler
 (require 'clojure-mode)
 (require 'cider)
+(require 'evil)
+
+;; Logical sexp motions.  These use the `corgi-sexp' type (defined in
+;; corgi-editor) so that `dL'/`dH' delete characterwise instead of linewise.
+(evil-define-motion corgi-clojure-forward-logical-sexp (count)
+  "Move to the end of the current logical sexp."
+  :jump t
+  :type corgi-sexp
+  (clojure-forward-logical-sexp (or count 1)))
+
+(evil-define-motion corgi-clojure-backward-logical-sexp (count)
+  "Move to the beginning of the current logical sexp."
+  :jump t
+  :type corgi-sexp
+  (clojure-backward-logical-sexp (or count 1)))
 
 ;; Most annoying JVM "feature" of all time
 ;; https://docs.cider.mx/cider/troubleshooting.html#empty-java-stacktraces

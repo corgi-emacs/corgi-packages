@@ -66,6 +66,29 @@
 (use-package evil-cleverparens
   :after (evil smartparens))
 
+;; A sexp is characterwise and never linewise.  The default `exclusive' and
+;; `inclusive' types make `evil-delete' reclassify a delete as linewise when
+;; the motion starts at the beginning of a line and ends on a line boundary,
+;; which breaks e.g. `dL' followed by `p'.  We use a custom identity type so
+;; the range is left characterwise as-is.
+(evil-define-type corgi-sexp
+  "A sexp.  Characterwise and never linewise.")
+
+(evil-define-motion corgi-forward-sexp (count)
+  "Move forward by a sexp, characterwise and never linewise."
+  :jump t
+  :type corgi-sexp
+  (let ((count (or count 1)))
+    (when (evil-eolp) (forward-char))
+    (sp-forward-sexp count)))
+
+(evil-define-motion corgi-backward-sexp (count)
+  "Move backward by a sexp, characterwise and never linewise."
+  :jump t
+  :type corgi-sexp
+  (let ((count (or count 1)))
+    (sp-backward-sexp count)))
+
 (use-package aggressive-indent
   :diminish aggressive-indent-mode
   :hook ((clojurex-mode
@@ -102,6 +125,7 @@
 (require 'evil-core)
 (require 'winum)
 (require 'evil-collection)
+(require 'smartparens)
 
 (when (and (not (display-graphic-p))
            (executable-find "xclip"))
