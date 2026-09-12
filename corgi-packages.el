@@ -46,6 +46,14 @@
                      "corgi-bindings/user-signals-template.el")
              :repo "corgi-emacs/corgi-packages")
 
+            (corgi-evil
+             :type git
+             :host github
+             :branch "main"
+             :files ("corgi-evil/corgi-evil.el"
+                     "corgi-evil/corgi-evil-colorize-modeline.el")
+             :repo "corgi-emacs/corgi-packages")
+
             (piglet-emacs
              :type git
              :host github

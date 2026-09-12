@@ -64,15 +64,6 @@
   ("M-l" "End of outer sexp" evil-cp-end-of-defun)
   ("M-h" "Start of outer sexp" evil-cp-beginning-of-defun)
 
-  ;; Leaving these evil-cleverparens style bindings out for now, instead
-  ;; sticking to the default vim-style bindings
-  ;; ("[" "Previous opening delimiter" evil-cp-previous-opening)
-  ;; ("]" "Next closing delimiter" evil-cp-next-closing)
-  ;; ("{" "Next opening delimiter" evil-cp-next-opening)
-  ;; ("}" "Previous closing delimiter" evil-cp-previous-closing)
-  ;; ("(" "Backward up sexp" evil-cp-backward-up-sexp)
-  ;; (")" "Up sexp" evil-cp-up-sexp)
-
   ("<M-up>" "Expand region" er/expand-region)
   ("<M-down>" "Contract region" er/contract-region)
 
