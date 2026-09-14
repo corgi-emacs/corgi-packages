@@ -9,61 +9,78 @@
 
 (require 'use-package)
 
+;; Diminish lets us hide certain minor-modes from the mode line, to keep it
+;; clean. We do this here for some built-ins we enable, for other packages it's
+;; set up in the respective `use-package' declaration.
 (use-package diminish
   :diminish
-  elisp-slime-nav-mode
   eldoc-mode
   subword-mode)
 
+;; Jump to a visible character or word with a two-key sequence (`avy-goto-char',
+;; Corgi binding: `SPC j j').
 (use-package avy
   :defer t)
 
+;; After a prefix key, show the available continuations in a popup. Built in
+;; from Emacs 30, otherwise we load the package.
 (use-package which-key
   :diminish which-key-mode
   :config
   (which-key-mode 1)
   (setq which-key-sort-order 'which-key-prefix-then-key-order))
 
+;; Number the visible windows and allow switching to one by its number. (Corgi binding: `SPC <num>')
 (use-package winum
   :config (winum-mode 1))
 
+;; Structural editing: automatically insert/delete matching delimiters and
+;; provide slurp/barf commands. `smartparens-config' sets up the default pairs;
+;; Enabled in any programming mode. (Corgi binding: `<' slurp, `>' burf)
 (use-package smartparens
-  :init (require 'smartparens-config)
   :diminish smartparens-mode
+  :config (require 'smartparens-config)
   :hook (prog-mode . smartparens-mode))
 
+;; Try to keep code correctly indented at all times. Enables Emacs's built-in
+;; `electric-indent' behavior, so it indents when entering a newline, but also
+;; re-indents the affected region after edit commands.
 (use-package aggressive-indent
   :diminish aggressive-indent-mode
-  :hook ((clojure-mode
-          emacs-lisp-mode
-          lisp-data-mode
-          js-mode
-          piglet-mode)
-         . aggressive-indent-mode))
+  :hook (prog-mode . aggressive-indent-mode))
 
+;; Color parentheses according to nesting depth, in Lisp modes and the CIDER
+;; REPL.
 (use-package rainbow-delimiters
   :hook ((cider-repl-mode
-          clojure-mode
-          emacs-lisp-mode
-          lisp-data-mode
-          inferior-emacs-lisp-mode)
+          inferior-emacs-lisp-mode
+          prog-mode)
          . rainbow-delimiters-mode))
 
-(use-package dumb-jump)
+;; Fallback "jump to definition" based on heuristics rather than a language
+;; server; integrates with `xref'.
+;; TODO: not bound yet in corgi-bindings
+(use-package dumb-jump
+  :defer t)
 
-(use-package expand-region)
+;; Expand the region by semantic units (word, sexp, defun, ...). (Corgi binding: `<M-up>' / `<M-down>' (in normal mode))
+(use-package expand-region
+  :defer t)
 
-(use-package string-edit-at-point)
+;; Edit a string literal in a dedicated buffer instead of in place. (Corgi
+;; binding: `SPC o s' (open string) / `C-c C-c' to finish)
+(use-package string-edit-at-point
+  :defer t)
 
-;; silence byte compiler
-(require 'winum)
-(require 'smartparens)
+;; In a terminal, use an executable program to talk to the desktop clipboard.
+(when (not (display-graphic-p))
+  (use-package xclip
+    :config
+    (with-no-warnings (xclip-mode t))))
 
-(use-package xclip
-  :if (not (display-graphic-p))
-  :config (with-no-warnings (xclip-mode t)))
-
-;; Offer to create parent directories if they do not exist
+;; Offer to create parent directories if they do not exist, when visiting a file
+;; whose parent directory is missing, so the user is offered to create it.
+;;
 ;; http://iqbalansari.github.io/blog/2014/12/07/automatically-create-parent-directories-on-visiting-a-new-file-in-emacs/
 (defun corgi/create-non-existent-directory ()
   (let ((parent-directory (file-name-directory buffer-file-name)))

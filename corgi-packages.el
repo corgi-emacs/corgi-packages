@@ -46,12 +46,20 @@
                      "corgi-bindings/user-signals-template.el")
              :repo "corgi-emacs/corgi-packages")
 
-            (corgi-evil
+            (corgi-completion-ui-native
              :type git
              :host github
              :branch "main"
-             :files ("corgi-evil/corgi-evil.el"
-                     "corgi-evil/corgi-evil-colorize-modeline.el")
+             :files ("corgi-completion-ui-native/corgi-completion-ui-native.el"
+                     "corgi-completion-ui-native/corgi-completion-ui-native-signals.el")
+             :repo "corgi-emacs/corgi-packages")
+
+            (corgi-completion-ui-vertico
+             :type git
+             :host github
+             :branch "main"
+             :files ("corgi-completion-ui-vertico/corgi-completion-ui-vertico.el"
+                     "corgi-completion-ui-vertico/corgi-completion-ui-vertico-signals.el")
              :repo "corgi-emacs/corgi-packages")
 
             (piglet-emacs
@@ -77,12 +85,15 @@
 
            '(corgi-defaults
              corgi-editor
+             corgi-evil
+             corgi-evil-colorize-modeline
 	     corgi-completion-ui
              corgi-commands
              corgi-emacs-lisp
              corgi-emacs
              corgi-clojure
-             corgi-stateline))))
+             corgi-stateline
+             corgi-web))))
 
 (defun straight-recipes-corgi-packages-list ()
   (mapcar #'symbol-name (mapcar #'car corgi-all-packages)))

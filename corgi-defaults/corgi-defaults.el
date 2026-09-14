@@ -76,6 +76,12 @@
 ;; last left it.
 (save-place-mode 1)
 
+;; Remember minibuffer history (M-x, find-file, etc.).
+(savehist-mode 1)
+
+;; Recent recent files, used by `recentf-open' (`SPC f r').
+(recentf-mode 1)
+
 ;; Easily navigate CamelCased and snake_cased words, changes word motion command
 ;; boundaries
 (global-subword-mode 1)
@@ -104,9 +110,9 @@
 
 ;; Put backups and auto-save files in subdirectories, so the
 ;; user-emacs-directory doesn't clutter
-(let ((backup-dir (expand-file-name "backups" user-emacs-directory))
-      (auto-save-dir (expand-file-name "auto-save-list/" user-emacs-directory))
-      (tramp-auto-save-dir (expand-file-name "auto-save-list/tramp/" user-emacs-directory)))
+(let ((backup-dir (locate-user-emacs-file "backups"))
+      (auto-save-dir (locate-user-emacs-file "auto-save-list/"))
+      (tramp-auto-save-dir (locate-user-emacs-file "auto-save-list/tramp/")))
   (make-directory backup-dir t)
   (make-directory auto-save-dir t)
   (setq backup-directory-alist `(("." . ,backup-dir))
