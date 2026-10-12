@@ -10,9 +10,8 @@
 (require 'use-package)
 
 (use-package clojure-mode
-  :magic ("^#![^\n]*/\\(clj\\|clojure\\|bb\\|lumo\\)" . clojure-mode)
-  :init
-  (add-to-list 'auto-mode-alist '("\\.ednl$" . clojure-mode))
+  :magic ("^#![^\n]*/\\(clj\\|clojure\\|bb\\|lg\\|jolt\\|glj\\|joker\\|lumo\\)" . clojure-mode)
+  :mode ("\\.ednl\\'" "\\.bb\\'")
   :config
   (setq clojure-toplevel-inside-comment-form t
         ;; Because of CIDER's insistence to send forms to all linked REPLs, we
@@ -23,16 +22,9 @@
 (use-package cider
   :diminish cider-mode
   :config
-  (setq cider-preferred-build-tool 'clojure-cli
-        ;; ~make sure we can always debug nrepl issues~
-        ;; Turning this off again, seems it may really blow up memory usage
-        ;; nrepl-log-messages nil
-
-        )
+  (setq cider-preferred-build-tool 'clojure-cli)
 
   ;; TODO: clean this up, submit to upstream where possible
-  ;; More CIDER/clojure-mode stuff
-  ;; - logical-sexp doesn't treat #_ correctly
 
   ;; New function, should go upstream. Kill all associated REPLs
   (defun corgi/cider-quit-all ()
@@ -84,8 +76,8 @@
           (when bb-repl
             (list bb-repl)))))
 
-  (advice-add #'cider-repls :around #'corgi/around-cider-repls)
-  ;;  (advice-remove #'cider-repls #'corgi/around-cider-repls)
+  ;; (advice-add #'cider-repls :around #'corgi/around-cider-repls)
+  ;; (advice-remove #'cider-repls #'corgi/around-cider-repls)
 
   (defvar-local corgi--clojure-indent-cache nil
     "Hashtable that caches indent information, for performance")
@@ -135,7 +127,7 @@ result."
           (cider-comment-postfix ""))
       (cider-pprint-eval-last-sexp-to-comment)))
 
-  (defadvice cider-find-var (before add-evil-jump activate)
+  (define-advice cider-find-var (:before (&rest _) evil-set-jump)
     (evil-set-jump))
 
   (defun corgi/around-cider--choose-reusable-repl-buffer (_command _params)
@@ -200,8 +192,6 @@ creates a new one. Don't unnecessarily bother the user."
   :config
   (clj-ns-name-install))
 
-(provide 'corgi-clojure)
-
 (defun corgi/cider-pprint-eval-register (register)
   "Evaluate a Clojure snippet stored in a register.
 
@@ -234,6 +224,15 @@ evaluated, like `(println \"{{buffer-file-name}}\")'.
 
 ;; Backwards compatibility
 (defalias 'corgi/cider-pprint-register #'corgi/cider-pprint-eval-register)
+
+;; Some built-in shortcuts, use `, , <letter>'
+(set-register ?k "#_clj (do (require 'kaocha.repl) (kaocha.repl/run))")
+(set-register ?K "#_clj (do (require 'kaocha.repl) (kaocha.repl/run-all))")
+(set-register ?r "#_clj (do (require 'user :reload) (user/reset))")
+(set-register ?g "#_clj (user/go)")
+(set-register ?b "#_clj (user/browse)")
+(set-register ?p "#_clj (user/portal)")
+(set-register ?P "#_cljs (user/portal)")
 
 (defun corgi/cider-jack-in-babashka (&optional project-dir)
   "Start a utility CIDER REPL backed by Babashka, not related to a
@@ -269,32 +268,32 @@ specific project."
             (derived-mode-p 'org-mode))
     (let ((source-project-name (projectile-project-name)))
       (if-let* ((repls (ignore-errors (cider-repls (cider-repl-type-for-buffer)))))
-          (thread-last
-            repls
-            (seq-map
-             (lambda (repl)
-               (with-current-buffer repl
-                 (if (equal (buffer-name repl) "*babashka-repl*")
-                     (propertize "bb" 'face '( :background "green"
-                                               :foreground "black"))
-                   (let ((info (concat
-                                (when-let ((repl-project-name (cider--project-name nrepl-project-dir)))
-                                  (when (not (equal repl-project-name source-project-name))
-                                    (concat ":" repl-project-name)))
-                                (pcase (plist-get nrepl-endpoint :host)
-                                  ("localhost" "")
-                                  ("127.0.0.1" "")
-                                  (x (concat ":" x)))
-                                ;;(format ":%d" (plist-get nrepl-endpoint :port))
-                                )))
-                     (cl-case cider-repl-type
-                       (clj (propertize (concat "clj" info) 'face '( :background "#5881D8"
-                                                                     :foreground "white")))
-                       (cljs (propertize (concat "cljs" info) 'face '( :background "#f7df1e"
-                                                                       :foreground "black")))
-                       (pending-cljs (propertize (concat "pending-cljs" info) 'face '( :background "#f7df1e"
-                                                                                       :foreground "black")))))))))
-            (s-join " "))
+          (string-join
+           (seq-map
+            (lambda (repl)
+              (with-current-buffer repl
+                (if (equal (buffer-name repl) "*babashka-repl*")
+                    (propertize "bb" 'face '( :background "green"
+                                              :foreground "black"))
+                  (let ((info (concat
+                               (when-let* ((repl-project-name (cider--project-name nrepl-project-dir)))
+                                 (when (not (equal repl-project-name source-project-name))
+                                   (concat ":" repl-project-name)))
+                               (pcase (plist-get nrepl-endpoint :host)
+                                 ("localhost" "")
+                                 ("127.0.0.1" "")
+                                 (x (concat ":" x)))
+                               ;;(format ":%d" (plist-get nrepl-endpoint :port))
+                               )))
+                    (cl-case cider-repl-type
+                      (clj (propertize (concat "clj" info) 'face '( :background "#5881D8"
+                                                                    :foreground "white")))
+                      (cljs (propertize (concat "cljs" info) 'face '( :background "#f7df1e"
+                                                                      :foreground "black")))
+                      (pending-cljs (propertize (concat "pending-cljs" info) 'face '( :background "#f7df1e"
+                                                                                      :foreground "black"))))))))
+            repls)
+           " ")
         (propertize "<not connected>" 'face '( :background "red"
                                                :foreground "white"))))))
 
@@ -342,6 +341,11 @@ project or host."
     (with-current-buffer buf
       (when corgi/original-mode-line-format
         (corgi/disable-cider-connection-indicator-in-current-buffer)))))
+
+(with-current-buffer (get-buffer-create "*scratch-clj*")
+  (clojure-mode))
+
+(provide 'corgi-clojure)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; corgi-clojure.el ends here

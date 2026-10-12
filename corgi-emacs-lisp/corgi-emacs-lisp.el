@@ -11,7 +11,7 @@
 
 (use-package elisp-slime-nav
   :diminish elisp-slime-nav-mode
-  :hook ((emacs-lisp-mode ielm-mode) . turn-on-elisp-slime-nav-mode))
+  :hook ((emacs-lisp-mode ielm-mode) . elisp-slime-nav-mode))
 
 (use-package pprint-to-buffer)
 

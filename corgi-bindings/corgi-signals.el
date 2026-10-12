@@ -72,9 +72,8 @@
  (scheme-mode ( :eval/last-sexp geiser-eval-last-sexp
                 :eval/buffer geiser-eval-buffer
                 :eval/region geiser-eval-region))
-
- (clojure-mode ( :repl/connect ("Connect clj" cider-connect)
-                 :repl/connect-other ("Connect cljs" cider-connect-cljs)
+ 
+ (clojure-mode ( :repl/connect-other ("Connect cljs" cider-connect-cljs)
                  :repl/connect-all ("Connect clj&cljs" cider-connect-clj&cljs)
                  :repl/jack-in ("Jack-in Clojure" cider-jack-in-clj)
                  :repl/jack-in-other ("Jack in ClojureScript" cider-jack-in-cljs)
@@ -107,7 +106,8 @@
              :refactor/thread-last clojure-thread-last-all
              :refactor/unwind-thread clojure-unwind-all))
 
- (cider-mode ( :eval/last-sexp cider-eval-last-sexp
+ (cider-mode ( :repl/connect ("Connect clj" cider-connect)
+               :eval/last-sexp cider-eval-last-sexp
                :eval/last-sexp-pprint cider-pprint-eval-last-sexp
                :eval/last-sexp-pprint-comment cider-pprint-eval-last-sexp-to-comment
                :eval/ns-form cider-eval-ns-form

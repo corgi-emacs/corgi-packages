@@ -24,7 +24,7 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (defun corgi/switch-to-last-elisp-buffer ()
   (interactive)
-  (when-let ((the-buf (seq-find (lambda (b)
+  (when-let* ((the-buf (seq-find (lambda (b)
                                   (with-current-buffer b
                                     (derived-mode-p 'emacs-lisp-mode)))
                                 (buffer-list))))
