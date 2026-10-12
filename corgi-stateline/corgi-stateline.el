@@ -1,7 +1,7 @@
 ;;; corgi-stateline.el --- Obsolete shim for corgi-evil-colorize-modeline -*- lexical-binding: t -*-
 ;;
 ;; Filename: corgi-stateline.el
-;; Package-Requires: ((corgi-evil))
+;; Package-Requires: ((corgi-evil-colorize-modeline))
 ;;
 
 ;;; Commentary:

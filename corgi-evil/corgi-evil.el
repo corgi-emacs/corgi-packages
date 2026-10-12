@@ -43,6 +43,9 @@
 (use-package evil-surround
   :config (global-evil-surround-mode 1))
 
+(use-package smartparens
+  :config (require 'smartparens-config))
+
 ;; TODO move to corgi-lisp or similar
 (with-eval-after-load 'evil
   ;; A sexp is characterwise and never linewise.  The default `exclusive' and
@@ -84,12 +87,6 @@
     (evil-change-to-initial-state)))
 
 (add-hook 'post-command-hook #'corgi-evil--on-buffer-change)
-
-;; silence byte compiler
-(require 'evil)
-(require 'evil-core)
-(require 'evil-collection)
-(require 'smartparens)
 
 (provide 'corgi-evil)
 
